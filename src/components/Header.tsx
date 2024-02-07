@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import NavMenu from './NavMenu'
 import { Spin as Hamburger } from 'hamburger-react'
 import React from 'react'
+import Logo from "../assets/logo.png"
 
 interface HeaderProps {
     setOpenNav: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({ setOpenNav, openNav, windowSize }) => {
         <div className='header'>
             <div className='top-nav'>
             <div className='title'>
-                <img src='../assets/logo.png' alt=""/> 
+                <img src={Logo} alt="logo"/> 
                 <Link to="/"><h1>Neat on the Rocks</h1></Link>
             </div>
 
