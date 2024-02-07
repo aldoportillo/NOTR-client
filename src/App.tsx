@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import {Routes, Route} from "react-router-dom"
 import axios from "axios";
+import PageContainer from './components/PageContainer';
+import Home from './pages/Home';
 
 
 function App() {
@@ -37,7 +39,7 @@ function App() {
   return (
     <main>
       <Routes>
-        <Route exact path="/" element={<PageContainer children={<Home />}/>} />
+        <Route path="/" element={<PageContainer children={<Home />}/>} />
       </Routes>
     </main>
   )

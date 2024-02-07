@@ -2,14 +2,18 @@ import Footer from './Footer'
 import Header from './Header'
 import { useLocation } from 'react-router-dom'
 import SlidingNav from './SlidingNav'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 
 const getWindowSize = () => {
     const {innerWidth} = window;
     return innerWidth
 }
 
-export default function PageContainer({children}) {
+interface PageContainerProps {
+  children: ReactNode;
+}
+
+export default function PageContainer({children}: PageContainerProps) {
 
     const location  = useLocation()
   

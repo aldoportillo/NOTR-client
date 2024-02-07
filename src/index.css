@@ -1,68 +1,1040 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;0,800;0,900;1,400;1,600&family=Oswald:wght@300;400;500&display=swap');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+  --background: #36393f;
+  text-decoration: none;
+  --header: #23272a;
+  box-sizing: border-box;
+  --accent: rgba(244, 154, 115, 0.855);
+  --overlay: #838383;
+  color: white;
+  --toastify-color-progress-dark: var(--accent);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/*Table*/
+table{
+  border-collapse: collapse;
+  border-radius: 1vh;
 }
-a:hover {
-  color: #535bf2;
+table, th, td{
+  background-color: white;
+  border: 1px solid;
 }
 
-body {
+.table-head, .table-head > th{
+  background-color: black;
+  color: white
+}
+
+table > caption{
+  background-color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+table > tfoot > tr >td > button {
+  width: -webkit-fill-available;
+}
+
+body{
+  background-color: var(--background);
+  position: relative;
+  font-family: Verdana, sans-serif;
   margin: 0;
+}
+
+button{
+  color: black;
+}
+
+
+th, td,caption, input{
+  color: black;
+}
+.loader{
+  width: 40vw;
+  align-self: center;
+}
+
+.orange-font{
+  color: var(--accent);
+}
+
+@media only screen and (min-width:1025px) {
+.space-between{
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  align-items: flex-start;
+  justify-content: space-between;
+}
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+main{
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+  justify-content: space-between;
+  width: 100vw;
+  align-items: center;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+/*For Form*/
+
+.liquid-form{
+  display: flex;
+  flex-direction: column;
+  padding: 0vh 50px 2vh 50px;
+  background-color: var(--overlay);
+  border-radius: 1vh;
+  border: 1px solid white;
+  max-width: 80vw;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+input{
+  height: 3em;
+  border-radius: 1vh;
+}
+
+input:focus{
+  outline-offset: 0px ! important;
+  outline: none ! important;
+  border : 1px var(--accent) ! important;
+  box-shadow : 0 0 3px var(--accent) ! important;
+  -moz-box-shadow : 0 0 3px var(--accent) ! important;
+  -webkit-box-shadow : 0 0 3px var(--accent) ! important;
+
+}
+
+form > button {
+  height: 3em;
+  border-radius: 1vh;
+  background: #f49a73da;
+  font-size: 17px;
+  color: #ffffff;
   font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  font-weight: 500;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+input[type="radio"] {
+  accent-color: var(--accent)
+}
+
+
+/*For Header */
+
+.header{
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.top-nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-height: 10vh;
+  background-color: var(--header);
+  width: 100vw;
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
+.top-nav > .title{
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+  font-size: .8rem;
+}
+.top-nav > div > img {
+  max-height: 3rem;
+}
+
+.desktop-nav{
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  align-items: center;
+  color: antiquewhite;
+}
+
+.dropdown-nav > nav {
+  padding-top: 1vh;
+}
+.dropdown-nav > nav > a{
+  border: 1px solid rgb(147, 147, 147);
+  width: 30vw;
+  text-align: center;
+  border-radius: 1vh;
+  background-color: #444546;
+}
+
+h1, h3{
+  color: #ffffff;
+}
+
+@media only screen and (min-width:1025px) {
+
+  .top-nav > .title{
+    gap: 1vw;
+    font-size: 1.2rem;
   }
-  a:hover {
-    color: #747bff;
+  .top-nav > div > img {
+    max-height: 5rem;
   }
-  button {
-    background-color: #f9f9f9;
+  .top-nav > nav > a {
+    color: white;
+    transition: all 0.5s ease;
   }
+
+  .top-nav > nav > a:hover{
+    color: var(--accent)
+  }
+
+}
+
+/*Home Page */
+
+.home-page{
+  color: white;
+  align-self: center;
+  width: 80vw;
+}
+
+.home-page > .paragraph > .text-content > h2{
+  font-size: 2rem;
+  color: var(--accent);
+}
+
+.home-page > .paragraph > .text-content > p{
+  font-size: 1.2rem;
+}
+
+.home-page > .paragraph >img{
+  width: 80vw;
+}
+
+@media only screen and (min-width:1025px) {
+
+  .home-page{
+    padding-top: 3vw;;
+  }
+  .paragraph{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .home-page > .paragraph >img{
+    width: 35vw;
+  }
+
+  .home-page > .paragraph > .text-content {
+    width: 35vw;
+  }
+
+}
+/*For Products Page */
+
+.products-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.product-box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #838383;
+  border-radius: 1vh;
+  margin: 5px;
+  
+}
+
+.product-box > img{
+  width: 292px;
+  border-radius: 1vh;
+}
+
+
+
+.product-box > .info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-box > .info > h4 {
+  padding: 0;
+  margin:2px;
+  color: white;
+  font-size: larger;
+}
+
+.--btn-white{
+  padding: 15px 25px;
+  border: unset;
+  border-radius: 15px;
+  color: #36393f;
+  z-index: 1;
+  background: #e8e8e8;
+  position: relative;
+  font-weight: 1000;
+  font-size: 17px;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.073);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.061);
+  transition: all 250ms;
+  overflow: hidden;
+  margin: 5px;
+}
+
+.--btn-white::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  border-radius: 1vh;
+  background-color: #36393f;
+  z-index: -1;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+  transition: all 250ms
+}
+
+.--btn-white:hover {
+  color: #e8e8e8;
+}
+
+.--btn-white:hover::before {
+  width: 100%;
+}
+
+
+
+
+.--btn-black{
+  padding: 15px 25px;
+  border: unset;
+  border-radius: 1vh;
+  color: #ffffff;
+  z-index: 1;
+  background: #36393f;
+  position: relative;
+  font-weight: 1000;
+  font-size: 17px;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.058);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.178);
+  transition: all 250ms;
+  overflow: hidden;
+  margin: 5px;
+}
+
+.--btn-black::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  border-radius: 1vh;
+  background-color: #e8e8e8;
+  z-index: -1;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+  transition: all 250ms
+}
+
+.--btn-black:hover {
+  color: #36393f;
+}
+
+.--btn-black:hover::before {
+  width: 100%;
+}
+
+.--accent-btn{
+  height: 3em;
+  width: 8em;
+  border-radius: 1vh;
+  background: #f49a73da;
+  font-size: 17px;
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 500;
+
+}
+
+
+
+@keyframes shake3856 {
+  0% {
+   -webkit-transform: translate(0);
+   transform: translate(0);
+  }
+ 
+  20% {
+   -webkit-transform: translate(-2px, 2px);
+   transform: translate(-2px, 2px);
+  }
+ 
+  40% {
+   -webkit-transform: translate(-2px, -2px);
+   transform: translate(-2px, -2px);
+  }
+ 
+  60% {
+   -webkit-transform: translate(2px, 2px);
+   transform: translate(2px, 2px);
+  }
+ 
+  80% {
+   -webkit-transform: translate(2px, -2px);
+   transform: translate(2px, -2px);
+  }
+ 
+  100% {
+   -webkit-transform: translate(0);
+   transform: translate(0);
+  }
+ }
+ 
+
+@media only screen and (min-width:1025px) {
+
+  .products-page{
+    width: 80vw;
+    align-self: center;
+  }
+}
+
+/*For Product Page*/
+
+.product-page{
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  color: white
+}
+
+.product-page > .product-left-page >img {
+  width: 90vw;
+}
+
+@media only screen and (min-width:1025px) {
+
+  .product-container{
+    display: grid;
+    gap: 4vw;
+    grid-template-columns: repeat( auto-fit, minmax(250px, 300px) );
+    align-self: center;
+    width: 90vw;
+  }
+  
+  .product-page{
+    flex-direction: row;
+    gap: 10vw;
+  }
+
+  .product-page > .product-left-page >img {
+    width: 45vw;
+  }
+}
+/*For Cart Page */
+.cart-page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.cart-header{
+  color: white;
+  font-size: 2rem;
+}
+
+.cart-items{
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 90vw;
+}
+
+.cart-items > .cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cart-items > .cart-item > .left-page > img {
+  width: 20vw;
+}
+.cart-items > .cart-item > .right-page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.x {
+  color: red;
+}
+
+.--white-divide{
+  width: 90vw;
+}
+
+.pricing{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media only screen and (min-width:1025px) {
+
+  
+}
+
+
+
+/*Start Nutrition Facts CSS */
+
+.label-container{
+  
+  background-color: white;
+  width: 80vw;
+  border: 3px solid black;
+  font-family: Helvetica;
+}
+
+.label-container > .title {
+  font-size: 2rem;
+  font-weight: bolder;
+  color: black;
+}
+.label-container > h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap:5px;
+  height: 10px;
+  color: black;
+  
+}
+
+.label-container > h2 > p{
+  color: black;
+}
+
+.label-container > h3 {
+  display: flex;
+  align-items: center;
+  gap:5px;
+  height: 10px;
+  color: black;
+}
+
+.label-container > h3 > p {
+  font-weight: 100;
+  color: black;
+}
+
+.label-container > h3{
+  color: black;
+}
+
+.label-container > .thick1 {
+  height: 15px;
+  background-color: black;
+}
+
+.label-container > .thick2 {
+  height: 5px;
+  background-color: black;
+}
+
+@media only screen and (min-width:1025px) {
+
+  .label-container{
+    background-color: white;
+    width: 35vw;
+    border: 3px solid black;
+    font-family: Helvetica;
+  }
+
+  .spec-list{
+    width: 25vw;
+  }
+}
+
+/*For Cocktails Page*/
+
+.cocktails-page{
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cocktails-page > .cocktail-list-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cocktail-card > a{
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #838383;
+  border-radius: 1vh;
+  margin: 5px;
+}
+
+.cocktail-card > a >img{
+  width: 80vw;
+  border-radius: 1vh;
+}
+
+@media only screen and (min-width:1025px) {
+  .cocktails-page > .cocktail-list-container{
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .cocktail-card > a{
+    width: 30vw;
+  }
+  
+  .cocktail-card > a >img{
+    width: 30vw;
+    height: 18vw;
+  }
+}
+
+/*For Cocktail Page*/
+
+.cocktail-page{
+  display: flex;
+  flex-direction: column;
+  margin: 5vw 30vw 0vw 30vw;
+}
+
+.cocktail-page > img{
+  width: 80vw
+}
+
+
+/*For Drinks Page*/ 
+
+.drinks-page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* For Body Metrics page */
+
+.body-comp-page{
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+
+/* For Results Page*/
+
+
+.results-page{
+  color: white;
+  align-self: center;
+  width: 80vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.results-page > article > h2 {
+  font-size: 2rem;
+  color: var(--accent);
+}
+
+.results-page > article > p {
+  font-size: 1.4rem;
+}
+
+.results-page > article > p > a {
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+
+.results-page > article > img {
+  width: 80vw;
+}
+
+.results-page > h1{
+  padding-top: 30vh;
+  padding-bottom: 30vh;
+  font-size: 2rem;
+  color: white;
+}
+
+.results-page > h1 > em {
+  color: var(--accent);
+}
+
+@media only screen and (min-width:1025px) {
+  .results-page > article > img {
+    align-self: center;
+    width: 40vw;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+}
+
+/*For Footer*/
+
+.footer {
+  align-self: center;
+  background-color: var(--header);
+  width: 100vw;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  bottom:0;
+  padding-top: 1rem;
+}
+.footer-rows{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 3vw;
+  padding-right: 3vw;
+}
+
+.footer-rows >a:link{
+  color: #ffffff;
+}
+
+.footer-rows > a:visited{
+  color: #ffffff;
+}
+
+.footer-rows > a:hover {
+  color: var(--accent);
+}
+
+/* selected link */
+.footer-rows > a:active {
+  color: white;
+}
+
+
+
+
+
+/*For Dilution Page*/
+.dilution-page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.dilution-page > h2{
+  color: white;
+}
+
+.dilution-page > table{
+  width: 80vw;
+}
+
+.dilution-page > .liquid-form{
+  width: 80vw;
+}
+
+
+@media only screen and (min-width:1025px) {
+  .dilution-page{
+    display: grid;
+    grid-template: "title title"
+              "liquids ingredients"
+              "results results";
+              column-gap: 20px;
+    row-gap: 20px;
+  }
+  .dilution-page > h2 {
+    grid-area: title;
+    text-align: center;
+  }
+
+  .dilution-page > .liquid-form{
+    grid-area: liquids;
+    top: 0;
+  }
+
+  .dilution-page > .ingredient-list{
+    grid-area: ingredients;
+    width: inherit;
+  }
+
+  .dilution-page > .dilution-results{
+    grid-area: results;
+    width: 80vw;
+  }
+
+  .dilution-page > .ingredient-list{
+    width: auto
+  }
+  
+  .dilution-page > .liquid-form{
+    width: auto;
+  }
+}
+
+/*For Nutrition Page*/
+.nutrition-page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.nutrition-page > h2{
+  color: white;
+}
+
+.nutrition-page > table{
+  width: 80vw;
+}
+
+.nutrition-page > .liquid-form{
+  width: 80vw;
+}
+
+
+@media only screen and (min-width:1025px) {
+  .nutrition-page{
+    display: grid;
+    grid-template: "title title"
+              "liquids macros"
+              "ingredients macros";
+              column-gap: 20px;
+    row-gap: 20px;
+  }
+  .nutrition-page > h2 {
+    grid-area: title;
+    text-align: center;
+  }
+
+  .nutrition-page > .liquid-form{
+    grid-area: liquids;
+    top: 0;
+  }
+
+  .nutrition-page > .ingredient-list{
+    grid-area: ingredients;
+  }
+
+  .nutrition-label{
+    grid-area: macros;
+  }
+
+  .nutrition-page > table{
+    width: auto
+  }
+  
+  .nutrition-page > .liquid-form{
+    width: auto;
+  }
+}
+
+
+
+
+
+.body-comp-page > h2   {
+  text-align: center;
+}
+.body-comp-page > h2 > a {
+  color: var(--accent)
+}
+
+.clickable{
+  color: rgb(244, 154, 115);
+  font-weight: 800;
+  text-shadow: 0 0 1px black;
+  text-decoration: underline;
+}
+
+.body-metrics-form > label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.body-metrics-form > label > input{
+  max-width: 10vw;
+} 
+
+
+.body-metrics-form > label > svg {
+  color: var(--accent)
+}
+
+.help-page{
+  color: white;
+  width: 70vw;
+}
+
+.help-page > h2, .help-page > h3{
+  color: var(--accent);
+}
+
+.help-page >p {
+  font-size: 1.2rem;
+}
+
+
+/*NOT FOUND*/
+
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+/*Sliding Nav Logic*/
+
+main {
+  display: flex;
+}
+
+.sliding-nav{
+  background-color: var(--header);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 2rem;
+  gap: 2vh;
+  height: 100%; /* 100% Full-height */
+  width: 0vw; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  right: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+.sliding-nav > a{
+  color: white;
+  padding-right: 5vw;
+}
+
+.sliding-nav > a:active{
+  color: rgb(195, 195, 195);
+}
+
+.hamburger{z-index: 2;}
+
+/*Hero*/
+
+@media only screen and (min-width:1025px) {
+  .hero{
+    display: flex;
+    align-items: center;
+    gap: 5vw;
+  }
+
+  .hero > img{
+    width: 37.5vw;
+    transform: scaleX(-1);
+  }
+}
+
+/*Drinks Consumed*/
+
+.drinks-consumed-page{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  
+}
+.drink-box-container{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+.drink-box{
+  background-color: var(--overlay);
+  border-radius: 5px;
+  border: 2px solid white;
+  width: 80vw;
+  padding: 0.5vw 1.5vw 0.5vw 1.5vw;
+}
+
+.drink-box-expanded{
+  display: flex;
+  gap: 3vw;
+  flex-direction: column;
+  position: relative; /* Stay in place */
+  top: 0; /* Stay at the top */
+  overflow-y: hidden; /* Disable horizontal scroll */
+  transition: all 0.4s linear;
+}
+.drink-box-expanded > .label-container {
+  width: auto;
+}
+
+
+@media only screen and (min-width:1000px) {
+  .drink-box-expanded{
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .drink-box-expanded > .label-container {
+    width: 30vw;
+  }
+  .drink-box-expanded > table {
+    width: 30vw;
+  }
+}
+
+.drink-box > .drink-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filters__chevron {
+  border-radius: 2px;
+  transition: all 0.25s linear;
+}
+
+.filters__chevron.rotate {
+  transform:rotate(180deg);
+}
+
+.drinks-consumed-page{
+  min-height: 80vh;
 }
