@@ -51,7 +51,7 @@ function App() {
         setLoadingSpirits(false);
       });
   }, []);
-console.log(cocktailData);
+console.log(drinks);
 
   return (
     <main>

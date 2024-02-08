@@ -33,7 +33,7 @@ export default function Cocktail({ spiritData, setDrinks }: CocktailProps) {
   ));
 
   const addToDrinks = () => {
-    setDrinks((currentDrinks) => [...currentDrinks, ...specs]);
+    setDrinks((currentDrinks) => [...currentDrinks, specs]);
     toast(`🍸 ${name} added to Drinks. 🍸`);
   };
 
