@@ -11,10 +11,11 @@ type Drinks = Spec[];
 
 interface CocktailProps {
   spiritData: SpiritData[];
+  setTotalEthanol: React.Dispatch<React.SetStateAction<number>>;
   setDrinks: React.Dispatch<React.SetStateAction<Drinks[]>>;
 }
 
-export default function Cocktail({ spiritData, setDrinks }: CocktailProps) {
+export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: CocktailProps) {
   const location = useLocation();
   const data = location.state as { data: CocktailData }; 
 
@@ -34,6 +35,7 @@ export default function Cocktail({ spiritData, setDrinks }: CocktailProps) {
 
   const addToDrinks = () => {
     setDrinks((currentDrinks) => [...currentDrinks, specs]);
+    setTotalEthanol((currentEthanol) => currentEthanol + getMacros(specs, spiritData).ethanol);
     toast(`🍸 ${name} added to Drinks. 🍸`);
   };
 
