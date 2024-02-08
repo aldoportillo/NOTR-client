@@ -6,9 +6,9 @@ import { toast } from 'react-toastify'
 import IngredientLists from '../components/IngredientLists'
 import LoadingGif from '../assets/loading.gif'
 import { SpiritData } from '../types/SpiritData';
-import { Cocktail } from '../types/Cocktail'
+import { Spec } from '../types/Spec'
 
-type Drinks = Cocktail[];
+type Drinks = Spec[];
 
 interface NutritionProps {
     spiritData: SpiritData[];
@@ -19,7 +19,7 @@ interface NutritionProps {
 }
 
 export default function Nutrition({ spiritData, loading, drinks, setDrinks, setTotalEthanol }: NutritionProps) {
-    const [cocktail, setCocktail] = React.useState<Cocktail[]>([]);
+    const [cocktail, setCocktail] = React.useState<Spec[]>([]);
 
     const addDrinkToState = () => {
         const ethanol = getMacros(cocktail, spiritData).ethanol;
@@ -37,7 +37,7 @@ export default function Nutrition({ spiritData, loading, drinks, setDrinks, setT
     return (
         <>
             {loading ? (
-                <img src={LoadingGif} alt="" className="loader" />
+                <img src={LoadingGif} alt="loader" className="loader" />
             ) : (
                 <div className="nutrition-page">
                     <h2>Nutrition Calculator</h2>

@@ -6,15 +6,18 @@ import PageContainer from './components/PageContainer';
 import Home from './pages/Home';
 import Nutrition from './pages/Nutrition';
 import MyBac from './pages/MyBac';
-import { Cocktail } from './types/Cocktail';
 import { SpiritData } from './types/SpiritData';
+import Cocktails from './pages/Cocktails';
+import { Spec } from './types/Spec';
+import Cocktail from './pages/Cocktail';
+import { CocktailData } from './types/CocktailData';
 
-type Drink = Cocktail[];
+type Drink = Spec[];
 
 function App() {
 
   //States From DB
-  const [cocktailData, setCocktailData] = useState<Cocktail[]>([])
+  const [cocktailData, setCocktailData] = useState<CocktailData[]>([])
   const [spiritData, setSpiritData] = useState<SpiritData[]>([])
   //Loading States
   const [loadingCocktails, setLoadingCocktails] = useState(true)
@@ -48,7 +51,7 @@ function App() {
         setLoadingSpirits(false);
       });
   }, []);
-
+console.log(cocktailData);
 
   return (
     <main>
@@ -56,6 +59,8 @@ function App() {
         <Route path="/" element={<PageContainer children={<Home />}/>} />
         <Route path="/nutrition" element={<PageContainer children={<Nutrition spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} loading={loadingSpirits}/>}/>} />
         <Route path="/myBAC" element={<PageContainer children={<MyBac drinks={drinks} setDrinks={setDrinks} totalEthanol={totalEthanol} setTotalEthanol={setTotalEthanol} />} />} />
+        <Route path="/cocktails" element={<PageContainer children={<Cocktails cocktailData={cocktailData} loading={loadingCocktails}/>} />} />
+        <Route path="/cocktail/:id" element={<PageContainer children={<Cocktail spiritData={spiritData} setDrinks={setDrinks} />} />} />
       </Routes>
     </main>
   )
