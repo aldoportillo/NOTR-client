@@ -5,20 +5,23 @@ import axios from "axios";
 import PageContainer from './components/PageContainer';
 import Home from './pages/Home';
 import Nutrition from './pages/Nutrition';
+import MyBac from './pages/MyBac';
+import { Cocktail } from './types/Cocktail';
+import { SpiritData } from './types/SpiritData';
 
+type Drink = Cocktail[];
 
 function App() {
-  const [count, setCount] = useState(0)
 
   //States From DB
-  const [cocktailData, setCocktailData] = useState([])
-  const [spiritData, setSpiritData] = useState([])
+  const [cocktailData, setCocktailData] = useState<Cocktail[]>([])
+  const [spiritData, setSpiritData] = useState<SpiritData[]>([])
   //Loading States
   const [loadingCocktails, setLoadingCocktails] = useState(true)
   const [loadingSpirits, setLoadingSpirits] = useState(true)
 
-  const [drinks, setDrinks ] = useState([])
-  const [totalEthanol, setTotalEthanol] = useState(0)
+  const [drinks, setDrinks ] = useState<Drink[]>([])
+  const [totalEthanol, setTotalEthanol] = useState<number>(0)
 
   useEffect(() => {
     axios
@@ -51,7 +54,8 @@ function App() {
     <main>
       <Routes>
         <Route path="/" element={<PageContainer children={<Home />}/>} />
-        <Route path="/nutrition" element={<PageContainer children={<Nutrition spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} totalEthanol={totalEthanol} setTotalEthanol={setTotalEthanol} loading={loadingSpirits}/>}/>} />
+        <Route path="/nutrition" element={<PageContainer children={<Nutrition spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} loading={loadingSpirits}/>}/>} />
+        <Route path="/myBAC" element={<PageContainer children={<MyBac drinks={drinks} setDrinks={setDrinks} totalEthanol={totalEthanol} setTotalEthanol={setTotalEthanol} />} />} />
       </Routes>
     </main>
   )

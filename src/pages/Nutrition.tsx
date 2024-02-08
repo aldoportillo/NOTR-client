@@ -8,15 +8,15 @@ import LoadingGif from '../assets/loading.gif'
 import { SpiritData } from '../types/SpiritData';
 import { Cocktail } from '../types/Cocktail'
 
+type Drinks = Cocktail[];
+
 interface NutritionProps {
     spiritData: SpiritData[];
     loading: boolean;
     drinks: Drinks[];
-    setDrinks: React.Dispatch<React.SetStateAction<Drinks[]>>;
+    setDrinks: React.Dispatch<React.SetStateAction<Drinks[]>>; 
     setTotalEthanol: React.Dispatch<React.SetStateAction<number>>;
 }
-
-type Drinks = Cocktail[];
 
 export default function Nutrition({ spiritData, loading, drinks, setDrinks, setTotalEthanol }: NutritionProps) {
     const [cocktail, setCocktail] = React.useState<Cocktail[]>([]);
