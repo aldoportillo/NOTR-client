@@ -11,6 +11,7 @@ import Cocktails from './pages/Cocktails';
 import { Spec } from './types/Spec';
 import Cocktail from './pages/Cocktail';
 import { CocktailData } from './types/CocktailData';
+import Dilution from './pages/Dilution';
 
 type Drink = Spec[];
 
@@ -60,6 +61,8 @@ function App() {
         <Route path="/myBAC" element={<PageContainer children={<MyBac drinks={drinks} setDrinks={setDrinks} totalEthanol={totalEthanol} setTotalEthanol={setTotalEthanol} />} />} />
         <Route path="/cocktails" element={<PageContainer children={<Cocktails cocktailData={cocktailData} loading={loadingCocktails}/>} />} />
         <Route path="/cocktail/:id" element={<PageContainer children={<Cocktail spiritData={spiritData} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} />} />} />
+        <Route path="/dilution" element={<PageContainer children={<Dilution  loading={loadingSpirits} spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol}/>} />} />
+        <Route path="*">"404 Not Found"</Route>
       </Routes>
     </main>
   )
