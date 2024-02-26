@@ -1,7 +1,4 @@
-//import React from 'react';
-// import './button.css';
 import styled from 'styled-components';
-import { Success } from './Button.stories';
 
 interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'success' | 'danger'; 
@@ -10,30 +7,21 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-const STYLES = {
-  primary: {
-    backgroundColor: "#CF5D00" 
-  },
-  secondary: {
-    backgroundColor: "#6c757d" 
-  }
-}
-
 const SIZES = {
   small: {
-    "--borderRadius": 2 + "px",
-    "--fontSize": 16 / 16 + "rem",
-    "--padding": "6px 12px"
+    borderRadius: '2px',
+    fontSize: '1rem',
+    padding: '6px 12px'
   },
   medium: {
-    "--borderRadius": 2 + "px",
-    "--fontSize": 18 / 16 + "rem",
-    "--padding": "14px 20px"
+    borderRadius: '2px',
+    fontSize: '1.125rem',
+    padding: '14px 20px'
   },
   large: {
-    "--borderRadius": 4 + "px",
-    "--fontSize": 21 / 16 + "rem",
-    "--padding": "18px 32px"
+    borderRadius: '4px',
+    fontSize: '1.3125rem',
+    padding: '18px 32px'
   }
 };
 
@@ -43,51 +31,46 @@ export const Button = ({
   label,
   ...props
 }: ButtonProps) => {
-
   const styles = SIZES[size];
 
-  let Component;
+  let StyledButton;
   if (variant === "primary") {
-    Component = PrimaryButton;
+    StyledButton = PrimaryButton;
   } else if (variant === "secondary") {
-    Component = SecondaryButton;
+    StyledButton = SecondaryButton;
   } else if (variant === "success") {
-    Component = SuccessButton;
+    StyledButton = SuccessButton;
   } else if (variant === "danger") {
-    Component = DangerButton;
+    StyledButton = DangerButton;
   } else {
-    Component = PrimaryButton;
+    StyledButton = PrimaryButton;
   }
 
-  return <Component style={styles}>{label}</Component>;
-  
+  return <StyledButton {...styles}>{label}</StyledButton>;
 };
 
-const ButtonBase = styled.button`
+const ButtonBase = styled.button<{ borderRadius: string; fontSize: string; padding: string }>`
   height: 3em;
-  border-radius: 1vh;
-  font-size: 17px;
+  border-radius: ${({ borderRadius }) => borderRadius};
+  font-size: ${({ fontSize }) => fontSize};
   color: #ffffff;
   font-family: inherit;
   font-weight: 500;
-
-  background-color: var(--background-color)
-  }}
-`
+  padding: ${({ padding }) => padding};
+`;
 
 const PrimaryButton = styled(ButtonBase)`
   background-color: #CF5D00;
-`
+`;
 
 const SecondaryButton = styled(ButtonBase)`
   background-color: #6c757d;
-`
+`;
 
 const SuccessButton = styled(ButtonBase)`
   background-color: #198754;
-`
+`;
 
-const DangerButton = styled(ButtonBase)` 
+const DangerButton = styled(ButtonBase)`
   background-color: #dc3545;
-`
-
+`;
