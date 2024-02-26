@@ -62,8 +62,6 @@ const ButtonBase = styled.button<{ borderRadius: string; fontSize: string; paddi
   font-weight: 500;
   padding: ${({ padding }) => padding};
   cursor: pointer;
-  border: none;
-  outline: none;
 `;
 
 const PrimaryButton = styled(ButtonBase)`
