@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import NavMenu from './NavMenu'
 import { Spin as Hamburger } from 'hamburger-react'
 import React from 'react'
-import Logo from "../assets/logo.png"
+import Logo from "../assets/notr-logo-medium-transparent.png"
 
 interface HeaderProps {
     setOpenNav: React.Dispatch<React.SetStateAction<boolean>>;
