@@ -1,10 +1,13 @@
+import React from 'react';
 import styled from 'styled-components';
+import { Link, LinkProps } from 'react-router-dom';
 
 interface ButtonProps {
-  variant?: 'primary' | 'secondary' | 'success' | 'danger'; 
+  variant?: 'primary' | 'secondary' | 'success' | 'danger';
   size?: 'small' | 'medium' | 'large';
   children: React.ReactNode;
   onClick?: () => void;
+  to?: LinkProps['to'];
 }
 
 const SIZES = {
@@ -25,28 +28,29 @@ const SIZES = {
   }
 };
 
-export const Button = ({
+export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'medium',
   children,
-  ...props
-}: ButtonProps) => {
+  onClick,
+  to
+}) => {
   const styles = SIZES[size];
 
-  let StyledButton;
-  if (variant === "primary") {
-    StyledButton = PrimaryButton;
-  } else if (variant === "secondary") {
-    StyledButton = SecondaryButton;
-  } else if (variant === "success") {
-    StyledButton = SuccessButton;
-  } else if (variant === "danger") {
-    StyledButton = DangerButton;
-  } else {
-    StyledButton = PrimaryButton;
+  let Component = PrimaryButton;
+  if (variant === 'secondary') {
+    Component = SecondaryButton;
+  } else if (variant === 'success') {
+    Component = SuccessButton;
+  } else if (variant === 'danger') {
+    Component = DangerButton;
   }
 
-  return <StyledButton {...styles}>{children}</StyledButton>;
+  if (to) {
+    return <PrimaryStyledLink to={to} {...styles}>{children}</PrimaryStyledLink>;
+  }
+
+  return <Component onClick={onClick} {...styles}>{children}</Component>;
 };
 
 const ButtonBase = styled.button<{ borderRadius: string; fontSize: string; padding: string }>`
@@ -57,6 +61,9 @@ const ButtonBase = styled.button<{ borderRadius: string; fontSize: string; paddi
   font-family: inherit;
   font-weight: 500;
   padding: ${({ padding }) => padding};
+  cursor: pointer;
+  border: none;
+  outline: none;
 `;
 
 const PrimaryButton = styled(ButtonBase)`
@@ -73,6 +80,10 @@ const SuccessButton = styled(ButtonBase)`
 
 const DangerButton = styled(ButtonBase)`
   background-color: #dc3545;
+`;
+
+const PrimaryStyledLink = styled(ButtonBase).attrs({ as: Link })`
+  background-color: #6c757d;  
 `;
 
 export default Button;
