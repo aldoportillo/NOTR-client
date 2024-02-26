@@ -7,6 +7,7 @@ import IngredientLists from '../components/IngredientLists'
 import LoadingGif from '../assets/loading.gif'
 import { SpiritData } from '../types/SpiritData';
 import { Spec } from '../types/Spec'
+import styled from 'styled-components'
 
 type Drinks = Spec[];
 
@@ -39,16 +40,74 @@ export default function Nutrition({ spiritData, loading, drinks, setDrinks, setT
             {loading ? (
                 <img src={LoadingGif} alt="loader" className="loader" />
             ) : (
-                <div className="nutrition-page">
+                <Wrapper>
                     <h2>Nutrition Calculator</h2>
                     <LiquidForm setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />
 
                     <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearDrink} addDrinkToState={addDrinkToState} />
-                    <div className="nutrition-label">
-                        <NutritionLabel item={getMacros(cocktail, spiritData)} />
-                    </div>
-                </div>
+
+                    <NutritionLabel item={getMacros(cocktail, spiritData)} />
+                </Wrapper>
             )}
         </>
     );
 }
+
+const Wrapper = styled.div`
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  h2{
+  color: white;
+}
+
+
+ table{
+  width: 80vw;
+}
+
+.liquid-form{
+  width: 80vw;
+}
+
+
+@media only screen and (min-width:1025px) {
+
+    display: grid;
+    grid-template: "title title"
+              "liquids macros"
+              "ingredients macros";
+              column-gap: 20px;
+    row-gap: 20px;
+
+    h2 {
+    grid-area: title;
+    text-align: center;
+  }
+
+
+    .liquid-form{
+    grid-area: liquids;
+    top: 0;
+  }
+
+    .ingredient-list{
+    grid-area: ingredients;
+  }
+
+  .nutrition-label{
+    grid-area: macros;
+  }
+
+    table{
+    width: auto
+  }
+  
+    .liquid-form{
+    width: auto;
+  }
+}
+`

@@ -62,6 +62,7 @@ const Wrapper = styled.div`
     width: 100%;
     border: 3px solid black;
     font-family: Helvetica;
+    grid-area: macros;
 
     .title {
         font-size: 2rem;

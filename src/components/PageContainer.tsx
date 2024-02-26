@@ -72,7 +72,8 @@ const Main = styled.main`
   display: flex;
   position: relative;
   overflow: hidden;
-
+  justify-content: center;
+  width: 80vw;
   flex: 1;
 
   $:first-child {

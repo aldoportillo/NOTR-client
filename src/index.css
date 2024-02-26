@@ -546,15 +546,6 @@ h1, h3{
 
 /*For Cocktail Page*/
 
-.cocktail-page{
-  display: flex;
-  flex-direction: column;
-  margin: 5vw 30vw 0vw 30vw;
-}
-
-.cocktail-page > img{
-  width: 80vw
-}
 
 
 /*For Drinks Page*/ 
@@ -726,66 +717,6 @@ h1, h3{
     width: auto;
   }
 }
-
-/*For Nutrition Page*/
-.nutrition-page{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-.nutrition-page > h2{
-  color: white;
-}
-
-.nutrition-page > table{
-  width: 80vw;
-}
-
-.nutrition-page > .liquid-form{
-  width: 80vw;
-}
-
-
-@media only screen and (min-width:1025px) {
-  .nutrition-page{
-    display: grid;
-    grid-template: "title title"
-              "liquids macros"
-              "ingredients macros";
-              column-gap: 20px;
-    row-gap: 20px;
-  }
-  .nutrition-page > h2 {
-    grid-area: title;
-    text-align: center;
-  }
-
-  .nutrition-page > .liquid-form{
-    grid-area: liquids;
-    top: 0;
-  }
-
-  .nutrition-page > .ingredient-list{
-    grid-area: ingredients;
-  }
-
-  .nutrition-label{
-    grid-area: macros;
-  }
-
-  .nutrition-page > table{
-    width: auto
-  }
-  
-  .nutrition-page > .liquid-form{
-    width: auto;
-  }
-}
-
-
-
-
 
 .body-comp-page > h2   {
   text-align: center;
