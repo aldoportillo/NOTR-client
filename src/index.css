@@ -68,14 +68,7 @@ th, td,caption, input{
 }
 }
 
-main{
-  display: flex;
-  flex-direction: column;
-  min-height: 80vh;
-  justify-content: space-between;
-  width: 100vw;
-  align-items: center;
-}
+
 
 /*For Form*/
 
@@ -841,38 +834,6 @@ h1, h3{
   flex-direction: column;
   align-items: center;
   color: white;
-}
-
-/*Sliding Nav Logic*/
-
-main {
-  display: flex;
-}
-
-.sliding-nav{
-  background-color: var(--header);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  font-size: 2rem;
-  gap: 2vh;
-  height: 100%; /* 100% Full-height */
-  width: 0vw; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
-  right: 0;
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-}
-.sliding-nav > a{
-  color: white;
-  padding-right: 5vw;
-}
-
-.sliding-nav > a:active{
-  color: rgb(195, 195, 195);
 }
 
 .hamburger{z-index: 2;}

@@ -54,7 +54,7 @@ function App() {
   }, []);
 
   return (
-    <main>
+    <>
       <Routes>
         <Route path="/" element={<PageContainer children={<Home />}/>} />
         <Route path="/nutrition" element={<PageContainer children={<Nutrition spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} loading={loadingSpirits}/>}/>} />
@@ -64,7 +64,7 @@ function App() {
         <Route path="/dilution" element={<PageContainer children={<Dilution  loading={loadingSpirits} spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol}/>} />} />
         <Route path="*">"404 Not Found"</Route>
       </Routes>
-    </main>
+    </>
   )
 }
 
