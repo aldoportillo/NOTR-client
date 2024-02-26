@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import TechniqueList from './TechniqueList';
 import { Cocktail } from '../types/Cocktail';
 import { SpiritData } from '../types/SpiritData';
+import Button from './Button';
 
 interface LiquidFormProps {
   cocktail: Cocktail[];
@@ -46,7 +47,10 @@ export default function LiquidForm({ cocktail, setCocktail, spiritData, setTechn
         </datalist>
         <label htmlFor="ounces">Ounces:</label>
         <input name="ounces" type="number" placeholder='ounces' step="any" min="0" required />
-        <button type='submit'>Add Liquid</button>
+        {/* <button type='submit'>Add Liquid</button> */}
+
+
+        <Button variant="primary" size="large">Add Liquid</Button>
       </form>
     </div>
   );

@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { GiBodyHeight, GiWeightScale } from 'react-icons/gi';
 import { BsGenderAmbiguous } from 'react-icons/bs';
 import { UserMetrics } from '../types/UserMetrics';
+import Button from './Button';
 
 
 interface BodyCompFormProps {
@@ -69,7 +70,7 @@ const BodyCompForm: React.FC<BodyCompFormProps> = ({
         <input type="radio" name="gender" value="female" onChange={changeForm} checked={userMetrics.gender === 'female'} />
       </label>
       <p>Add <span className="clickable" onClick={() => setEthanolInDrinkForm(!ethanolInDrinkForm)}>Beer or Wine </span></p>
-      <button type="submit" className="--whiskey-btn">Submit</button>
+      <Button variant="primary" size="large">Submit</Button>
     </form>
   );
 };

@@ -6,6 +6,7 @@ import React from 'react';
 import { Spec } from '../types/Spec';
 import { SpiritData } from '../types/SpiritData';
 import { CocktailData } from '../types/CocktailData';
+import Button from '../components/Button';
 
 type Drinks = Spec[];
 
@@ -57,8 +58,9 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
         </div>
         <NutritionLabel item={getMacros(specs, spiritData)} />
       </div>
-      <Link to="/cocktails"><button className='--whiskey-btn'>Back to Cocktails</button></Link>
-      <button onClick={addToDrinks}>Add to Drinks</button>
+      <Button href="/cocktails" variant="secondary" size="large">Back to Cocktails</Button>
+      {/* <button onClick={addToDrinks}>Add to Drinks</button> */}
+      <Button variant="primary" size="large" href={addToDrinks}>Add to Drinks</Button> {/*Buggy Don't Create Pull Request*/}
     </div>
   );
 }

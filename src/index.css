@@ -109,15 +109,6 @@ input:focus{
 
 }
 
-form > button {
-  height: 3em;
-  border-radius: 1vh;
-  background: #f49a73da;
-  font-size: 17px;
-  color: #ffffff;
-  font-family: inherit;
-  font-weight: 500;
-}
 
 input[type="radio"] {
   accent-color: var(--accent)
