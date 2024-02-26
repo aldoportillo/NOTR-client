@@ -11,6 +11,9 @@
   --toastify-color-progress-dark: var(--accent);
 }
 
+html, body{
+  height: 100%; 
+}
 /*Table*/
 table{
   border-collapse: collapse;

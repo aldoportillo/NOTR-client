@@ -65,13 +65,15 @@ const Wrapper = styled.div`
   justify-content: space-between;
   width: 100vw;
   align-items: center;
-  
+  min-height: 100vh;
 `
 
 const Main = styled.main`
   display: flex;
   position: relative;
   overflow: hidden;
+
+  flex: 1;
 
   $:first-child {
     flex: 1;
