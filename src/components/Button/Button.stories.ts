@@ -26,7 +26,7 @@ export const Primary: Story = {
   args: {
     variant: 'primary',
     size: 'medium',
-    label: 'Button',
+    children: 'Button',
   },
 };
 
@@ -34,7 +34,7 @@ export const Secondary: Story = {
   args: {
     variant: 'secondary',
     size: 'medium',
-    label: 'Button',
+    children: 'Button',
   },
 };
 
@@ -42,7 +42,7 @@ export const Success: Story = {
   args: {
     variant: 'success',
     size: 'medium',
-    label: 'Button',
+    children: 'Button',
   },
 };
 
@@ -50,6 +50,6 @@ export const Danger: Story = {
   args: {
     variant: 'danger',
     size: 'medium',
-    label: 'Button',
+    children: 'Button',
   },
 };

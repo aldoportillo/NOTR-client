@@ -3,7 +3,7 @@ import styled from 'styled-components';
 interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'success' | 'danger'; 
   size?: 'small' | 'medium' | 'large';
-  label: string;
+  children: React.ReactNode;
   onClick?: () => void;
 }
 
@@ -14,12 +14,12 @@ const SIZES = {
     padding: '6px 12px'
   },
   medium: {
-    borderRadius: '2px',
+    borderRadius: '4px',
     fontSize: '1.125rem',
     padding: '14px 20px'
   },
   large: {
-    borderRadius: '4px',
+    borderRadius: '8px',
     fontSize: '1.3125rem',
     padding: '18px 32px'
   }
@@ -28,7 +28,7 @@ const SIZES = {
 export const Button = ({
   variant = 'primary',
   size = 'medium',
-  label,
+  children,
   ...props
 }: ButtonProps) => {
   const styles = SIZES[size];
@@ -46,7 +46,7 @@ export const Button = ({
     StyledButton = PrimaryButton;
   }
 
-  return <StyledButton {...styles}>{label}</StyledButton>;
+  return <StyledButton {...styles}>{children}</StyledButton>;
 };
 
 const ButtonBase = styled.button<{ borderRadius: string; fontSize: string; padding: string }>`
@@ -60,7 +60,7 @@ const ButtonBase = styled.button<{ borderRadius: string; fontSize: string; paddi
 `;
 
 const PrimaryButton = styled(ButtonBase)`
-  background-color: #CF5D00;
+  background-color: hsl(18,85%,70%);
 `;
 
 const SecondaryButton = styled(ButtonBase)`
@@ -74,3 +74,5 @@ const SuccessButton = styled(ButtonBase)`
 const DangerButton = styled(ButtonBase)`
   background-color: #dc3545;
 `;
+
+export default Button;
