@@ -49,7 +49,7 @@ export default function PageContainer({children}: PageContainerProps) {
     return (
       <Wrapper>
           <Header setOpenNav={setOpenNav} openNav={openNav} windowSize={windowSize}/>
-          <Main>
+          <Main> 
             {children}
             <SlidingNav openNav={openNav} />
           </Main>

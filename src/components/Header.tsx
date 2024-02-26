@@ -6,7 +6,6 @@ import Logo from "../assets/notr-logo-medium-transparent.png"
 
 interface HeaderProps {
     setOpenNav: React.Dispatch<React.SetStateAction<boolean>>;
-    setNavWidth: (width: number) => void;
     openNav: boolean;
     windowSize: number;
 }
