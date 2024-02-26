@@ -14,7 +14,7 @@ const meta = {
   tags: ['autodocs'],
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
-    backgroundColor: { control: 'color' },
+    // backgroundColor: { control: 'color' },
   },
 } satisfies Meta<typeof Button>;
 
@@ -24,35 +24,32 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary: Story = {
   args: {
-    primary: true,
+    variant: 'primary',
+    size: 'medium',
     label: 'Button',
   },
 };
 
 export const Secondary: Story = {
   args: {
+    variant: 'secondary',
+    size: 'medium',
     label: 'Button',
   },
 };
 
-export const Large: Story = {
+export const Success: Story = {
   args: {
-    size: 'large',
+    variant: 'success',
+    size: 'medium',
     label: 'Button',
   },
 };
 
-export const Small: Story = {
+export const Danger: Story = {
   args: {
-    size: 'small',
+    variant: 'danger',
+    size: 'medium',
     label: 'Button',
   },
-};
-
-export const Warning: Story = {
-  args: {
-    primary: true,
-    label: 'Delete now',
-    backgroundColor: 'red',
-  }
 };
