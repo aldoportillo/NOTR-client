@@ -47,7 +47,11 @@ export const Button: React.FC<ButtonProps> = ({
   }
 
   if (to) {
-    return <PrimaryStyledLink to={to} {...styles}>{children}</PrimaryStyledLink>;
+    if (variant === 'primary') {
+      return <PrimaryStyledLink to={to} {...styles}>{children}</PrimaryStyledLink>;
+    } else {
+      return <SecondaryStyledLink to={to} {...styles}>{children}</SecondaryStyledLink>;
+    }
   }
 
   return <Component onClick={onClick} {...styles}>{children}</Component>;
@@ -80,8 +84,10 @@ const DangerButton = styled(ButtonBase)`
   background-color: #dc3545;
 `;
 
-const PrimaryStyledLink = styled(ButtonBase).attrs({ as: Link })`
-  background-color: #6c757d;  
+const PrimaryStyledLink = styled(PrimaryButton).attrs({ as: Link })`
+`;
+
+const SecondaryStyledLink = styled(SecondaryButton).attrs({ as: Link })`
 `;
 
 export default Button;
