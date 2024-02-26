@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { getMacros } from '../functions/getMacros';
-import NutritionLabel from '../components/NutritionLabel';
+import NutritionLabel from '../components/NutritionLabel/NutritionLabel';
 import { toast } from 'react-toastify';
 import React from 'react';
 import { Spec } from '../types/Spec';

@@ -1,6 +1,6 @@
 import React from 'react'
 import LiquidForm from '../components/LiquidForm'
-import NutritionLabel from '../components/NutritionLabel'
+import NutritionLabel from '../components/NutritionLabel/NutritionLabel'
 import { getMacros } from '../functions/getMacros'
 import { toast } from 'react-toastify'
 import IngredientLists from '../components/IngredientLists'
