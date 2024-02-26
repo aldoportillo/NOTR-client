@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { GiBodyHeight, GiWeightScale } from 'react-icons/gi';
 import { BsGenderAmbiguous } from 'react-icons/bs';
 import { UserMetrics } from '../types/UserMetrics';
-import Button from './Button';
+import Button from './Button/Button';
 
 
 interface BodyCompFormProps {

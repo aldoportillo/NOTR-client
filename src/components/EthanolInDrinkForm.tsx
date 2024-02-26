@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import Button from './Button/Button';
 
 interface EthanolInDrinkFormProps {
   totalEthanol: number;
@@ -37,7 +38,7 @@ const EthanolInDrinkForm: React.FC<EthanolInDrinkFormProps> = ({
       <label htmlFor="ounces">Ounces (oz):</label>
       <input value={ounces === undefined ? '' : ounces} onChange={(e) => setOunces(Number(e.target.value))} type="number" name="ounces" required />
       {totalEthanol > 0 && <p>Return to <span className="clickable" onClick={() => setEthanolInDrinkForm(!ethanolInDrinkForm)}>body metrics form</span></p>}
-      <button className="--whiskey-btn" type="submit">Submit</button>
+      <Button variant="primary" size="small">Submit</Button>
     </form>
   );
 };

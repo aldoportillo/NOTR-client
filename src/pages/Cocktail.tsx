@@ -1,4 +1,3 @@
-import { Link, useLocation } from 'react-router-dom';
 import { getMacros } from '../functions/getMacros';
 import NutritionLabel from '../components/NutritionLabel/NutritionLabel';
 import { toast } from 'react-toastify';
@@ -6,7 +5,8 @@ import React from 'react';
 import { Spec } from '../types/Spec';
 import { SpiritData } from '../types/SpiritData';
 import { CocktailData } from '../types/CocktailData';
-import Button from '../components/Button';
+import Button from '../components/Button/Button';
+import { useLocation } from 'react-router-dom';
 
 type Drinks = Spec[];
 
@@ -58,9 +58,8 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
         </div>
         <NutritionLabel item={getMacros(specs, spiritData)} />
       </div>
-      <Button href="/cocktails" variant="secondary" size="large">Back to Cocktails</Button>
-      {/* <button onClick={addToDrinks}>Add to Drinks</button> */}
-      <Button variant="primary" size="large" href={addToDrinks}>Add to Drinks</Button> {/*Buggy Don't Create Pull Request*/}
+      <Button to="/cocktails" variant="secondary" size="large">Back to Cocktails</Button>
+      <Button variant="primary" size="large" onClick={addToDrinks}>Add to Drinks</Button>
     </div>
   );
 }
