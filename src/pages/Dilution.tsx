@@ -8,6 +8,7 @@ import { getMacros } from '../functions/getMacros'
 import { toast } from 'react-toastify'
 import { SpiritData } from '../types/SpiritData'
 import { Spec } from '../types/Spec'
+import styled from 'styled-components'
 
 interface DilutionProps {
     loading: boolean;
@@ -53,14 +54,73 @@ export default function Dilution({loading, spiritData, drinks, setDrinks, setTot
     <>
       {loading ?
         <img src={require("../assets/loading.gif")} alt="" className='loader'/> :
-        <div className='dilution-page'> 
+        <Wrapper className='dilution-page'> 
         <h2>Perfect Cocktail Calculator</h2>
         <LiquidForm title="oops" setTechnique={setTechnique} cocktail={cocktail} setCocktail={setCocktail} spiritData={spiritData}  />
         <IngredientLists ingredients={cocktail} setIngredients={setCocktail} addDrinkToState={addDrinkToState} clearDrink={clearDrink}/>
         <DilutionResults cocktailAttributes={cocktailAttributes}/>
-      </div>
+      </Wrapper>
       }
     </>
    
   )
 }
+
+
+const Wrapper = styled.div`
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  h2{
+    color: white;
+  }
+
+  table{
+    width: 80vw;
+  }
+
+  .liquid-form{
+    width: 80vw;
+  }
+
+
+@media only screen and (min-width:1025px) {
+    display: grid;
+    grid-template: "title title"
+              "liquids ingredients"
+              "results results";
+              column-gap: 20px;
+    row-gap: 20px;
+    
+    h2 {
+      grid-area: title;
+      text-align: center;
+    }
+
+  .liquid-form{
+    grid-area: liquids;
+    top: 0;
+  }
+
+  .ingredient-list{
+    grid-area: ingredients;
+    width: inherit;
+  }
+
+  .dilution-results{
+    grid-area: results;
+    width: 80vw;
+  }
+
+  .ingredient-list{
+    width: auto
+  }
+  
+  .liquid-form{
+    width: auto;
+  }
+}
+`

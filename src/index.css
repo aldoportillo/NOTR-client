@@ -609,68 +609,6 @@ h1, h3{
   color: white;
 }
 
-
-
-
-
-/*For Dilution Page*/
-.dilution-page{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-.dilution-page > h2{
-  color: white;
-}
-
-.dilution-page > table{
-  width: 80vw;
-}
-
-.dilution-page > .liquid-form{
-  width: 80vw;
-}
-
-
-@media only screen and (min-width:1025px) {
-  .dilution-page{
-    display: grid;
-    grid-template: "title title"
-              "liquids ingredients"
-              "results results";
-              column-gap: 20px;
-    row-gap: 20px;
-  }
-  .dilution-page > h2 {
-    grid-area: title;
-    text-align: center;
-  }
-
-  .dilution-page > .liquid-form{
-    grid-area: liquids;
-    top: 0;
-  }
-
-  .dilution-page > .ingredient-list{
-    grid-area: ingredients;
-    width: inherit;
-  }
-
-  .dilution-page > .dilution-results{
-    grid-area: results;
-    width: 80vw;
-  }
-
-  .dilution-page > .ingredient-list{
-    width: auto
-  }
-  
-  .dilution-page > .liquid-form{
-    width: auto;
-  }
-}
-
 .body-comp-page > h2   {
   text-align: center;
 }
