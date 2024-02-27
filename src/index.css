@@ -498,53 +498,6 @@ h1, h3{
 
 
 
-/*For Cocktails Page*/
-
-.cocktails-page{
-  align-self: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.cocktails-page > .cocktail-list-container{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.cocktail-card > a{
-  width: 80vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #838383;
-  border-radius: 1vh;
-  margin: 5px;
-}
-
-.cocktail-card > a >img{
-  width: 80vw;
-  border-radius: 1vh;
-}
-
-@media only screen and (min-width:1025px) {
-  .cocktails-page > .cocktail-list-container{
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .cocktail-card > a{
-    width: 30vw;
-  }
-  
-  .cocktail-card > a >img{
-    width: 30vw;
-    height: 18vw;
-  }
-}
-
-/*For Cocktail Page*/
 
 
 

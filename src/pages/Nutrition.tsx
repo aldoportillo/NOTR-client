@@ -82,6 +82,7 @@ const Wrapper = styled.div`
               "ingredients macros";
               column-gap: 20px;
     row-gap: 20px;
+    width: 100%;
 
     h2 {
     grid-area: title;

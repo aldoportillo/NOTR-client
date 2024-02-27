@@ -60,8 +60,8 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
         <NutritionLabel item={getMacros(specs, spiritData)} />
       </div>
       <div className="inline">
-        <Button to="/cocktails" variant="secondary" size="large">Back to Cocktails</Button>
-        <Button variant="primary" size="large" onClick={addToDrinks}>Add to Drinks</Button>
+        <Button to="/cocktails" variant="secondary" size="small">Back to Cocktails</Button>
+        <Button variant="primary" size="small" onClick={addToDrinks}>Add to Drinks</Button>
       </div> 
     </Wrapper>
   );
@@ -77,15 +77,30 @@ const Wrapper = styled.div`
     width: 80vw; /* I don't like this solution but for some reason the wrapper set to 100% and img set to 100% isn't inheriting the width from the wrapper */
   }
 
-  .space-between{
+  .inline{
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
-
+    justify-content: flex-start;
   }
 
-  .space-between > div{
-    flex: 1;
-  }
+  @media only screen and (min-width:1025px) {
+    .space-between{
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
+    }
+    .space-between > div{
+      flex: 1;
+    }
+
+    }
+
+    .inline{
+      justify-content: space-between;
+     
+      gap: 20px;
+    }
+    
+
+
   
 `
