@@ -3,7 +3,7 @@ import LiquidForm from '../components/LiquidForm'
 import DilutionResults from '../components/DilutionResults'
 import { getDilutionIngredients } from '../functions/getDilutionIngredients'
 import { dilutionCalculus } from '../functions/dilutionCalculus'
-import IngredientLists from '../components/IngredientLists'
+import IngredientLists from '../components/IngredientLists/IngredientLists'
 import { getMacros } from '../functions/getMacros'
 import { toast } from 'react-toastify'
 import { SpiritData } from '../types/SpiritData'
@@ -78,9 +78,6 @@ const Wrapper = styled.div`
     color: white;
   }
 
-  table{
-    width: 80vw;
-  }
 
   .liquid-form{
     width: 80vw;
@@ -105,19 +102,11 @@ const Wrapper = styled.div`
     top: 0;
   }
 
-  .ingredient-list{
-    grid-area: ingredients;
-    width: inherit;
-  }
-
   .dilution-results{
     grid-area: results;
     width: 80vw;
   }
 
-  .ingredient-list{
-    width: auto
-  }
   
   .liquid-form{
     width: auto;

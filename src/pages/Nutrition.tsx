@@ -3,7 +3,7 @@ import LiquidForm from '../components/LiquidForm'
 import NutritionLabel from '../components/NutritionLabel/NutritionLabel'
 import { getMacros } from '../functions/getMacros'
 import { toast } from 'react-toastify'
-import IngredientLists from '../components/IngredientLists'
+import IngredientLists from '../components/IngredientLists/IngredientLists'
 import LoadingGif from '../assets/loading.gif'
 import { SpiritData } from '../types/SpiritData';
 import { Spec } from '../types/Spec'
