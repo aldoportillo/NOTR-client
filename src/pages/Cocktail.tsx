@@ -8,6 +8,7 @@ import { CocktailData } from '../types/CocktailData';
 import Button from '../components/Button/Button';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
 
 type Drinks = Spec[];
 
@@ -42,28 +43,38 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
   };
 
   return (
-    <Wrapper className='cocktail-page'>
-      <h2>{name}</h2>
-      <img src={image.filePath} alt={name} />
-      <p>{description}</p>
-      <div className='space-between'>
-        <div>
-          <h3>Spec List</h3>
-          <ul>{renderSpecList}</ul>
-          <h3>Instructions</h3>
-          <ol>{renderInstructions}</ol>
-          <h3>Glassware</h3>
-          <p>{glass}</p>
-          <h3>Garnish</h3>
-          <p>{garnish}</p>
+    <>
+      <Wrapper className='cocktail-page'>
+        <h2>{name}</h2>
+        <img src={image.filePath} alt={name} />
+        <p>{description}</p>
+        <div className='space-between'>
+          <div>
+            <h3>Spec List</h3>
+            <ul>{renderSpecList}</ul>
+            <h3>Instructions</h3>
+            <ol>{renderInstructions}</ol>
+            <h3>Glassware</h3>
+            <p>{glass}</p>
+            <h3>Garnish</h3>
+            <p>{garnish}</p>
+          </div>
+          <NutritionLabel item={getMacros(specs, spiritData)} />
         </div>
-        <NutritionLabel item={getMacros(specs, spiritData)} />
-      </div>
-      <div className="inline">
-        <Button to="/cocktails" variant="secondary" size="small">Back to Cocktails</Button>
-        <Button variant="primary" size="small" onClick={addToDrinks}>Add to Drinks</Button>
-      </div> 
-    </Wrapper>
+        <div className="inline">
+          <Button to="/cocktails" variant="secondary" size="small">Back to Cocktails</Button>
+          <Button variant="primary" size="small" onClick={addToDrinks}>Add to Drinks</Button>
+        </div> 
+      </Wrapper>
+
+      <Helmet>
+        <title>{ name } | Neat on the Rocks</title>
+        <meta name="description" content={ description } />
+        <meta name="keywords" content="alcohol, calories, ethanol, abv, nutrition, glassware, bar, bartender, vodka, gin, tequila, best tequila, instructions" />
+        <meta property="og:image" content={ image.filePath } />
+        <meta name="twitter:image" content={ image.filePath } />
+      </Helmet>
+    </>
   );
 }
 

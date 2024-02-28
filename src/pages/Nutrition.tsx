@@ -8,6 +8,7 @@ import LoadingGif from '../assets/loading.gif'
 import { SpiritData } from '../types/SpiritData';
 import { Spec } from '../types/Spec'
 import styled from 'styled-components'
+import { Helmet } from 'react-helmet'
 
 type Drinks = Spec[];
 
@@ -49,6 +50,13 @@ export default function Nutrition({ spiritData, loading, drinks, setDrinks, setT
                     <NutritionLabel item={getMacros(cocktail, spiritData)} />
                 </Wrapper>
             )}
+            <Helmet>
+              <title>Nutrition Calculator | Neat on the Rocks</title>
+              <meta name="description" content="Nutrition in Every Sip: Maintain your nutritional balance while enjoying your favorite libations. Our Macronutrient Calculator empowers you to make informed choices." />
+              <meta name="keywords" content="perfect, cocktail, alcohol, calories, ethanol, abv, nutrition, glassware, bar, bartender, vodka, gin, tequila, best tequila, instructions, bac" />
+              <meta property="og:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
+              <meta name="twitter:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
+          </Helmet>
         </>
     );
 }
