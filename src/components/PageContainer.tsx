@@ -18,7 +18,7 @@ export default function PageContainer({children}: PageContainerProps) {
 
     const location  = useLocation()
   
-    const [openNav, setOpenNav] = useState(false)
+    const [opennav, setOpennav] = useState(false)
   
     const [windowSize, setWindowSize] = useState(getWindowSize())
   
@@ -35,23 +35,23 @@ export default function PageContainer({children}: PageContainerProps) {
     }, [])
   
     useEffect(() => {
-      if (openNav) {
+      if (opennav) {
         document.body.style.overflow = 'hidden';
       } else {
         document.body.style.overflow = 'auto';
       }
-    }, [openNav]);
+    }, [opennav]);
     
     useEffect(() => {
-      setOpenNav(false)
+      setOpennav(false)
     },[location])
   
     return (
       <Wrapper>
-          <Header setOpenNav={setOpenNav} openNav={openNav} windowSize={windowSize}/>
+          <Header setOpennav={setOpennav} opennav={opennav} windowSize={windowSize}/>
           <Main> 
             {children}
-            <SlidingNav openNav={openNav} />
+            <SlidingNav opennav={opennav} />
           </Main>
           <Footer />
       </Wrapper>

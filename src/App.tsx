@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import {Routes, Route} from "react-router-dom"
-import axios from "axios";
 import PageContainer from './components/PageContainer';
 import Home from './pages/Home';
 import Nutrition from './pages/Nutrition';
@@ -12,6 +11,8 @@ import { Spec } from './types/Spec';
 import Cocktail from './pages/Cocktail';
 import { CocktailData } from './types/CocktailData';
 import Dilution from './pages/Dilution';
+import { fetchCocktails } from './api/cocktailApi';
+import { fetchSpirits } from './api/spiritApi';
 
 type Drink = Spec[];
 
@@ -27,32 +28,33 @@ function App() {
   const [drinks, setDrinks ] = useState<Drink[]>([])
   const [totalEthanol, setTotalEthanol] = useState<number>(0)
 
+
   useEffect(() => {
-    axios
-      .get(`https://neatontherocks-server.onrender.com/cocktails`)
-      .then(res => {
-        const cocktailData = res.data;
-        setCocktailData(cocktailData);
-        setLoadingCocktails(false);
-      })
-      .catch(error => {
+    const loadCocktailData = async () => {
+      try {
+        const data = await fetchCocktails();
+        setCocktailData(data as CocktailData[]);
+      } catch (error) {
         console.error("Error fetching cocktail data:", error);
+      } finally {
         setLoadingCocktails(false);
-      });
+      }
+    };
 
-    axios
-      .get('https://neatontherocks-server.onrender.com/spirits')
-      .then(res => {
-        const spiritData = res.data;
-        setSpiritData(spiritData);
-        setLoadingSpirits(false);
-      })
-      .catch(error => {
+    const loadSpiritData = async () => {
+      try {
+        const data = await fetchSpirits();
+        setSpiritData(data);
+      } catch (error) {
         console.error("Error fetching spirit data:", error);
+      } finally {
         setLoadingSpirits(false);
-      });
-  }, []);
+      }
+    };
 
+    loadCocktailData();
+    loadSpiritData();
+  }, []);
 
   return (
     <>
@@ -62,7 +64,7 @@ function App() {
         <Route path="/myBAC" element={<PageContainer children={<MyBac drinks={drinks} setDrinks={setDrinks} totalEthanol={totalEthanol} setTotalEthanol={setTotalEthanol} />} />} />
         <Route path="/cocktails" element={<PageContainer children={<Cocktails cocktailData={cocktailData} loading={loadingCocktails}/>} />} />
         <Route path="/cocktail/:id" element={<PageContainer children={<Cocktail spiritData={spiritData} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} />} />} />
-        <Route path="/dilution" element={<PageContainer children={<Dilution  loading={loadingSpirits} spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol}/>} />} />
+        <Route path="/dilution" element={<PageContainer children={<Dilution  loading={loadingSpirits} setLoading={setLoadingSpirits} spiritData={spiritData} setSpiritData={setSpiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol}/>} />} />
         <Route path="*">"404 Not Found"</Route>
       </Routes>
     </>
