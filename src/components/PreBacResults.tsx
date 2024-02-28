@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import EthanolInDrinkForm from './EthanolInDrinkForm';
-import BodyCompForm from './BodyCompForm';
+import BodyCompForm from './BodyCompForm/BodyCompForm';
 import { Cocktail } from '../types/Cocktail';
 import { UserMetrics } from '../types/UserMetrics';
 

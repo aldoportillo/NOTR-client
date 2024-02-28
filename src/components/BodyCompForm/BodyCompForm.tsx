@@ -2,7 +2,10 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { GiBodyHeight, GiWeightScale } from 'react-icons/gi';
 import { BsGenderAmbiguous } from 'react-icons/bs';
-import { UserMetrics } from '../types/UserMetrics';
+import { UserMetrics } from '../../types/UserMetrics';
+import Button from '../Button/Button';
+import styled from 'styled-components';
+import { COLORS } from '../../styles/COLORS';
 
 
 interface BodyCompFormProps {
@@ -35,7 +38,8 @@ const BodyCompForm: React.FC<BodyCompFormProps> = ({
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!userMetrics.weight || !userMetrics.heightFeet || !userMetrics.heightInches) {
+    if (!userMetrics.weight || userMetrics.heightFeet === undefined || userMetrics.heightInches === undefined) {
+    
       toast('🫵 Please fill all the fields. 💪');
       return;
     }
@@ -48,7 +52,9 @@ const BodyCompForm: React.FC<BodyCompFormProps> = ({
   };
 
   return (
-    <form onSubmit={submitForm} className='body-metrics-form'>
+    <Wrapper>
+    <h4>Enter Liquids:</h4>
+    <form onSubmit={submitForm}>
       <label>
         <GiWeightScale size="2em" />
         <input name="weight" type="number" placeholder='weight (lbs)' onChange={changeForm} required value={userMetrics.weight || ''} />
@@ -58,7 +64,7 @@ const BodyCompForm: React.FC<BodyCompFormProps> = ({
         <GiBodyHeight size="2em" />
         <input name="heightFeet" type="number" placeholder='height (ft)' onChange={changeForm} required value={userMetrics.heightFeet || ''} />
         feet
-        <input name="heightInches" type="number" placeholder='height (in)' onChange={changeForm} required value={userMetrics.heightInches || ''} />
+        <input name="heightInches" type="number" placeholder='height (in)' onChange={changeForm} required value={userMetrics.heightInches !== undefined ? userMetrics.heightInches : ''} />
         inches
       </label>
       <label>
@@ -69,9 +75,62 @@ const BodyCompForm: React.FC<BodyCompFormProps> = ({
         <input type="radio" name="gender" value="female" onChange={changeForm} checked={userMetrics.gender === 'female'} />
       </label>
       <p>Add <span className="clickable" onClick={() => setEthanolInDrinkForm(!ethanolInDrinkForm)}>Beer or Wine </span></p>
-      <button type="submit" className="--whiskey-btn">Submit</button>
+      <Button variant="primary" size="large">Submit</Button>
     </form>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+
+
+display: flex;
+flex-direction: column;
+padding: 0vh 50px 2vh 50px;
+background-color: ${COLORS.overlay};
+border-radius: 1vh;
+border: 3px solid ${COLORS.accent};
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+input{
+  height: 3em;
+  border-radius: 1vh;
+}
+
+input:focus{
+  outline-offset: 0px ! important;
+  outline: none ! important;
+  border : 1px ${COLORS.accent} ! important;
+  box-shadow : 0 0 3px ${COLORS.accent} ! important;
+  -moz-box-shadow : 0 0 3px ${COLORS.accent} ! important;
+  -webkit-box-shadow : 0 0 3px ${COLORS.accent} ! important;
+
+}
+
+
+input[type="radio"] {
+  accent-color: ${COLORS.accent}
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+label > input{
+  max-width: 10vw;
+} 
+
+
+label > svg {
+  color: ${COLORS.accent}
+}
+
+`;
 
 export default BodyCompForm;
