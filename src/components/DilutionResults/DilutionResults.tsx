@@ -31,8 +31,10 @@ export default function DilutionResults({ cocktailAttributes }: cocktailAttribut
         <tbody>
             <TableRow>
                 <TableHeaderCell>Dilution (%)</TableHeaderCell>
-                <TableCell>{(cocktailAttributes.dilution* 100).toFixed(2) }%</TableCell>
-                <TableCell style={inRange(cocktailAttributes.dilution, 0.51, 0.60) === "Perfect" ? {backgroundColor: "green"} : {backgroundColor: "red"}}>{inRange(cocktailAttributes.dilution, 0.51, 0.60)}</TableCell>
+                <TableCell>{((cocktailAttributes.dilution as number) * 100).toFixed(2)}%</TableCell>
+                <TableCell style={inRange(cocktailAttributes.dilution as number, 0.51, 0.60) === "Perfect" ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
+                    {inRange(cocktailAttributes.dilution as number, 0.51, 0.60)}
+                </TableCell>
             </TableRow>
             <TableRow>
                 <TableHeaderCell>Final Volume (oz)</TableHeaderCell>
