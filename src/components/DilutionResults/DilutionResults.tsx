@@ -17,7 +17,6 @@ export default function DilutionResults({ cocktailAttributes }: cocktailAttribut
         }
     }
 
-    console.log(cocktailAttributes)
   return (
     <Wrapper>
     <Table>
