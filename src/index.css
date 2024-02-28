@@ -47,45 +47,6 @@ caption, input{
 }
 }
 
-
-
-/*For Form*/
-
-.liquid-form{
-  display: flex;
-  flex-direction: column;
-  padding: 0vh 50px 2vh 50px;
-  background-color: var(--overlay);
-  border-radius: 1vh;
-  border: 1px solid white;
-  max-width: 80vw;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1vh;
-}
-input{
-  height: 3em;
-  border-radius: 1vh;
-}
-
-input:focus{
-  outline-offset: 0px ! important;
-  outline: none ! important;
-  border : 1px var(--accent) ! important;
-  box-shadow : 0 0 3px var(--accent) ! important;
-  -moz-box-shadow : 0 0 3px var(--accent) ! important;
-  -webkit-box-shadow : 0 0 3px var(--accent) ! important;
-
-}
-
-
-input[type="radio"] {
-  accent-color: var(--accent)
-}
-
 /*Home Page */
 
 .home-page{
@@ -204,20 +165,7 @@ input[type="radio"] {
   text-decoration: underline;
 }
 
-.body-metrics-form > label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
 
-.body-metrics-form > label > input{
-  max-width: 10vw;
-} 
-
-
-.body-metrics-form > label > svg {
-  color: var(--accent)
-}
 
 .help-page{
   color: white;
@@ -257,72 +205,4 @@ input[type="radio"] {
     width: 37.5vw;
     transform: scaleX(-1);
   }
-}
-
-/*Drinks Consumed*/
-
-.drinks-consumed-page{
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-  
-}
-.drink-box-container{
-  display: flex;
-  flex-direction: column;
-  gap: 2vh;
-}
-.drink-box{
-  background-color: var(--overlay);
-  border-radius: 5px;
-  border: 2px solid white;
-  width: 80vw;
-  padding: 0.5vw 1.5vw 0.5vw 1.5vw;
-}
-
-.drink-box-expanded{
-  display: flex;
-  gap: 3vw;
-  flex-direction: column;
-  position: relative; /* Stay in place */
-  top: 0; /* Stay at the top */
-  overflow-y: hidden; /* Disable horizontal scroll */
-  transition: all 0.4s linear;
-}
-.drink-box-expanded > .label-container {
-  width: auto;
-}
-
-
-@media only screen and (min-width:1000px) {
-  .drink-box-expanded{
-    flex-direction: row;
-    align-items: flex-start;
-  }
-  .drink-box-expanded > .label-container {
-    width: 30vw;
-  }
-  .drink-box-expanded > table {
-    width: 30vw;
-  }
-}
-
-.drink-box > .drink-name {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.filters__chevron {
-  border-radius: 2px;
-  transition: all 0.25s linear;
-}
-
-.filters__chevron.rotate {
-  transform:rotate(180deg);
-}
-
-.drinks-consumed-page{
-  min-height: 80vh;
 }

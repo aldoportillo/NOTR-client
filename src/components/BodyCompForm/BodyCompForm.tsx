@@ -2,8 +2,9 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { GiBodyHeight, GiWeightScale } from 'react-icons/gi';
 import { BsGenderAmbiguous } from 'react-icons/bs';
-import { UserMetrics } from '../types/UserMetrics';
-import Button from './Button/Button';
+import { UserMetrics } from '../../types/UserMetrics';
+import Button from '../Button/Button';
+import styled from 'styled-components';
 
 
 interface BodyCompFormProps {
@@ -49,7 +50,9 @@ const BodyCompForm: React.FC<BodyCompFormProps> = ({
   };
 
   return (
-    <form onSubmit={submitForm} className='body-metrics-form'>
+    <Wrapper>
+    <h4>Enter Liquids:</h4>
+    <form onSubmit={submitForm}>
       <label>
         <GiWeightScale size="2em" />
         <input name="weight" type="number" placeholder='weight (lbs)' onChange={changeForm} required value={userMetrics.weight || ''} />
@@ -72,7 +75,60 @@ const BodyCompForm: React.FC<BodyCompFormProps> = ({
       <p>Add <span className="clickable" onClick={() => setEthanolInDrinkForm(!ethanolInDrinkForm)}>Beer or Wine </span></p>
       <Button variant="primary" size="large">Submit</Button>
     </form>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+
+
+display: flex;
+flex-direction: column;
+padding: 0vh 50px 2vh 50px;
+background-color: #838383;
+border-radius: 1vh;
+border: 3px solid rgb(244, 154, 115);
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+input{
+  height: 3em;
+  border-radius: 1vh;
+}
+
+input:focus{
+  outline-offset: 0px ! important;
+  outline: none ! important;
+  border : 1px var(--accent) ! important;
+  box-shadow : 0 0 3px var(--accent) ! important;
+  -moz-box-shadow : 0 0 3px var(--accent) ! important;
+  -webkit-box-shadow : 0 0 3px var(--accent) ! important;
+
+}
+
+
+input[type="radio"] {
+  accent-color: var(--accent)
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+label > input{
+  max-width: 10vw;
+} 
+
+
+label > svg {
+  color: var(--accent)
+}
+
+`;
 
 export default BodyCompForm;

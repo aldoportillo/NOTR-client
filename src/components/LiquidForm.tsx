@@ -3,6 +3,7 @@ import TechniqueList from './TechniqueList';
 import { Cocktail } from '../types/Cocktail';
 import { SpiritData } from '../types/SpiritData';
 import Button from './Button/Button';
+import styled from 'styled-components';
 
 interface LiquidFormProps {
   cocktail: Cocktail[];
@@ -38,7 +39,7 @@ export default function LiquidForm({ cocktail, setCocktail, spiritData, setTechn
   }
 
   return (
-    <div className='liquid-form'>
+    <Wrapper>
       <h4>Enter Liquids:</h4>
       {setTechnique && <TechniqueList setTechnique={setTechnique} />}
       <form onSubmit={handleSubmit}>
@@ -51,6 +52,60 @@ export default function LiquidForm({ cocktail, setCocktail, spiritData, setTechn
         <input name="ounces" type="number" placeholder='ounces' step="any" min="0" required />
         <Button variant='primary' size="medium">Add Liquid</Button>
       </form>
-    </div>
+    </Wrapper>
   );
 }
+
+
+const Wrapper = styled.div`
+
+
+display: flex;
+flex-direction: column;
+padding: 0vh 50px 2vh 50px;
+background-color: #838383;
+border-radius: 1vh;
+border: 3px solid rgb(244, 154, 115);
+width: 100%;
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+input{
+  height: 3em;
+  border-radius: 1vh;
+}
+
+input:focus{
+  outline-offset: 0px ! important;
+  outline: none ! important;
+  border : 1px var(--accent) ! important;
+  box-shadow : 0 0 3px var(--accent) ! important;
+  -moz-box-shadow : 0 0 3px var(--accent) ! important;
+  -webkit-box-shadow : 0 0 3px var(--accent) ! important;
+
+}
+
+
+input[type="radio"] {
+  accent-color: var(--accent)
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+label > input{
+  max-width: 10vw;
+} 
+
+
+label > svg {
+  color: var(--accent)
+}
+
+`;
