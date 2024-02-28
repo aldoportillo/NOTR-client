@@ -6,12 +6,12 @@ import Logo from "../../assets/notr-logo-medium-transparent.png"
 import styled from 'styled-components'
 
 interface HeaderProps {
-    setOpenNav: React.Dispatch<React.SetStateAction<boolean>>;
-    openNav: boolean;
+    setOpennav: React.Dispatch<React.SetStateAction<boolean>>;
+    opennav: boolean;
     windowSize: number;
 }
 
-const Header: React.FC<HeaderProps> = ({ setOpenNav, openNav, windowSize }) => {
+const Header: React.FC<HeaderProps> = ({ setOpennav, opennav, windowSize }) => {
     return (
         <Wrapper>
             <div className='top-nav'>
@@ -22,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ setOpenNav, openNav, windowSize }) => {
               {windowSize > 1025 
               ? <DesktopNav /> 
               : <div className='hamburger'>
-                  <Hamburger toggled={openNav} toggle={setOpenNav} size={25} direction="left" duration={0.4} color="white" easing="ease-in"/>
+                  <Hamburger toggled={opennav} toggle={setOpennav} size={25} direction="left" duration={0.4} color="white" easing="ease-in"/>
                 </div>}
             </div>
         </Wrapper>

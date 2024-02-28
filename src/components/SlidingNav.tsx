@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 interface SlidingNavProps {
-  openNav: boolean;
+  opennav: boolean;
 }
 
-const SlidingNav: React.FC<SlidingNavProps> = ({ openNav }) => {
+const SlidingNav: React.FC<SlidingNavProps> = ({ opennav }) => {
   return (
-    <Wrapper className='sliding-nav' openNav={openNav}>
+    <Wrapper className='sliding-nav' opennav={opennav}>
       <Link to="/nutrition">Nutrition</Link>
       <Link to="/myBAC">My BAC</Link>
       <Link to="/dilution">Dilution</Link>
@@ -19,10 +19,10 @@ const SlidingNav: React.FC<SlidingNavProps> = ({ openNav }) => {
   );
 }
 
-const Wrapper = styled.nav<{openNav: boolean}>`
+const Wrapper = styled.nav<{opennav: boolean}>`
 position: fixed;
 top: 0;
-right: ${({ openNav }) => (openNav ? '0' : '-100%')};
+right: ${({ opennav }) => (opennav ? '0' : '-100%')};
 width: 250px;
 height: 100%;
 background-color: var(--header);
