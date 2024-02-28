@@ -5,7 +5,7 @@ import { BsGenderAmbiguous } from 'react-icons/bs';
 import { UserMetrics } from '../../types/UserMetrics';
 import Button from '../Button/Button';
 import styled from 'styled-components';
-import { COLORS } from '../../styles/COLORS.ts';
+import { COLORS } from '../../styles/COLORS';
 
 
 interface BodyCompFormProps {
