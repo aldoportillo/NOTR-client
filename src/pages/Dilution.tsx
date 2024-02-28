@@ -11,15 +11,12 @@ import { Spec } from '../types/Spec'
 import styled from 'styled-components'
 import { CocktailAttributes } from '../types/CocktailAttributes'
 import { Helmet } from 'react-helmet'
-import { fetchSpirits } from '../api/spiritApi'
 
 type Drinks = Spec[];
 
 interface DilutionProps {
   loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   spiritData: SpiritData[];
-  setSpiritData: React.Dispatch<React.SetStateAction<SpiritData[]>>;
   drinks: Drinks[];
   setDrinks: React.Dispatch<React.SetStateAction<Drinks[]>>;
   setTotalEthanol: React.Dispatch<React.SetStateAction<number>>;
@@ -29,25 +26,8 @@ interface DilutionProps {
 type Technique = 'shaken' | 'stirred' | 'built';
 
 
-export default function Dilution({ loading, setLoading, spiritData, setSpiritData, drinks, setDrinks, setTotalEthanol }: DilutionProps) {
+export default function Dilution({ loading, spiritData, drinks, setDrinks, setTotalEthanol }: DilutionProps) {
 
-  useEffect(() => {
-
-    setLoading(true);
-
-    const loadSpiritData = async () => {
-      try {
-        const data = await fetchSpirits();
-        setSpiritData(data);
-      } catch (error) {
-        console.error("Error fetching spirit data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadSpiritData();
-  }, []);
 
   const [cocktail, setCocktail] = React.useState<Spec[]>([]);
   const [cocktailAttributes, setCocktailAttributes] = React.useState<CocktailAttributes>({
@@ -60,7 +40,7 @@ export default function Dilution({ loading, setLoading, spiritData, setSpiritDat
   });
   const [technique, setTechnique] = React.useState<Technique>("shaken");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!loading) {
       setCocktailAttributes(dilutionCalculus(getDilutionIngredients(cocktail, spiritData), technique));
     }
