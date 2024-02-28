@@ -1,5 +1,5 @@
 import Footer from './Footer'
-import Header from './Header'
+import Header from './Header/Header'
 import { useLocation } from 'react-router-dom'
 import SlidingNav from './SlidingNav'
 import { useState, useEffect, ReactNode } from 'react'
