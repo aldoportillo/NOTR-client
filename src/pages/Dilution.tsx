@@ -33,6 +33,8 @@ export default function Dilution({ loading, setLoading, spiritData, setSpiritDat
 
   useEffect(() => {
 
+    setLoading(true);
+
     const loadSpiritData = async () => {
       try {
         const data = await fetchSpirits();
