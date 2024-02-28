@@ -5,6 +5,7 @@ import { BsGenderAmbiguous } from 'react-icons/bs';
 import { UserMetrics } from '../../types/UserMetrics';
 import Button from '../Button/Button';
 import styled from 'styled-components';
+import { COLORS } from '../../styles/COLORS';
 
 
 interface BodyCompFormProps {
@@ -37,7 +38,8 @@ const BodyCompForm: React.FC<BodyCompFormProps> = ({
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!userMetrics.weight || !userMetrics.heightFeet || !userMetrics.heightInches) {
+    if (!userMetrics.weight || userMetrics.heightFeet === undefined || userMetrics.heightInches === undefined) {
+    
       toast('🫵 Please fill all the fields. 💪');
       return;
     }
@@ -62,7 +64,7 @@ const BodyCompForm: React.FC<BodyCompFormProps> = ({
         <GiBodyHeight size="2em" />
         <input name="heightFeet" type="number" placeholder='height (ft)' onChange={changeForm} required value={userMetrics.heightFeet || ''} />
         feet
-        <input name="heightInches" type="number" placeholder='height (in)' onChange={changeForm} required value={userMetrics.heightInches || ''} />
+        <input name="heightInches" type="number" placeholder='height (in)' onChange={changeForm} required value={userMetrics.heightInches !== undefined ? userMetrics.heightInches : ''} />
         inches
       </label>
       <label>
@@ -85,9 +87,9 @@ const Wrapper = styled.div`
 display: flex;
 flex-direction: column;
 padding: 0vh 50px 2vh 50px;
-background-color: #838383;
+background-color: ${COLORS.overlay};
 border-radius: 1vh;
-border: 3px solid rgb(244, 154, 115);
+border: 3px solid ${COLORS.accent};
 
 form {
   display: flex;
@@ -102,16 +104,16 @@ input{
 input:focus{
   outline-offset: 0px ! important;
   outline: none ! important;
-  border : 1px var(--accent) ! important;
-  box-shadow : 0 0 3px var(--accent) ! important;
-  -moz-box-shadow : 0 0 3px var(--accent) ! important;
-  -webkit-box-shadow : 0 0 3px var(--accent) ! important;
+  border : 1px ${COLORS.accent} ! important;
+  box-shadow : 0 0 3px ${COLORS.accent} ! important;
+  -moz-box-shadow : 0 0 3px ${COLORS.accent} ! important;
+  -webkit-box-shadow : 0 0 3px ${COLORS.accent} ! important;
 
 }
 
 
 input[type="radio"] {
-  accent-color: var(--accent)
+  accent-color: ${COLORS.accent}
 }
 
 label {
@@ -126,7 +128,7 @@ label > input{
 
 
 label > svg {
-  color: var(--accent)
+  color: ${COLORS.accent}
 }
 
 `;

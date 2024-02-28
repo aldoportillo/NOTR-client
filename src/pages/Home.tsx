@@ -3,10 +3,12 @@ import BartenderSvg2 from "../assets/bartender2.svg"
 import Cheers from "../assets/cheers.svg"
 import { Link } from 'react-router-dom'
 import Button from "../components/Button/Button"
+import styled from "styled-components"
+import { COLORS } from "../styles/COLORS"
 
 export default function Home () {
     return (
-        <div className='home-page'>
+        <Wrapper>
             <div className='hero'>
                 <div className='hero-text'>
                     <h2 className='orange-font'>Where Science Meets Mixology</h2>
@@ -45,6 +47,50 @@ export default function Home () {
                 </div>
                 <img src={Cheers} alt=""/>
             </div>
-        </div>
+        </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+
+    color: white;
+    align-self: center;
+    width: 80vw;
+
+    .orange-font{
+        color: ${COLORS.accent};
+      }
+  
+   .paragraph > .text-content > h2{
+    font-size: 2rem;
+    color: ${COLORS.accent};
+  }
+  
+   .paragraph > .text-content > p{
+    font-size: 1.2rem;
+  }
+  
+   .paragraph >img{
+    width: 80vw;
+  }
+  
+  @media only screen and (min-width:1025px) {
+
+      padding-top: 3vw;;
+
+    .paragraph{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .paragraph >img{
+      width: 35vw;
+    }
+  
+    .paragraph > .text-content {
+      width: 35vw;
+    }
+  
+  }
+`
