@@ -1,6 +1,6 @@
 import React from 'react'
 import LiquidForm from '../components/LiquidForm'
-import DilutionResults from '../components/DilutionResults'
+import DilutionResults from '../components/DilutionResults/DilutionResults'
 import { getDilutionIngredients } from '../functions/getDilutionIngredients'
 import { dilutionCalculus } from '../functions/dilutionCalculus'
 import IngredientLists from '../components/IngredientLists/IngredientLists'
