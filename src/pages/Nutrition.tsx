@@ -60,14 +60,8 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 20px;
 
-  h2{
-  color: white;
-}
 
 
- table{
-  width: 80vw;
-}
 
 .liquid-form{
   width: 80vw;
@@ -103,9 +97,6 @@ const Wrapper = styled.div`
     grid-area: macros;
   }
 
-    table{
-    width: auto
-  }
   
     .liquid-form{
     width: auto;
