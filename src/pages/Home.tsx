@@ -2,10 +2,13 @@ import BartenderSvg from "../assets/bartender.svg"
 import BartenderSvg2 from "../assets/bartender2.svg"
 import Cheers from "../assets/cheers.svg"
 import { Link } from 'react-router-dom'
+import Button from "../components/Button/Button"
+import styled from "styled-components"
+import { COLORS } from "../styles/COLORS"
 
 export default function Home () {
     return (
-        <div className='home-page'>
+        <Wrapper>
             <div className='hero'>
                 <div className='hero-text'>
                     <h2 className='orange-font'>Where Science Meets Mixology</h2>
@@ -40,10 +43,54 @@ export default function Home () {
                     <h3 className='orange-font'>Make a Difference Today</h3>
                     <p>At Neat on the Rocks, we're dedicated to promoting responsible enjoyment and elevating the standards of mixology. If you share our vision, we invite you to be part of the journey. Your support will enable us to keep providing valuable resources and insights to cocktail enthusiasts around the world. Together, let's cultivate a culture of informed and mindful drinking that embraces both pleasure and well-being. Your contribution, no matter the size, fuels our mission. Join us in shaping the future of mixology. Click below to make a meaningful donation:</p>
 
-                    <a href="https://pay.neatonthe.rocks" target='_blank' rel="noreferrer"><button className='--accent-btn'>Donate</button></a>
+                    <Button to="https://pay.neatonthe.rocks" variant="primary" size="medium">Donate</Button>
                 </div>
                 <img src={Cheers} alt=""/>
             </div>
-        </div>
+        </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+
+    color: white;
+    align-self: center;
+    width: 80vw;
+
+    .orange-font{
+        color: ${COLORS.accent};
+      }
+  
+   .paragraph > .text-content > h2{
+    font-size: 2rem;
+    color: ${COLORS.accent};
+  }
+  
+   .paragraph > .text-content > p{
+    font-size: 1.2rem;
+  }
+  
+   .paragraph >img{
+    width: 80vw;
+  }
+  
+  @media only screen and (min-width:1025px) {
+
+      padding-top: 3vw;;
+
+    .paragraph{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .paragraph >img{
+      width: 35vw;
+    }
+  
+    .paragraph > .text-content {
+      width: 35vw;
+    }
+  
+  }
+`

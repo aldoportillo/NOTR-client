@@ -1,11 +1,13 @@
-import { Link, useLocation } from 'react-router-dom';
 import { getMacros } from '../functions/getMacros';
-import NutritionLabel from '../components/NutritionLabel';
+import NutritionLabel from '../components/NutritionLabel/NutritionLabel';
 import { toast } from 'react-toastify';
 import React from 'react';
 import { Spec } from '../types/Spec';
 import { SpiritData } from '../types/SpiritData';
 import { CocktailData } from '../types/CocktailData';
+import Button from '../components/Button/Button';
+import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 
 type Drinks = Spec[];
 
@@ -40,7 +42,7 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
   };
 
   return (
-    <div className='cocktail-page'>
+    <Wrapper className='cocktail-page'>
       <h2>{name}</h2>
       <img src={image.filePath} alt={name} />
       <p>{description}</p>
@@ -57,8 +59,48 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
         </div>
         <NutritionLabel item={getMacros(specs, spiritData)} />
       </div>
-      <Link to="/cocktails"><button className='--whiskey-btn'>Back to Cocktails</button></Link>
-      <button onClick={addToDrinks}>Add to Drinks</button>
-    </div>
+      <div className="inline">
+        <Button to="/cocktails" variant="secondary" size="small">Back to Cocktails</Button>
+        <Button variant="primary" size="small" onClick={addToDrinks}>Add to Drinks</Button>
+      </div> 
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+
+  display: flex;
+  flex-direction: column;
+  margin: 5vw 30vw 0vw 30vw;
+
+  img{
+    width: 80vw; /* I don't like this solution but for some reason the wrapper set to 100% and img set to 100% isn't inheriting the width from the wrapper */
+  }
+
+  .inline{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  @media only screen and (min-width:1025px) {
+    .space-between{
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
+    }
+    .space-between > div{
+      flex: 1;
+    }
+
+    }
+
+    .inline{
+      justify-content: space-between;
+     
+      gap: 20px;
+    }
+    
+
+
+  
+`

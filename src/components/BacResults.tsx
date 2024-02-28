@@ -1,4 +1,5 @@
 import EthanolOxidationImage from "../assets/ethanolOxidation.png"
+import Button from "./Button/Button";
 
 interface BacResultsProps {
     bac: number;
@@ -11,7 +12,8 @@ const BacResults: React.FC<BacResultsProps> = ({ bac, totalEthanol, setFormSubmi
     <div className='results-page'>
         <h1>You have consumed <em>{totalEthanol.toFixed(2)} g of ethanol</em>. Your cumulative <em>BAC is at {bac.toFixed(3)}</em>. It should take {(bac/0.015).toFixed(2)} hours since the first drink to be sober.</h1>
 
-        <button onClick={() => setFormSubmitted(false)} className="--accent-btn">Go Back</button>
+        {/* <button onClick={() => setFormSubmitted(false)} className="--accent-btn">Go Back</button> */}
+        <Button variant="primary" size="small" onClick={() => setFormSubmitted(false)}>Go Back</Button>
         <article>
             <h2>
                 About the calculations

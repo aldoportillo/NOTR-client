@@ -1,8 +1,9 @@
-import Footer from './Footer'
-import Header from './Header'
+import Footer from './Footer/Footer'
+import Header from './Header/Header'
 import { useLocation } from 'react-router-dom'
 import SlidingNav from './SlidingNav'
 import { useState, useEffect, ReactNode } from 'react'
+import styled from 'styled-components'
 
 const getWindowSize = () => {
     const {innerWidth} = window;
@@ -18,7 +19,6 @@ export default function PageContainer({children}: PageContainerProps) {
     const location  = useLocation()
   
     const [openNav, setOpenNav] = useState(false)
-    const [navWidth, setNavWidth] = useState(0)
   
     const [windowSize, setWindowSize] = useState(getWindowSize())
   
@@ -35,26 +35,49 @@ export default function PageContainer({children}: PageContainerProps) {
     }, [])
   
     useEffect(() => {
-      if (openNav){
-        setNavWidth(60)
+      if (openNav) {
+        document.body.style.overflow = 'hidden';
       } else {
-        setNavWidth(0)
+        document.body.style.overflow = 'auto';
       }
-    }, [openNav])
+    }, [openNav]);
+    
     useEffect(() => {
-      setNavWidth(0)
       setOpenNav(false)
     },[location])
   
     return (
-      <>
-          <Header setOpenNav={setOpenNav} setNavWidth={setNavWidth} openNav={openNav} windowSize={windowSize}/>
-          <main>
+      <Wrapper>
+          <Header setOpenNav={setOpenNav} openNav={openNav} windowSize={windowSize}/>
+          <Main> 
             {children}
-            <SlidingNav navWidth={navWidth} />
-          </main>
+            <SlidingNav openNav={openNav} />
+          </Main>
           <Footer />
-      </>
+      </Wrapper>
     )
   }
   
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+  justify-content: space-between;
+  width: 100vw;
+  align-items: center;
+  min-height: 100vh;
+`
+
+const Main = styled.main`
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  justify-content: center;
+  width: 80vw;
+  flex: 1;
+
+  $:first-child {
+    flex: 1;
+    width: 100vw;
+  }
+`
