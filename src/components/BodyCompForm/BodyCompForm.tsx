@@ -5,7 +5,7 @@ import { BsGenderAmbiguous } from 'react-icons/bs';
 import { UserMetrics } from '../../types/UserMetrics';
 import Button from '../Button/Button';
 import styled from 'styled-components';
-import { COLORS } from '../../styles/COLORS';
+import { colors } from '../../styles/colors';
 
 
 interface BodyCompFormProps {
@@ -87,9 +87,9 @@ const Wrapper = styled.div`
 display: flex;
 flex-direction: column;
 padding: 0vh 50px 2vh 50px;
-background-color: ${COLORS.overlay};
+background-color: ${colors.overlay};
 border-radius: 1vh;
-border: 3px solid ${COLORS.accent};
+border: 3px solid ${colors.accent};
 
 form {
   display: flex;
@@ -104,16 +104,16 @@ input{
 input:focus{
   outline-offset: 0px ! important;
   outline: none ! important;
-  border : 1px ${COLORS.accent} ! important;
-  box-shadow : 0 0 3px ${COLORS.accent} ! important;
-  -moz-box-shadow : 0 0 3px ${COLORS.accent} ! important;
-  -webkit-box-shadow : 0 0 3px ${COLORS.accent} ! important;
+  border : 1px ${colors.accent} ! important;
+  box-shadow : 0 0 3px ${colors.accent} ! important;
+  -moz-box-shadow : 0 0 3px ${colors.accent} ! important;
+  -webkit-box-shadow : 0 0 3px ${colors.accent} ! important;
 
 }
 
 
 input[type="radio"] {
-  accent-color: ${COLORS.accent}
+  accent-color: ${colors.accent}
 }
 
 label {
@@ -128,7 +128,7 @@ label > input{
 
 
 label > svg {
-  color: ${COLORS.accent}
+  color: ${colors.accent}
 }
 
 `;

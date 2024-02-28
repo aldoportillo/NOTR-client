@@ -4,7 +4,7 @@ import Cheers from "../assets/cheers.svg"
 import { Link } from 'react-router-dom'
 import Button from "../components/Button/Button"
 import styled from "styled-components"
-import { COLORS } from "../styles/COLORS"
+import { colors } from "../styles/colors"
 
 export default function Home () {
     return (
@@ -58,12 +58,12 @@ const Wrapper = styled.div`
     width: 80vw;
 
     .orange-font{
-        color: ${COLORS.accent};
+        color: ${colors.accent};
       }
   
    .paragraph > .text-content > h2{
     font-size: 2rem;
-    color: ${COLORS.accent};
+    color: ${colors.accent};
   }
   
    .paragraph > .text-content > p{
