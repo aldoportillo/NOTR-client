@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get(`https://neatontherocks-server.onrender.com/cocktails`)
+      .get(`http://localhost:5000/cocktails`)
       .then(res => {
         const cocktailData = res.data;
         setCocktailData(cocktailData);
@@ -41,7 +41,7 @@ function App() {
       });
 
     axios
-      .get('https://neatontherocks-server.onrender.com/spirits')
+      .get('http://localhost:5000/spirits')
       .then(res => {
         const spiritData = res.data;
         setSpiritData(spiritData);

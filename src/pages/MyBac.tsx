@@ -3,7 +3,7 @@ import BacResults from '../components/BacResults';
 import PreBacResults from '../components/PreBacResults';
 import { Cocktail } from '../types/Cocktail';
 import { UserMetrics } from '../types/UserMetrics';
-
+import { Helmet } from 'react-helmet';
 
 type Drink = Cocktail[];
 
@@ -28,6 +28,8 @@ export default function MyBac({ drinks, setDrinks, totalEthanol, setTotalEthanol
   }, []);
 
   return (
+    <>
+    
     <div className='drinks-page'>
       {formSubmitted ? 
           <BacResults setFormSubmitted={setFormSubmitted} bac={bac} totalEthanol={totalEthanol} />:
@@ -44,5 +46,13 @@ export default function MyBac({ drinks, setDrinks, totalEthanol, setTotalEthanol
         />
       }
     </div>
+    <Helmet>
+      <title>BAC Calculator | Neat on the Rocks</title>
+      <meta name="description" content="BAC Insights: Stay informed about your alcohol consumption using our advanced Blood Alcohol Content (BAC) tracker. Immerse yourself in the art of responsible drinking." />
+      <meta name="keywords" content="perfect, cocktail, alcohol, calories, ethanol, abv, nutrition, glassware, bar, bartender, vodka, gin, tequila, best tequila, instructions, bac" />
+      <meta property="og:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
+      <meta name="twitter:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
+    </Helmet>
+    </>
   );
 }

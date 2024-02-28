@@ -10,7 +10,7 @@ import { SpiritData } from '../types/SpiritData'
 import { Spec } from '../types/Spec'
 import styled from 'styled-components'
 import { CocktailAttributes } from '../types/CocktailAttributes'
-
+import { Helmet } from 'react-helmet'
 type Drinks = Spec[];
 
 interface DilutionProps {
@@ -60,12 +60,21 @@ export default function Dilution({ loading, spiritData, drinks, setDrinks, setTo
     <>
       {loading ?
         <img src={require("../assets/loading.gif")} alt="" className='loader' /> : 
+        <>
         <Wrapper className='dilution-page'>
           <h2>Perfect Cocktail Calculator</h2>
           <LiquidForm setTechnique={setTechnique} cocktail={cocktail} setCocktail={setCocktail} spiritData={spiritData} />
           <IngredientLists ingredients={cocktail} setIngredients={setCocktail} addDrinkToState={addDrinkToState} clearDrink={clearDrink} />
           <DilutionResults cocktailAttributes={cocktailAttributes} />
         </Wrapper>
+        <Helmet>
+            <title>Dilution Calculator | Neat on the Rocks</title>
+            <meta name="description" content="Perfect Mix, Every Time: Unleash your inner mixologist with confidence. Our Perfect Cocktail Calculator ensures harmonious blends that tantalize your taste buds." />
+            <meta name="keywords" content="perfect, cocktail, alcohol, calories, ethanol, abv, nutrition, glassware, bar, bartender, vodka, gin, tequila, best tequila, instructions" />
+            <meta property="og:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
+            <meta name="twitter:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
+      </Helmet>
+        </>
       }
     </>
   );

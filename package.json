@@ -12,6 +12,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.2.2",
     "axios": "^1.6.7",
     "hamburger-react": "^2.5.0",
     "react": "^18.2.0",
@@ -33,6 +34,7 @@
     "@storybook/test": "^7.6.17",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "@types/react-helmet": "^6.1.11",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
