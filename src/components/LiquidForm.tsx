@@ -8,8 +8,10 @@ interface LiquidFormProps {
   cocktail: Cocktail[];
   setCocktail: React.Dispatch<React.SetStateAction<Cocktail[]>>;
   spiritData: SpiritData[];
-  setTechnique?: React.Dispatch<React.SetStateAction<string>>;
+  setTechnique?: React.Dispatch<React.SetStateAction<Technique>>;
 }
+
+type Technique = 'shaken' | 'stirred' | 'built';
 
 export default function LiquidForm({ cocktail, setCocktail, spiritData, setTechnique }: LiquidFormProps) {
   const renderOptions = spiritData.map(liquid => (

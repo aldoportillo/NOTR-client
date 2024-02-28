@@ -1,8 +1,13 @@
 import styled from "styled-components"
+import { CocktailAttributes } from "../../types/CocktailAttributes"
 
-export default function DilutionResults({cocktailAttributes}) {
+interface cocktailAttributesProps{
+    cocktailAttributes: CocktailAttributes
+}
 
-    const inRange = (number, low, high) => {
+export default function DilutionResults({ cocktailAttributes }: cocktailAttributesProps) {
+
+    const inRange = (number: number, low: number, high: number) => {
         if(number > high){
             return "Too High"
         } else if (number < low) {

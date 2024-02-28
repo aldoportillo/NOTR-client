@@ -1,19 +1,11 @@
 import { toast } from "react-toastify";
+import { CocktailAttributes } from "../types/CocktailAttributes";
 
 interface Ingredients {
     totalAbv: number;
     totalVolume: number;
     totalSugar: number;
     totalAcid: number;
-}
-
-interface Attributes {
-    dilution: number | false;
-    finalVolume: number;
-    abv: number;
-    sugarConcentration: number;
-    acid: number;
-    sugarAcid: number;
 }
 
 type Technique = 'shaken' | 'stirred' | 'built';
@@ -52,13 +44,13 @@ function sugarAcidRatio(finalSugarContent: number, finalAcidContent: number): nu
     return finalSugarContent / finalAcidContent;
 }
 
-export const dilutionCalculus = (ingredients: Ingredients, technique: Technique): Attributes => {
+export const dilutionCalculus = (ingredients: Ingredients, technique: Technique): CocktailAttributes => {
     const initialDilution = estimateDilution(ingredients.totalAbv, technique);
 
     if (typeof initialDilution !== "number") {
 
         toast("Unable to calculate dilution with the given technique.");
-        return {} as Attributes; // Return an empty object if dilution is false
+        return {} as CocktailAttributes; // Return an empty object if dilution is false
     }
 
     const calculatedFinalVolume = finalVolume(ingredients.totalVolume, initialDilution);
@@ -67,7 +59,7 @@ export const dilutionCalculus = (ingredients: Ingredients, technique: Technique)
     const calculatedAcid = finalAcidContent(ingredients.totalAcid, ingredients.totalVolume, calculatedFinalVolume);
     const calculatedSugarAcidRatio = sugarAcidRatio(calculatedSugarConcentration, calculatedAcid);
 
-    const attributes: Attributes = {
+    const attributes: CocktailAttributes = {
         dilution: initialDilution,
         finalVolume: calculatedFinalVolume,
         abv: calculatedAbv,

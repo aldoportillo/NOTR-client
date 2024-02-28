@@ -1,15 +1,11 @@
 import { nanoid } from 'nanoid'
 import styled from 'styled-components';
 import Button from '../Button/Button';
-
-interface Ingredient {
-  spirit: string;
-  ounces: number;
-}
+import { Spec } from '../../types/Spec';
 
 interface IngredientListsProps {
-  ingredients: Ingredient[];
-  setIngredients: (ingredients: Ingredient[]) => void;
+  ingredients: Spec[];
+  setIngredients: (ingredients: Spec[]) => void;
   clearDrink: () => void;
   addDrinkToState: () => void;
 }

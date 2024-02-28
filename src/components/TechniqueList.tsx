@@ -1,14 +1,15 @@
 import React, { FC, Dispatch, SetStateAction } from 'react';
 import { toast } from 'react-toastify';
 
-// Define the props expected by the TechniqueList component
+type Technique = 'shaken' | 'stirred' | 'built';
+
 interface TechniqueListProps {
-  setTechnique: Dispatch<SetStateAction<string>>;
+  setTechnique: Dispatch<SetStateAction<Technique>>;
 }
 
 const TechniqueList: FC<TechniqueListProps> = ({ setTechnique }) => {
   const modifyTechnique = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const technique = e.currentTarget.value;
+    const technique = e.currentTarget.value as Technique;
     setTechnique(technique);
     toast(`🥂 Technique changed to ${technique}🥂`);
   };
