@@ -33,6 +33,7 @@ function App() {
     const loadCocktailData = async () => {
       try {
         const data = await fetchCocktails();
+        console.log(data)
         setCocktailData(data as CocktailData[]);
       } catch (error) {
         console.error("Error fetching cocktail data:", error);
@@ -63,7 +64,7 @@ function App() {
         <Route path="/nutrition" element={<PageContainer children={<Nutrition spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} loading={loadingSpirits}/>}/>} />
         <Route path="/myBAC" element={<PageContainer children={<MyBac drinks={drinks} setDrinks={setDrinks} totalEthanol={totalEthanol} setTotalEthanol={setTotalEthanol} />} />} />
         <Route path="/cocktails" element={<PageContainer children={<Cocktails cocktailData={cocktailData} loading={loadingCocktails}/>} />} />
-        <Route path="/cocktail/:id" element={<PageContainer children={<Cocktail spiritData={spiritData} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} />} />} />
+        <Route path="/cocktail/:slug" element={<PageContainer children={<Cocktail spiritData={spiritData} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} />} />} />
         <Route path="/dilution" element={<PageContainer children={<Dilution  loading={loadingSpirits} spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol}/>} />} />
         <Route path="*">"404 Not Found"</Route>
       </Routes>

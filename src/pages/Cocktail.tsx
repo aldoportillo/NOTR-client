@@ -22,20 +22,24 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
   const location = useLocation();
   const data = location.state as { data: CocktailData }; 
 
-  const { name, specs, instructions, description, image, glass, garnish } = data.data;
+  const { name, specs, description, image_url, glass, garnish } = data.data;
 
-  const renderSpecList = specs.map((spirit, index) => {
+  console.log(data.data);
+
+
+  const renderSpecList = specs.map((spec, index) => {
     return (
       <li key={index}>
-        {spirit.dashes ? `${spirit.dashes} dashes of ${spirit.spirit}` : `${spirit.ounces} oz of ${spirit.spirit}`}
+        {spec.ounces} oz of {spec.spirit}
       </li>
     );
   });
 
-  const renderInstructions = instructions.map((instruction, index) => (
-    <li key={index}>{instruction}</li>
-  ));
+  // const renderInstructions = technique.instruction.map((instruction, index) => (
+  //   <li key={index}>{instruction.step}</li>
+  // ));
 
+  console.log(specs);
   const addToDrinks = () => {
     setDrinks((currentDrinks) => [...currentDrinks, specs]);
     setTotalEthanol((currentEthanol) => currentEthanol + getMacros(specs, spiritData).ethanol);
@@ -46,14 +50,14 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
     <>
       <Wrapper className='cocktail-page'>
         <h2>{name}</h2>
-        <img src={image.filePath} alt={name} />
+        <img src={image_url} alt={name} />
         <p>{description}</p>
         <div className='space-between'>
           <div>
             <h3>Spec List</h3>
             <ul>{renderSpecList}</ul>
-            <h3>Instructions</h3>
-            <ol>{renderInstructions}</ol>
+            {/* <h3>Instructions</h3>
+            <ol>{renderInstructions}</ol> */}
             <h3>Glassware</h3>
             <p>{glass}</p>
             <h3>Garnish</h3>
@@ -71,8 +75,8 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
         <title>{ name } | Neat on the Rocks</title>
         <meta name="description" content={ description } />
         <meta name="keywords" content="alcohol, calories, ethanol, abv, nutrition, glassware, bar, bartender, vodka, gin, tequila, best tequila, instructions" />
-        <meta property="og:image" content={ image.filePath } />
-        <meta name="twitter:image" content={ image.filePath } />
+        <meta property="og:image" content={ image_url } />
+        <meta name="twitter:image" content={ image_url } />
       </Helmet>
     </>
   );

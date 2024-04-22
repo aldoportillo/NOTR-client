@@ -35,7 +35,7 @@ export const getMacros = (cocktail: Cocktail[], data: NutritionalInfo[]): Macros
   cocktail.forEach((item) => {
     data.forEach((item2) => {
       if (item2.name === item.spirit) {
-        const amount = item.ounces ?? (item.dashes ?? 0) * 0.02083333333; // 1 dash = 1/48th of an ounce
+        const amount = item.ounces ?? 0;
         macros.calories += amount * item2.calories;
         macros.protein += amount * item2.protein;
         macros.addedSugar += amount * item2.addedSugar;
@@ -49,3 +49,5 @@ export const getMacros = (cocktail: Cocktail[], data: NutritionalInfo[]): Macros
 
   return macros;
 };
+
+//?? (item.dashes ?? 0) * 0.02083333333;  1 dash = 1/48th of an ounce
