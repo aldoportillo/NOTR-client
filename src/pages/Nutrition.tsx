@@ -47,7 +47,7 @@ export default function Nutrition({ spiritData, loading, drinks, setDrinks, setT
 
                     <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearDrink} addDrinkToState={addDrinkToState} />
 
-                    <NutritionLabel item={getMacros(cocktail, spiritData)} />
+                    <NutritionLabel macros={getMacros(cocktail, spiritData)} />
                 </Wrapper>
             )}
             <Helmet>
