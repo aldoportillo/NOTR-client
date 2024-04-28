@@ -1,7 +1,7 @@
 import { getMacros } from '../functions/getMacros';
 import NutritionLabel from '../components/NutritionLabel/NutritionLabel';
 import { toast } from 'react-toastify';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Spec } from '../types/Spec';
 import { SpiritData } from '../types/SpiritData';
 import { CocktailData } from '../types/CocktailData';
@@ -9,6 +9,7 @@ import Button from '../components/Button/Button';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
+import { Macros } from '../types/Macros';
 
 type Drinks = Spec[];
 
@@ -24,9 +25,6 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
 
   const { name, specs, description, image_url, glass, garnish } = data.data;
 
-  console.log(data.data);
-
-
   const renderSpecList = specs.map((spec, index) => {
     return (
       <li key={index}>
@@ -35,16 +33,25 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
     );
   });
 
-  // const renderInstructions = technique.instruction.map((instruction, index) => (
-  //   <li key={index}>{instruction.step}</li>
-  // ));
+  const [macros, setMacros] = React.useState<Macros>({
+    "fat": 0,
+    "carb": 0,
+    "sugar": 0,
+    "addedsugar": 0,
+    "protein": 0,
+    "calories": 0,
+    "ethanol": 0
+});
 
-  console.log(specs);
   const addToDrinks = () => {
     setDrinks((currentDrinks) => [...currentDrinks, specs]);
-    setTotalEthanol((currentEthanol) => currentEthanol + getMacros(specs, spiritData).ethanol);
+    setTotalEthanol((currentEthanol) => currentEthanol + macros?.ethanol);
     toast(`🍸 ${name} added to Drinks. 🍸`);
   };
+
+  useEffect(() => {
+    setMacros(getMacros(specs, spiritData));
+  }, [specs, spiritData]);
 
   return (
     <>
@@ -56,14 +63,12 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
           <div>
             <h3>Spec List</h3>
             <ul>{renderSpecList}</ul>
-            {/* <h3>Instructions</h3>
-            <ol>{renderInstructions}</ol> */}
             <h3>Glassware</h3>
             <p>{glass}</p>
             <h3>Garnish</h3>
             <p>{garnish}</p>
           </div>
-          <NutritionLabel item={getMacros(specs, spiritData)} />
+          <NutritionLabel macros={macros} />
         </div>
         <div className="inline">
           <Button to="/cocktails" variant="secondary" size="small">Back to Cocktails</Button>

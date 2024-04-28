@@ -1,32 +1,12 @@
 import { Cocktail } from '../types/Cocktail';
+import { Macros } from '../types/Macros';
 
-interface NutritionalInfo {
-  name: string;
-  calories: number;
-  protein: number;
-  addedSugar: number;
-  sugar: number;
-  carb: number;
-  fat: number;
-  ethanol: number;
-}
-
-interface Macros {
-  fat: number;
-  carb: number;
-  sugar: number;
-  addedSugar: number;
-  protein: number;
-  calories: number;
-  ethanol: number;
-}
-
-export const getMacros = (cocktail: Cocktail[], data: NutritionalInfo[]): Macros => {
+export const getMacros = (cocktail: Cocktail[], data: Macros[]): Macros => {
   const macros: Macros = {
     fat: 0,
     carb: 0,
     sugar: 0,
-    addedSugar: 0,
+    addedsugar: 0,
     protein: 0,
     calories: 0,
     ethanol: 0,
@@ -38,7 +18,7 @@ export const getMacros = (cocktail: Cocktail[], data: NutritionalInfo[]): Macros
         const amount = item.ounces ?? 0;
         macros.calories += amount * item2.calories;
         macros.protein += amount * item2.protein;
-        macros.addedSugar += amount * item2.addedSugar;
+        macros.addedsugar += amount * item2.addedsugar;
         macros.sugar += amount * item2.sugar;
         macros.carb += amount * item2.carb;
         macros.fat += amount * item2.fat;

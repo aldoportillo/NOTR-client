@@ -1,9 +1,14 @@
-import { Spirit } from "./Spirit";
+// import { Spirit } from "./Spirit";
+
+// export interface Spec {
+//     id:         number;
+//     spiritId:   number;
+//     ounces:     string;
+//     cocktailId: number;
+//     spirit:     Spirit;
+//   }
 
 export interface Spec {
-    id:         number;
-    spiritId:   number;
-    ounces:     string;
-    cocktailId: number;
-    spirit:     Spirit;
-  }
+  spirit: string;
+  ounces: number;
+}
