@@ -76,6 +76,11 @@ const Main = styled.main`
   width: 80vw;
   flex: 1;
 
+  @media screen and (max-width: 900px) {
+    width: 100vw;
+    height: 100%;
+  }
+
   $:first-child {
     flex: 1;
     width: 100vw;

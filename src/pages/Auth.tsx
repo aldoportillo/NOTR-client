@@ -42,6 +42,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  overflow-x: auto;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+  }
   
 
   .container {
@@ -54,6 +59,7 @@ const Container = styled.div`
     max-width: 100%;
     min-height: 480px;
     transition: all 0.6s ease-in-out;
+    
   }
 
   .form-container {
@@ -195,3 +201,17 @@ const Container = styled.div`
     border-color: #ffffff;
   }
 `;
+
+  // media screen and (max-width: 900px) {
+  //   .form-container{
+      
+  //     width: 100%;
+  //   }
+
+  //   .sign-up-container{
+  //     width: 100%;
+  //   }
+  //   .overlay-panel{
+  //     background: none;
+  //   }
+  // }
