@@ -16,6 +16,8 @@ import { fetchSpirits } from './api/spiritApi';
 import { AuthProvider } from './context/AuthContext';
 import AuthForm from './pages/Auth';
 import Profile from './pages/Profile';
+import AdminPanel from './pages/AdminPanel';
+import AdminRoute from './components/AdminRoute';
 
 type Drink = Spec[];
 
@@ -73,6 +75,7 @@ function App() {
           <Route path="/auth" element={<PageContainer children={<AuthForm />} />} />
           <Route path="/profile/" element={<PageContainer children={<Profile />} />} />
           <Route path="/profile/:username" element={<PageContainer children={<Profile />} />} />
+          <Route path="/admin" element={<PageContainer children={<AdminRoute><AdminPanel /></AdminRoute>} />} />
           <Route path="*">"404 Not Found"</Route>
         </Routes>
       </AuthProvider>

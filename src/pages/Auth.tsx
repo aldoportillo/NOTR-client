@@ -1,11 +1,19 @@
-// src/pages/AuthPage.tsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Login from '../components/Login';
 import SignUp from '../components/SignUp';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const AuthPage: React.FC = () => {
     const [isLogin, setIsLogin] = useState(true);
+
+    const { auth } = useAuth();
+    const navigate = useNavigate();
+
+    if (auth.user) {
+        navigate('/profile');
+    }
 
     return (
         <Container>
