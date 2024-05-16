@@ -4,6 +4,7 @@ import PreBacResults from '../components/PreBacResults';
 import { Cocktail } from '../types/Cocktail';
 import { UserMetrics } from '../types/UserMetrics';
 import { Helmet } from 'react-helmet';
+import { toast } from 'react-toastify';
 
 type Drink = Cocktail[];
 
@@ -22,9 +23,20 @@ export default function MyBac({ drinks, setDrinks, totalEthanol, setTotalEthanol
 
   useEffect(() => {
     const metrics = localStorage.getItem("previousMetrics");
-    if (metrics) {
+    const user = localStorage.getItem("user");
+    if (user) {
+      const parsedData = JSON.parse(user);
+      setUserMetrics({
+        weight: parsedData.weight,
+        heightFeet: Math.floor(parsedData.height / 12),
+        heightInches: parsedData.height % 12,
+        gender: parsedData.sex
+    });
+    } else if (metrics) {
       setUserMetrics(JSON.parse(metrics));
     }
+
+    console.log(userMetrics)
   }, []);
 
   return (
