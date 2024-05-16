@@ -1,20 +1,15 @@
 import { Spec } from './Spec';
 
 export interface CocktailData {
-  id:          number;
-  name:        string;
-  description: string;
-  glasswareId: number;
+  id:           number;
+  name:         string;
+  description:  string;
   image_url:    string;
-  techniqueId: number;
-  garnishId:   number;
-  createdAt:   Date;
-  updatedAt:   Date;
-  garnish:     string;
-  glass:   string;
-  technique:   string;
-  specs:       Spec[];
-  slug:        string;
+  slug:         string;
+  glass:        string;
+  technique:    string;
+  garnish:      string;
+  specs:        Spec[];
 }
 
 
