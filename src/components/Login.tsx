@@ -1,19 +1,23 @@
-// src/components/Login.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom"
+import { toast } from 'react-toastify';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const { login } = useAuth();
+    const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/login', { email, password });
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/login`, { email, password });
             login(response.data.token, response.data.user);
+            navigate('/dashboard');
+            toast.success('🥃 Login successful! Welcome to NOTR! 🧊');
         } catch (error) {
             console.error('Login error:', error);
         }

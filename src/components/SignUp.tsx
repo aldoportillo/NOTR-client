@@ -1,8 +1,10 @@
-// src/components/Signup.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 interface FormData {
     email: string;
@@ -29,6 +31,7 @@ const Signup: React.FC = () => {
         sex: '',
     });
     const { login } = useAuth();
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -38,8 +41,10 @@ const Signup: React.FC = () => {
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/signup', formData);
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users`, formData);
             login(response.data.token, response.data.user);
+            navigate('/dashboard');
+            toast.success('🥃 Signup successful! Welcome to NOTR! 🧊');
         } catch (error) {
             console.error('Signup error:', error);
         }

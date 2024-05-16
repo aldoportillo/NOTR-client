@@ -15,6 +15,7 @@ import { fetchCocktails } from './api/cocktailApi';
 import { fetchSpirits } from './api/spiritApi';
 import { AuthProvider } from './context/AuthContext';
 import AuthForm from './pages/Auth';
+import Dashboard from './pages/Dashboard';
 
 type Drink = Spec[];
 
@@ -70,6 +71,7 @@ function App() {
           <Route path="/cocktail/:slug" element={<PageContainer children={<Cocktail spiritData={spiritData} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} />} />} />
           <Route path="/dilution" element={<PageContainer children={<Dilution  loading={loadingSpirits} spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol}/>} />} />
           <Route path="/auth" element={<PageContainer children={<AuthForm />} />} />
+          <Route path="/dashboard" element={<PageContainer children={<Dashboard />} />} />
           <Route path="*">"404 Not Found"</Route>
         </Routes>
       </AuthProvider>

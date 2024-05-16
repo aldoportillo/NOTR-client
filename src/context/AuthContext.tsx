@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import { toast } from 'react-toastify';
 
 interface User {
   _id: string;
@@ -38,14 +39,27 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [auth, setAuth] = useState<{ token: string | null; user: User | null }>({ token: null, user: null });
+  const [auth, setAuth] = useState<{ token: string | null; user: User | null }>(() => {
+    
+    const token = localStorage.getItem('token');
+    const userData = localStorage.getItem('user');
+    return {
+      token: token,
+      user: userData ? JSON.parse(userData) : null
+    };
+  });
 
   const login = (token: string, user: User) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
     setAuth({ token, user });
   };
 
   const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setAuth({ token: null, user: null });
+    toast.success('🥃 Logout successful! Goodbye! 🧊');
   };
 
   return (
