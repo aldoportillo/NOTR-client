@@ -5,15 +5,16 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-
 interface FormData {
     email: string;
     password: string;
+    confirmPassword: string;
     firstName: string;
     lastName: string;
     username: string;
-    height: number;
     weight: number;
+    feet: number;
+    inches: number;
     dob: string;
     sex: string;
 }
@@ -22,10 +23,12 @@ const Signup: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
         email: '',
         password: '',
+        confirmPassword: '',
         firstName: '',
         lastName: '',
         username: '',
-        height: 0,
+        feet: 0,
+        inches: 0,
         weight: 0,
         dob: '',
         sex: '',
@@ -40,13 +43,39 @@ const Signup: React.FC = () => {
 
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (formData.password !== formData.confirmPassword) {
+            toast.error("Passwords do not match!");
+            return;
+        }
+
+        const today = new Date();
+        const birthday = new Date(formData.dob);
+        let age = today.getFullYear() - birthday.getFullYear();
+        const m = today.getMonth() - birthday.getMonth();
+
+        if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+            age--;
+        }
+
+        if (age < 21) {
+            toast.error("You must be at least 21 years old to sign up.");
+            return;
+        }
+
+        const totalHeightInInches = formData.feet * 12 + formData.inches;
+
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users`, formData);
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users`, {
+                ...formData,
+                height: totalHeightInInches,
+            });
             login(response.data.token, response.data.user);
             navigate(`/profile/${response.data.user.username}`);
             toast.success('🥃 Signup successful! Welcome to NOTR! 🧊');
         } catch (error) {
             console.error('Signup error:', error);
+            toast.error("Signup failed. Please try again. Email or username may already be in use.");
         }
     };
 
@@ -62,6 +91,10 @@ const Signup: React.FC = () => {
                 <Input type="password" name="password" value={formData.password} onChange={handleChange} required />
             </FormGroup>
             <FormGroup>
+                <Label>Confirm Password:</Label>
+                <Input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+            </FormGroup>
+            <FormGroup>
                 <Label>First Name:</Label>
                 <Input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
             </FormGroup>
@@ -74,8 +107,12 @@ const Signup: React.FC = () => {
                 <Input type="text" name="username" value={formData.username} onChange={handleChange} required />
             </FormGroup>
             <FormGroup>
-                <Label>Height:</Label>
-                <Input type="number" name="height" value={formData.height} onChange={handleChange} required />
+                <Label>Height (Feet):</Label>
+                <Input type="number" name="feet" value={formData.feet} onChange={handleChange} required />
+            </FormGroup>
+            <FormGroup>
+                <Label>Height (Inches):</Label>
+                <Input type="number" name="inches" value={formData.inches} onChange={handleChange} required />
             </FormGroup>
             <FormGroup>
                 <Label>Weight:</Label>
