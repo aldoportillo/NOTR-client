@@ -16,7 +16,7 @@ const Login: React.FC = () => {
         try {
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/login`, { email, password });
             login(response.data.token, response.data.user);
-            navigate('/dashboard');
+            navigate(`/profile/${response.data.user.username}`);
             toast.success('🥃 Login successful! Welcome to NOTR! 🧊');
         } catch (error) {
             console.error('Login error:', error);

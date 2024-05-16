@@ -43,7 +43,7 @@ const Signup: React.FC = () => {
         try {
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users`, formData);
             login(response.data.token, response.data.user);
-            navigate('/dashboard');
+            navigate(`/profile/${response.data.user.username}`);
             toast.success('🥃 Signup successful! Welcome to NOTR! 🧊');
         } catch (error) {
             console.error('Signup error:', error);
