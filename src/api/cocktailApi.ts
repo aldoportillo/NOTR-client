@@ -52,10 +52,10 @@ export enum Type {
 
 
 export const fetchCocktails = async (): Promise<Cocktail[]> => {
-    let url = 'https://neatontherocks-server.onrender.com/cocktails';
+    let url = `${import.meta.env.VITE_SERVER_URI}/cocktails`;
 
     if (process.env.NODE_ENV === 'development') {
-      url = 'http://localhost:5000/cocktails';
+      url = `${import.meta.env.VITE_SERVER_URI}/cocktails`;
     }
     
   return await fetchData<Cocktail[]>(url);

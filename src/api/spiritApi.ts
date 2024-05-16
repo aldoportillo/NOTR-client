@@ -1,5 +1,7 @@
 import fetchData from './axiosRequests';
 
+
+
 interface Spirit {
     _id:                string;
     name:               string;
@@ -29,10 +31,10 @@ export enum Type {
 
 
 export const fetchSpirits = async (): Promise<Spirit[]> => {
-  let url = 'https://neatontherocks-server.onrender.com/spirits';
+  let url = `${import.meta.env.VITE_SERVER_URI}/spirits`;
 
   if (process.env.NODE_ENV === 'development') {
-    url = 'http://localhost:5000/spirits';
+    url = `${import.meta.env.VITE_SERVER_URI}/spirits`;
   }
   
   return await fetchData<Spirit[]>(url);
