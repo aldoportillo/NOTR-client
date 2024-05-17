@@ -18,6 +18,7 @@ import AuthForm from './pages/Auth';
 import Profile from './pages/Profile';
 import AdminPanel from './pages/AdminPanel';
 import AdminRoute from './components/AdminRoute';
+import { DrinksProvider } from './context/DrinksContext';
 
 type Drink = Spec[];
 
@@ -65,19 +66,21 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<PageContainer children={<Home />}/>} />
-          <Route path="/nutrition" element={<PageContainer children={<Nutrition spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} loading={loadingSpirits}/>}/>} />
-          <Route path="/myBAC" element={<PageContainer children={<MyBac drinks={drinks} setDrinks={setDrinks} totalEthanol={totalEthanol} setTotalEthanol={setTotalEthanol} />} />} />
-          <Route path="/cocktails" element={<PageContainer children={<Cocktails cocktailData={cocktailData} loading={loadingCocktails}/>} />} />
-          <Route path="/cocktail/:slug" element={<PageContainer children={<Cocktail spiritData={spiritData} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} />} />} />
-          <Route path="/dilution" element={<PageContainer children={<Dilution  loading={loadingSpirits} spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol}/>} />} />
-          <Route path="/auth" element={<PageContainer children={<AuthForm />} />} />
-          <Route path="/profile/" element={<PageContainer children={<Profile />} />} />
-          <Route path="/profile/:username" element={<PageContainer children={<Profile />} />} />
-          <Route path="/admin" element={<PageContainer children={<AdminRoute><AdminPanel /></AdminRoute>} />} />
-          <Route path="*">"404 Not Found"</Route>
-        </Routes>
+        <DrinksProvider>
+          <Routes>
+            <Route path="/" element={<PageContainer children={<Home />}/>} />
+            <Route path="/nutrition" element={<PageContainer children={<Nutrition spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} loading={loadingSpirits}/>}/>} />
+            <Route path="/myBAC" element={<PageContainer children={<MyBac drinks={drinks} setDrinks={setDrinks} totalEthanol={totalEthanol} setTotalEthanol={setTotalEthanol} />} />} />
+            <Route path="/cocktails" element={<PageContainer children={<Cocktails cocktailData={cocktailData} loading={loadingCocktails}/>} />} />
+            <Route path="/cocktail/:slug" element={<PageContainer children={<Cocktail spiritData={spiritData} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol} />} />} />
+            <Route path="/dilution" element={<PageContainer children={<Dilution  loading={loadingSpirits} spiritData={spiritData} drinks={drinks} setDrinks={setDrinks} setTotalEthanol={setTotalEthanol}/>} />} />
+            <Route path="/auth" element={<PageContainer children={<AuthForm />} />} />
+            <Route path="/profile/" element={<PageContainer children={<Profile />} />} />
+            <Route path="/profile/:username" element={<PageContainer children={<Profile />} />} />
+            <Route path="/admin" element={<PageContainer children={<AdminRoute><AdminPanel /></AdminRoute>} />} />
+            <Route path="*">"404 Not Found"</Route>
+          </Routes>
+          </DrinksProvider>
       </AuthProvider>
     </>
   )
