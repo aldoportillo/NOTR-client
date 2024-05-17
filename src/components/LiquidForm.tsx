@@ -9,12 +9,13 @@ interface LiquidFormProps {
   cocktail: Cocktail[];
   setCocktail: React.Dispatch<React.SetStateAction<Cocktail[]>>;
   spiritData: SpiritData[];
+  technique?: Technique;
   setTechnique?: React.Dispatch<React.SetStateAction<Technique>>;
 }
 
 type Technique = 'shaken' | 'stirred' | 'built';
 
-export default function LiquidForm({ cocktail, setCocktail, spiritData, setTechnique }: LiquidFormProps) {
+export default function LiquidForm({ cocktail, setCocktail, spiritData, technique, setTechnique }: LiquidFormProps) {
   const renderOptions = spiritData.map(liquid => (
     <option key={liquid._id} value={liquid.name}>{liquid.name}</option>
   ));
@@ -22,7 +23,6 @@ export default function LiquidForm({ cocktail, setCocktail, spiritData, setTechn
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // Get form data
     const formData = new FormData(e.currentTarget);
     const spirit = formData.get('liquid') as string;
     const ounces = parseFloat(formData.get('ounces') as string);
@@ -34,14 +34,14 @@ export default function LiquidForm({ cocktail, setCocktail, spiritData, setTechn
       toast(`❌ That spirit is not in the database yet ❌`);
     }
 
-    // Reset form inputs
+
     e.currentTarget.reset();
   }
 
   return (
     <Wrapper>
       <h4>Enter Liquids:</h4>
-      {setTechnique && <TechniqueList setTechnique={setTechnique} />}
+      {setTechnique && <TechniqueList technique={technique} setTechnique={setTechnique} />}
       <form onSubmit={handleSubmit}>
         <label htmlFor="liquid-input">Spirit: (Use autofill results)</label>
         <input list="liquid-options" name="liquid" id="liquid-input" placeholder='spirit' autoComplete="off" required />
