@@ -11,6 +11,7 @@ import { Spec } from '../types/Spec'
 import styled from 'styled-components'
 import { CocktailAttributes } from '../types/CocktailAttributes'
 import { Helmet } from 'react-helmet'
+import { useAuth } from '../context/AuthContext'
 
 type Drinks = Spec[];
 
@@ -39,6 +40,7 @@ export default function Dilution({ loading, spiritData, drinks, setDrinks, setTo
     sugarAcid: 0,
   });
   const [technique, setTechnique] = React.useState<Technique>("shaken");
+  const { auth } = useAuth();
 
   useEffect(() => {
     if (!loading) {
@@ -47,6 +49,16 @@ export default function Dilution({ loading, spiritData, drinks, setDrinks, setTo
   }, [cocktail, technique, spiritData, loading]);
 
   const addDrinkToState = () => {
+
+    if (cocktail.length === 0) {
+        toast.error("You cannot add an empty drink");
+        return;
+    }
+
+    if (!auth.user){
+        toast.error("You must be logged in to add drinks");
+        return;
+    }
     const ethanol = getMacros(cocktail, spiritData).ethanol;
     setTotalEthanol(totalEthanol => totalEthanol += ethanol);
     setDrinks([...drinks, cocktail]);

@@ -9,6 +9,7 @@ import { SpiritData } from '../types/SpiritData';
 import { Spec } from '../types/Spec'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
+import { useAuth } from '../context/AuthContext'
 
 type Drinks = Spec[];
 
@@ -22,8 +23,18 @@ interface NutritionProps {
 
 export default function Nutrition({ spiritData, loading, drinks, setDrinks, setTotalEthanol }: NutritionProps) {
     const [cocktail, setCocktail] = React.useState<Spec[]>([]);
-
+    const { auth } = useAuth();
     const addDrinkToState = () => {
+
+        if (cocktail.length === 0) {
+            toast.error("You cannot add an empty drink");
+            return;
+        }
+
+        if (!auth.user){
+            toast.error("You must be logged in to add drinks");
+            return;
+        }
         const ethanol = getMacros(cocktail, spiritData).ethanol;
         setTotalEthanol(totalEthanol => totalEthanol += ethanol);
         setDrinks([...drinks, cocktail]);
