@@ -5,22 +5,16 @@ import { getDilutionIngredients } from '../functions/getDilutionIngredients'
 import { dilutionCalculus } from '../functions/dilutionCalculus'
 import IngredientLists from '../components/IngredientLists/IngredientLists'
 import { SpiritData } from '../types/SpiritData'
-import { Spec } from '../types/Spec'
 import styled from 'styled-components'
 import { CocktailAttributes } from '../types/CocktailAttributes'
 import { Helmet } from 'react-helmet'
 import { useDrinks } from '../context/DrinksContext'
 import { useManageDrinks } from '../hooks/useManageDrinks'
 
-type Drinks = Spec[];
 
 interface DilutionProps {
   loading: boolean;
   spiritData: SpiritData[];
-  drinks: Drinks[];
-  setDrinks: React.Dispatch<React.SetStateAction<Drinks[]>>;
-  setTotalEthanol: React.Dispatch<React.SetStateAction<number>>;
-
 }
 
 type Technique = 'shaken' | 'stirred' | 'built';
@@ -92,7 +86,7 @@ const Wrapper = styled.div`
       "title title"
       "liquids ingredients"
       "results results";
-    grid-template-columns: 1fr 1fr;  // Ensures each column takes up 50% of the available space
+    grid-template-columns: 1fr 1fr;
     column-gap: 20px;
     row-gap: 20px;
     
@@ -103,17 +97,17 @@ const Wrapper = styled.div`
 
     .liquid-form {
       grid-area: liquids;
-      width: 100%;  // Ensures that it takes the full width of its grid area
+      width: 100%;  
     }
 
-    .ingredient-list {  // Assuming you have an ingredient-list class that needs to be styled
+    .ingredient-list { 
       grid-area: ingredients;
-      width: 100%;  // Ensures that it matches the width of the liquid-form
+      width: 100%; 
     }
 
     .dilution-results {
       grid-area: results;
-      width: 100%;  // Adjusting width to 100% to fill the grid area
+      width: 100%;  
     }
   }
 `;

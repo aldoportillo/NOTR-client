@@ -1,24 +1,17 @@
-import React from 'react'
 import LiquidForm from '../components/LiquidForm'
 import NutritionLabel from '../components/NutritionLabel/NutritionLabel'
 import { getMacros } from '../functions/getMacros'
 import IngredientLists from '../components/IngredientLists/IngredientLists'
 import LoadingGif from '../assets/loading.gif'
 import { SpiritData } from '../types/SpiritData';
-import { Spec } from '../types/Spec'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
 import { useDrinks } from '../context/DrinksContext'
 import { useManageDrinks } from '../hooks/useManageDrinks'
 
-type Drinks = Spec[];
-
 interface NutritionProps {
     spiritData: SpiritData[];
     loading: boolean;
-    drinks: Drinks[];
-    setDrinks: React.Dispatch<React.SetStateAction<Drinks[]>>; 
-    setTotalEthanol: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function Nutrition({ spiritData, loading }: NutritionProps) {

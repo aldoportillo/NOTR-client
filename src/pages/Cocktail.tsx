@@ -1,7 +1,6 @@
 import { getMacros } from '../functions/getMacros';
 import NutritionLabel from '../components/NutritionLabel/NutritionLabel';
 import React, { useEffect } from 'react';
-import { Spec } from '../types/Spec';
 import { SpiritData } from '../types/SpiritData';
 import { CocktailData } from '../types/CocktailData';
 import Button from '../components/Button/Button';
@@ -11,12 +10,8 @@ import { Helmet } from 'react-helmet';
 import { Macros } from '../types/Macros';
 import { useManageDrinks } from '../hooks/useManageDrinks';
 
-type Drinks = Spec[];
-
 interface CocktailProps {
   spiritData: SpiritData[];
-  setTotalEthanol: React.Dispatch<React.SetStateAction<number>>;
-  setDrinks: React.Dispatch<React.SetStateAction<Drinks[]>>;
 }
 
 export default function Cocktail({ spiritData }: CocktailProps) {
@@ -86,60 +81,60 @@ export default function Cocktail({ spiritData }: CocktailProps) {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 2rem auto; // Center the content and provide some margin
-  max-width: 960px; // Maximum width to maintain readability and aesthetics
-  width: 100%; // Take full width up to the maximum
+  margin: 2rem auto; 
+  max-width: 960px;
+  width: 100%; 
 
   img {
-    width: 100%; // Now it will inherit properly from the wrapper
-    height: auto; // Maintain aspect ratio
-    border-radius: 8px; // Soften edges for aesthetic purposes
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Subtle shadow for depth
+    width: 100%;
+    height: auto; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
   }
 
   .inline {
     display: flex;
-    justify-content: space-between; // Spread buttons out evenly
-    margin-top: 20px; // Spacing from content above
+    justify-content: space-between; 
+    margin-top: 20px;
   }
 
   .space-between {
     display: flex;
-    gap: 20px; // Space between elements
-    justify-content: space-between; // Use available space evenly
-    align-items: flex-start; // Align items at the start of the cross axis
+    gap: 20px; 
+    justify-content: space-between; 
+    align-items: flex-start; 
 
     > div {
-      flex: 1; // Each child takes equal space
+      flex: 1;
     }
   }
 
   h2, h3 {
-    color: var(--accent); // Highlight titles with the accent color
-    margin-bottom: 10px; // Space below headers
+    color: var(--accent);
+    margin-bottom: 10px; 
   }
 
   p {
-    line-height: 1.6; // Improve readability
-    color: rgba(255, 255, 255, 0.9); // Slightly softer white for text
+    line-height: 1.6; 
+    color: rgba(255, 255, 255, 0.9); 
   }
 
   ul {
-    list-style: none; // Remove list styling
-    padding: 0; // Remove padding
-    margin: 0; // Remove margins
+    list-style: none; 
+    padding: 0;
+    margin: 0; 
   }
 
   li {
-    background: var(--header); // Use theme's header color for list items
+    background: var(--header);
     padding: 10px;
-    margin-bottom: 5px; // Space between list items
-    border-radius: 4px; // Rounded corners for list items
+    margin-bottom: 5px;
+    border-radius: 4px;
   }
 
   @media (max-width: 1024px) {
     .space-between, .inline {
-      flex-direction: column; // Stack on smaller screens
+      flex-direction: column; 
     }
   }
 `;
