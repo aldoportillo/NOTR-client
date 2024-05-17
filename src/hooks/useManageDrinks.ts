@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useDrinks } from '../context/DrinksContext';
 import { toast } from 'react-toastify';
+import { Spec } from '../types/Spec';
 import { SpiritData } from '../types/SpiritData';
 import { getMacros } from '../functions/getMacros';
 import { useAuth } from '../context/AuthContext';
@@ -9,6 +10,7 @@ interface ManageDrinksOptions {
     checkAuth?: boolean;
     resetCocktail?: boolean;
     name?: string;
+    specs?: Spec[];
 }
 
 export const useManageDrinks = (spiritData: SpiritData[]) => {
@@ -16,14 +18,16 @@ export const useManageDrinks = (spiritData: SpiritData[]) => {
     const { auth } = useAuth();
 
     const addDrinkToState = useCallback((options: ManageDrinksOptions = {}) => {
-        const { resetCocktail = true, name = "" } = options;
+        const { resetCocktail = true, name = "", specs } = options;
         
         if (!auth.user) {
             toast.error("You must be logged in to add drinks");
             return;
         }
 
-        if (cocktail.length === 0) {
+        if (specs && specs.length > 0) {
+            setCocktail(specs); 
+        } else if (cocktail.length === 0) {
             toast.error("You cannot add an empty drink");
             return;
         }
@@ -42,7 +46,7 @@ export const useManageDrinks = (spiritData: SpiritData[]) => {
         }
 
         toast.success(`🍸 ${name || "Cocktail"} added. Visit my BAC page.🍸`);
-    }, [setDrinks, setTotalEthanol, setCocktail, cocktail, spiritData, auth.user]);
+    }, [setCocktail, setDrinks, setTotalEthanol, cocktail, spiritData, auth.user]);
 
     const clearCocktail = useCallback(() => {
         setCocktail([]);
@@ -50,3 +54,4 @@ export const useManageDrinks = (spiritData: SpiritData[]) => {
 
     return { addDrinkToState, clearCocktail };
 };
+
