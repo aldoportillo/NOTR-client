@@ -1,7 +1,8 @@
-import { Cocktail } from '../types/Cocktail';
+import { Spec } from '../types/Spec';
 import { Macros } from '../types/Macros';
+import { SpiritData } from '../types/SpiritData';
 
-export const getMacros = (cocktail: Cocktail[], data: Macros[]): Macros => {
+export const getMacros = (cocktail: Spec[], data: SpiritData[]): Macros => {
   const macros: Macros = {
     fat: 0,
     carb: 0,
@@ -18,7 +19,7 @@ export const getMacros = (cocktail: Cocktail[], data: Macros[]): Macros => {
         const amount = item.ounces ?? 0;
         macros.calories += amount * item2.calories;
         macros.protein += amount * item2.protein;
-        macros.addedsugar += amount * item2.addedsugar;
+        macros.addedsugar += amount * item2.addedSugar;
         macros.sugar += amount * item2.sugar;
         macros.carb += amount * item2.carb;
         macros.fat += amount * item2.fat;

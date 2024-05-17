@@ -11,6 +11,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 export default function Bac({ userMetrics }: { userMetrics: UserMetrics }) {
   const [bac, setBac] = useState<number>(0);
   const { totalEthanol } = useDrinks();
+  console.log('totalEthanol:', totalEthanol);
 
   useEffect(() => {
     if (userMetrics && userMetrics.weight && userMetrics.height) {
@@ -42,6 +43,7 @@ export default function Bac({ userMetrics }: { userMetrics: UserMetrics }) {
           trailColor: 'darkgray'
         })}
       />
+      <Subheader>You have consumed {totalEthanol.toFixed(2)}g of ethanol</Subheader>
     </Wrapper>
   );
 }
@@ -69,3 +71,8 @@ const Title = styled.h3`
     display: flex;
   }
 `;
+
+const Subheader = styled.p`
+    margin-top: 20px;
+    color: white;
+    `;

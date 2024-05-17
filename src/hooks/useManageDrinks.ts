@@ -26,16 +26,21 @@ export const useManageDrinks = (spiritData: SpiritData[]) => {
         }
 
         if (specs && specs.length > 0) {
-            setCocktail(specs); 
+            
+            setCocktail(specs);   
+            console.log(cocktail)
         } else if (cocktail.length === 0) {
             toast.error("You cannot add an empty drink");
             return;
         }
 
+        
         if (!Array.isArray(spiritData)) {
             console.error("Invalid spirit data provided to getMacros:", spiritData);
             return;
         }
+        
+       
 
         const ethanol = getMacros(cocktail, spiritData).ethanol;
         setTotalEthanol(totalEthanol => totalEthanol + ethanol);
