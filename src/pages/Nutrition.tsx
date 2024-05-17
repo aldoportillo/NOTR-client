@@ -2,14 +2,14 @@ import React from 'react'
 import LiquidForm from '../components/LiquidForm'
 import NutritionLabel from '../components/NutritionLabel/NutritionLabel'
 import { getMacros } from '../functions/getMacros'
-import { toast } from 'react-toastify'
 import IngredientLists from '../components/IngredientLists/IngredientLists'
 import LoadingGif from '../assets/loading.gif'
 import { SpiritData } from '../types/SpiritData';
 import { Spec } from '../types/Spec'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
-import { useAuth } from '../context/AuthContext'
+import { useDrinks } from '../context/DrinksContext'
+import { useManageDrinks } from '../hooks/useManageDrinks'
 
 type Drinks = Spec[];
 
@@ -21,31 +21,10 @@ interface NutritionProps {
     setTotalEthanol: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function Nutrition({ spiritData, loading, drinks, setDrinks, setTotalEthanol }: NutritionProps) {
-    const [cocktail, setCocktail] = React.useState<Spec[]>([]);
-    const { auth } = useAuth();
-    const addDrinkToState = () => {
+export default function Nutrition({ spiritData, loading }: NutritionProps) {
 
-        if (cocktail.length === 0) {
-            toast.error("You cannot add an empty drink");
-            return;
-        }
-
-        if (!auth.user){
-            toast.error("You must be logged in to add drinks");
-            return;
-        }
-        const ethanol = getMacros(cocktail, spiritData).ethanol;
-        setTotalEthanol(totalEthanol => totalEthanol += ethanol);
-        setDrinks([...drinks, cocktail]);
-        toast(`🍸 Cocktail added. Visit my BAC page.🍸`);
-        setCocktail([]);
-    };
-
-    const clearDrink = () => {
-        toast(`🫗 Cocktail Spilled 🫗`);
-        setCocktail([]);
-    };
+  const { cocktail, setCocktail } = useDrinks(); 
+  const { addDrinkToState, clearCocktail } = useManageDrinks(spiritData);
 
     return (
         <>
@@ -56,7 +35,7 @@ export default function Nutrition({ spiritData, loading, drinks, setDrinks, setT
                     <h2>Nutrition Calculator</h2>
                     <LiquidForm setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />
 
-                    <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearDrink} addDrinkToState={addDrinkToState} />
+                    <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearCocktail} addDrinkToState={addDrinkToState} />
 
                     <NutritionLabel macros={getMacros(cocktail, spiritData)} />
                 </Wrapper>
@@ -71,54 +50,47 @@ export default function Nutrition({ spiritData, loading, drinks, setDrinks, setT
         </>
     );
 }
-
 const Wrapper = styled.div`
-
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 
+  .liquid-form {
+    width: 80vw;
+  }
 
-
-
-.liquid-form{
-  width: 80vw;
-}
-
-
-@media only screen and (min-width:1025px) {
-
+  @media only screen and (min-width: 1025px) {
     display: grid;
-    grid-template: "title title"
-              "liquids macros"
-              "ingredients macros";
-              column-gap: 20px;
+    grid-template-areas:
+      "title title"
+      "liquids macros"
+      "ingredients macros";
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
     row-gap: 20px;
     width: 100%;
 
     h2 {
-    grid-area: title;
-    text-align: center;
-  }
+      grid-area: title;
+      text-align: center;
+    }
 
+    .liquid-form {
+      grid-area: liquids;
+    }
 
-    .liquid-form{
-    grid-area: liquids;
-    top: 0;
-  }
+    .ingredient-list {
+      grid-area: ingredients;
+    }
 
-    .ingredient-list{
-    grid-area: ingredients;
-  }
+    .nutrition-label {
+      grid-area: macros;
+    }
 
-  .nutrition-label{
-    grid-area: macros;
+    .liquid-form,
+    .nutrition-label {
+      width: 100%; 
+    }
   }
-
-  
-    .liquid-form{
-    width: auto;
-  }
-}
-`
+`;
