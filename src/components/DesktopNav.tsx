@@ -1,24 +1,60 @@
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import { useAuth } from '../context/AuthContext';
 
 export default function DesktopNav() {
+
+  const { auth } = useAuth();
+  const isLoggedIn = auth.token !== null;
+
   return (
     <Wrapper>
-                <Link to="/nutrition">Nutrition</Link>
-                <Link to="/myBAC">My BAC</Link>
-                <Link to="/dilution">Dilution</Link>
-                <Link to="/cocktails">Cocktails</Link>
-                {/* <Link to="/shop">Shop</Link>  */}
-                {/* <Link to="/drinks-consumed">Drinks</Link> */}
-                <a href="https://pay.neatonthe.rocks" target='_blank' rel="noreferrer">Donate</a>
+      <StyledNavLink to="/cocktails">Cocktails</StyledNavLink>
+      <StyledNavLink to="/nutrition">Nutrition</StyledNavLink>
+      <StyledNavLink to="/dilution">Dilution</StyledNavLink>
+      <ExternalLink href="https://pay.neatonthe.rocks" target='_blank' rel="noopener noreferrer">Donate</ExternalLink>
+      {!isLoggedIn && <StyledNavLink to="/auth">Log In</StyledNavLink>}
+      {isLoggedIn && <StyledNavLink to="/profile">Profile</StyledNavLink>}
     </Wrapper>
-  )
+  );
 }
 
 const Wrapper = styled.nav`
-display: flex;
-justify-content: space-around;
-gap: 10px;
-align-items: center;
-color: antiquewhite;
-`
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  align-items: center;
+  background-color: var(--header);
+  padding: 10px 0;
+`;
+
+const StyledNavLink = styled(NavLink)`
+  color: antiquewhite;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: color 0.3s, background-color 0.3s;
+
+  &.active {
+    color: var(--background);
+    background-color: var(--accent);
+  }
+
+  &:hover {
+    color: var(--accent);
+    background-color: var(--overlay);
+  }
+`;
+
+const ExternalLink = styled.a`
+  color: antiquewhite;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: color 0.3s, background-color 0.3s;
+
+  &:hover {
+    color: var(--accent);
+    background-color: var(--overlay);
+  }
+`;

@@ -121,7 +121,7 @@ const Container = styled.div`
     height: 100%;
     overflow: hidden;
     transition: transform 0.6s ease-in-out;
-    z-index: 100;
+    z-index: 8;
   }
 
   .container.right-panel-active .overlay-container {

@@ -146,7 +146,7 @@ caption, input{
   color: white;
 }
 
-.hamburger{z-index: 2;}
+.hamburger{z-index: 20;}
 
 /*Hero*/
 
