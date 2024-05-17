@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
+import DefaultImage from '../assets/notr-logo-medium-transparent.png'
+import { GiBodyHeight, GiWeightScale } from 'react-icons/gi';
+import { BsGenderAmbiguous } from 'react-icons/bs';
 
 interface User {
   id: string;
@@ -58,7 +61,7 @@ const Profile = () => {
       alert('Friend request sent successfully');
       setUserProfile(previousState => ({
         ...previousState,
-        friendRequests: [...previousState.friendRequests, friendId] 
+        friendRequests: [...previousState?.friendRequests, friendId] 
       }));
     } catch (error) {
       console.error('Error adding friend:', error);
@@ -81,7 +84,9 @@ const Profile = () => {
     return <p>Loading profile...</p>;
   }
 
-  const { _id, firstName, lastName, friends, height, weight, dob, friendRequests } = userProfile;
+  console.log('User profile:', userProfile);
+
+  const { _id, firstName, lastName, friends, height, weight, dob, sex, friendRequests } = userProfile;
   const age = Math.floor((new Date().getTime() - new Date(dob).getTime()) / (365.25 * 24 * 60 * 60 * 1000));
 
   const isOwnProfile = !username || username === auth.user?.username;
@@ -89,12 +94,17 @@ const Profile = () => {
   return (
     <StyledProfile>
       <UserProfileContainer>
-        <h1>User Profile</h1>
-        <p>Name: {firstName} {lastName}</p>
-        <p>Height: {Math.floor(height / 12)} ft {height % 12} in</p>
-        <p>Weight: {weight} lbs</p>
-        <p>Age: {age}</p>
-        <p>Friends: {friends.length}</p>
+        <ProfileImageContainer>
+          <img src={DefaultImage} />
+        </ProfileImageContainer>
+        <InformationContainer>
+          <h2> {firstName} {lastName}</h2>
+          
+          <p><span>{<GiBodyHeight />}</span>{Math.floor(height / 12)} ft {height % 12} in</p>
+          <p><span>{<GiWeightScale />}</span>{weight} lbs</p>
+          <p><span>{<BsGenderAmbiguous />}</span>{sex} {age}</p>
+          <p>Friends: {friends.length}</p>
+        </InformationContainer>
         {isOwnProfile ? (
           <button onClick={logout}>Logout</button>
         ) : (
@@ -127,6 +137,27 @@ const StyledProfile = styled.div`
   background-color: var(--background);
   color: white;
   min-height: 100vh;
+  width: 100%;
+`;
+
+const InformationContainer = styled.div`
+  p {
+    margin: 5px 0;
+  }
+`;
+
+const ProfileImageContainer = styled.div`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: fit-content;
+  }
 `;
 
 const UserProfileContainer = styled.div`
@@ -136,6 +167,7 @@ const UserProfileContainer = styled.div`
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   width: 80%;
   max-width: 600px;
+  width: 100%
 
   h1 {
     color: var(--accent);
