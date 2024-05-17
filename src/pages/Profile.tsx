@@ -1,133 +1,91 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { useAuth } from '../context/AuthContext';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import DefaultImage from '../assets/notr-logo-medium-transparent.png'
+import { useAuth } from '../context/AuthContext';
+import styled from 'styled-components';
+import DefaultImage from '../assets/notr-logo-medium-transparent.png';
 import { GiBodyHeight, GiWeightScale } from 'react-icons/gi';
 import { BsGenderAmbiguous } from 'react-icons/bs';
+import FriendsList from '../components/FriendsList';
+import { User } from '../types/User';
+import Bac from '../components/Bac';
 
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  friends: string[];
-  height: number;
-  weight: number;
-  dob: string;
-}
-
-const Profile = () => {
+const Profile: React.FC = () => {
   const { username } = useParams<{ username?: string }>();
-  const { auth, logout } = useAuth();
   const navigate = useNavigate();
-
-  const [userProfile, setUserProfile] = useState<User | null>(null);
-
-  const fetchUserProfile = async (username: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/profile/${username}`, {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Failed to fetch user profile');
-      }
-      const data: User = await response.json();
-      setUserProfile(data);
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-      navigate('/auth');
-    }
-  }
-
-  const sendFriendRequest = async (userId: string, friendId: string) => {
-    try {
-      console.log('Sending friend request to:', friendId, "From user:", userId);
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/sendFriendRequest`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${auth.token}`,
-        },
-        body: JSON.stringify({ userId, friendId }),
-      });
-      console.log('Response:', response);
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(errorMessage || 'Failed to add friend');
-      }
-      const data = await response.json();
-      alert('Friend request sent successfully');
-      setUserProfile(previousState => ({
-        ...previousState,
-        friendRequests: [...previousState?.friendRequests, friendId] 
-      }));
-    } catch (error) {
-      console.error('Error adding friend:', error);
-      alert(error.message); 
-    }
-  }
-  
+  const { auth, logout } = useAuth();
+  const [profileUser, setProfileUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    if (username) {
-      fetchUserProfile(username);
-    } else if (auth.user) {
-      setUserProfile(auth.user);
-    } else {
+    if (!auth.user) {
       navigate('/auth');
+    } else if (username) {
+      fetchUserProfile(username);
+    } else {
+      setProfileUser(auth.user as User);  
     }
   }, [username, auth.user, navigate]);
 
-  if (!userProfile) {
-    return <p>Loading profile...</p>;
-  }
+  const fetchUserProfile = async (username: string) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/profile/${username}`, {
+        headers: {
+          'Authorization': `Bearer ${auth.token}`,
+          'Content-Type': 'application/json'
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch profile data');
+      }
+      const data = await response.json();
+      setProfileUser(data);
+    } catch (error: any) {
+      setError(error.message);
+      console.error('Error fetching profile data:', error);
+    }
+    setLoading(false);
+  };
 
-  console.log('User profile:', userProfile);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!profileUser) return null;
 
-  const { _id, firstName, lastName, friends, height, weight, dob, sex, friendRequests } = userProfile;
-  const age = Math.floor((new Date().getTime() - new Date(dob).getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+  const { firstName, lastName, height, weight, sex, friends, dob } = profileUser;
 
-  const isOwnProfile = !username || username === auth.user?.username;
+  const getAge = () => {
+    const dobDate = new Date(dob);
+    const diff = Date.now() - dobDate.getTime();
+    const ageDate = new Date(diff);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
 
   return (
     <StyledProfile>
       <UserProfileContainer>
         <ProfileImageContainer>
-          <img src={DefaultImage} />
+          <img src={DefaultImage} alt="Profile" />
         </ProfileImageContainer>
         <InformationContainer>
-          <h2> {firstName} {lastName}</h2>
-          
-          <p><span>{<GiBodyHeight />}</span>{Math.floor(height / 12)} ft {height % 12} in</p>
-          <p><span>{<GiWeightScale />}</span>{weight} lbs</p>
-          <p><span>{<BsGenderAmbiguous />}</span>{sex} {age}</p>
+          <h2>{firstName} {lastName}</h2>
+          <p><GiBodyHeight /> {Math.floor(height / 12)} ft {height % 12} in</p>
+          <p><GiWeightScale /> {weight} lbs</p>
+          <p><BsGenderAmbiguous /> {sex} {getAge()}</p>
           <p>Friends: {friends.length}</p>
         </InformationContainer>
-        {isOwnProfile ? (
+        {!username || username === auth.user?.username ? (
           <button onClick={logout}>Logout</button>
-        ) : (
-          <button onClick={() => sendFriendRequest(auth.user._id, _id)}>Add Friend</button>
-        )}
+        ) : null}
       </UserProfileContainer>
-      <FriendsList>
-        <h2>Friends</h2>
-        <ul>
-          {friends.map(friend => <li key={friend}>{friend}</li>)}
-        </ul>
-      </FriendsList>
-      {isOwnProfile && <FriendsList>
-        <h2>Friend Requests</h2>
-        <ul>
-          {friendRequests?.map(friend => <li key={friend}>{friend}</li>)}
-        </ul>
-      </FriendsList>}
+      <FriendsList friends={friends} />
+      <Bac userMetrics={{sex, weight, height}} />
     </StyledProfile>
   );
 };
 
 export default Profile;
+
 
 const StyledProfile = styled.div`
   display: flex;
@@ -193,30 +151,4 @@ const UserProfileContainer = styled.div`
   }
 `;
 
-const FriendsList = styled.div`
-  margin-top: 20px;
-  width: 80%;
-  max-width: 600px;
-  background: var(--header);
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
 
-  h2 {
-    color: var(--accent);
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-
-    li {
-      padding: 8px;
-      border-bottom: 1px solid var(--overlay);
-
-      &:last-child {
-        border-bottom: none;
-      }
-    }
-  }
-`;
