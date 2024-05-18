@@ -47,7 +47,7 @@ export const useManageDrinks = (spiritData: SpiritData[]) => {
             setCocktail([]);
         }
 
-        toast.success(`🍸 ${name || "Cocktail"} added. Visit my BAC page.🍸`);
+        toast.success(`🍸 ${name || "Cocktail"} added. Visit profile page.🍸`);
     }, [setCocktail, setDrinks, setTotalEthanol, cocktail, spiritData, auth.user]);
 
     const clearCocktail = useCallback(() => {
