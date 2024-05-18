@@ -39,9 +39,11 @@ export default function Bac({ userMetrics }: { userMetrics: UserMetrics }) {
         text={`${bac.toFixed(2)}%`}
         styles={buildStyles({
           textColor: 'white',
-          pathColor: bac > 0.08 ? 'red' : 'green',
+          pathColor: bac > 0.08 ? 'red' : bac > 0.05 ? 'yellow' : 'green',
           trailColor: 'darkgray'
         })}
+        minValue={0}
+        maxValue={0.4}
       />
       <Subheader>You have consumed {totalEthanol.toFixed(2)}g of ethanol</Subheader>
     </Wrapper>
