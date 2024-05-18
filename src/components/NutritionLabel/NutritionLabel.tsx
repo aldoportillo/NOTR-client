@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Macros } from "../../types/Macros";
 
 const NutritionLabel = ({ macros }: { macros: Macros }) => {
-  console.table(macros);
+
   return (
     <Wrapper>
       <h2 className="title">Cocktail Facts</h2>

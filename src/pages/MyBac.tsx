@@ -4,7 +4,6 @@ import PreBacResults from '../components/PreBacResults';
 import { Cocktail } from '../types/Cocktail';
 import { UserMetrics } from '../types/UserMetrics';
 import { Helmet } from 'react-helmet';
-import { toast } from 'react-toastify';
 
 type Drink = Cocktail[];
 
@@ -36,7 +35,6 @@ export default function MyBac({ drinks, setDrinks, totalEthanol, setTotalEthanol
       setUserMetrics(JSON.parse(metrics));
     }
 
-    console.log(userMetrics)
   }, []);
 
   return (
