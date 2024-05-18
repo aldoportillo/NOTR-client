@@ -24,27 +24,24 @@ export const useManageDrinks = (spiritData: SpiritData[]) => {
             toast.error("You must be logged in to add drinks");
             return;
         }
-
-        if (specs && specs.length > 0) {
-            
-            setCocktail(specs);   
-            console.log(cocktail)
-        } else if (cocktail.length === 0) {
-            toast.error("You cannot add an empty drink");
-            return;
-        }
-
         
         if (!Array.isArray(spiritData)) {
             console.error("Invalid spirit data provided to getMacros:", spiritData);
             return;
         }
         
-       
-
-        const ethanol = getMacros(cocktail, spiritData).ethanol;
-        setTotalEthanol(totalEthanol => totalEthanol + ethanol);
-        setDrinks(currentDrinks => [...currentDrinks, ...cocktail]);
+        if (specs && specs.length > 0) {
+            const ethanol = getMacros(specs, spiritData).ethanol;
+            setTotalEthanol(totalEthanol => totalEthanol + ethanol);
+            setDrinks(currentDrinks => [...currentDrinks, ...cocktail]);
+        } else if (cocktail.length === 0) {
+            toast.error("You cannot add an empty drink");
+            return;
+        } else {
+            const ethanol = getMacros(cocktail, spiritData).ethanol;
+            setTotalEthanol(totalEthanol => totalEthanol + ethanol);
+            setDrinks(currentDrinks => [...currentDrinks, ...cocktail]);
+        }
 
         if (resetCocktail) {
             setCocktail([]);
