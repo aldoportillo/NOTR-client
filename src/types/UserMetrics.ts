@@ -1,5 +1,8 @@
 export interface UserMetrics {
-    sex?: string;
-    weight?: number;
-    height?: number;
-}
+    weight: number;
+    height: number;
+    sex: string;
+    heightFeet?: number; 
+    heightInches?: number;
+  }
+  

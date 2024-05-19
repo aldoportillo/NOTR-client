@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { User } from '../types/User';
 import UserProfileActions from './UserProfileActions';
 
-function UserInfo({ profileUser }: { profileUser: User }) {
+
+function UserInfo({profileUser}: {profileUser: User}) {
     const {  firstName, lastName, height, weight, sex, friends, dob } = profileUser;
 
 

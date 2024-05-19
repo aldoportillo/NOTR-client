@@ -1,5 +1,5 @@
 export interface SpiritData {
-    id:                string;
+    id?:                string;
     name:               string;
     type:               Type;
     calories:           number;

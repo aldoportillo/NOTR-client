@@ -9,4 +9,5 @@ export interface User {
   sex: string;
   dob: string;
   friends: string[];
+  friendRequests: string[];
   }

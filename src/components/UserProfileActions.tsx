@@ -4,7 +4,8 @@ import { User } from '../types/User';
 import useFriendRequest from '../hooks/useFriendRequest';
 import styled from 'styled-components';
 
-const UserProfileActions = ({ profileUser }: User) => {
+
+const UserProfileActions = ({ profileUser }: {profileUser: User}) => {
     const { auth, logout } = useAuth();
     const { sendFriendRequest } = useFriendRequest();
     const currentUser = auth.user;
