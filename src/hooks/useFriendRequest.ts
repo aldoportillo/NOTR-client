@@ -1,54 +1,78 @@
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
-//TODO: EVERYTHING!!!
 const useFriendRequest = () => {
+  const { auth } = useAuth();
 
-
-  const sendFriendRequest = useCallback(async (userId: string, friendId: string) => {
+  const sendFriendRequest = useCallback(async (friendId: string) => {
     try {
-      console.log('Sending friend request to:', friendId, "From user:", userId);
       const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/sendFriendRequest`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${auth.token}`,
         },
-        body: JSON.stringify({ userId, friendId }),
+        body: JSON.stringify({ friendId }),
       });
-      console.log('Response:', response);
       if (!response.ok) {
         const errorMessage = await response.text();
-        throw new Error(errorMessage || 'Failed to add friend');
+        throw new Error(errorMessage || 'Failed to send friend request');
       }
-      const data = await response.json();
-      alert('Friend request sent successfully');
-      setUserProfile(previousState => ({
-        ...previousState,
-        friendRequests: [...previousState?.friendRequests, friendId]
-      }));
+      toast('Friend request sent successfully');
+      return response;
     } catch (error) {
-      console.error('Error adding friend:', error);
-      alert(error.message);
+      console.error('Error sending friend request:', error);
+      toast(error.toString());
+      throw error;
     }
-  }, [auth, setUserProfile]);
+  }, [auth.token]);
 
-  const acceptFriendRequest = useCallback(async (userId: string, friendId: string) => {
+  const acceptFriendRequest = useCallback(async (friendId: string) => {
     try {
-
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/acceptFriendRequest`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.token}`,
+        },
+        body: JSON.stringify({ friendId }),
+      });
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage || 'Failed to accept friend request');
+      }
+      toast('Friend request accepted successfully');
+      return response;
     } catch (error) {
-      console.error('Error accepting friend:', error);
-      alert(error.message);
+      console.error('Error accepting friend request:', error);
+      toast(error.toString());
+      throw error;
     }
-  }, [auth]);
+  }, [auth.token]);
 
-  const rejectFriendRequest = useCallback(async (userId: string, friendId: string) => {
+  const rejectFriendRequest = useCallback(async (friendId: string) => {
     try {
-
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/rejectFriendRequest`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.token}`,
+        },
+        body: JSON.stringify({ friendId }),
+      });
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage || 'Failed to reject friend request');
+      }
+      toast('Friend request rejected successfully');
+      return response
     } catch (error) {
-      console.error('Error rejecting friend:', error);
-      alert(error.message);
+      console.error('Error rejecting friend request:', error);
+      toast(error.toString());
+      throw error;
     }
-  }, [auth]);
+  }, [auth.token]);
 
   return {
     sendFriendRequest,

@@ -6,6 +6,8 @@ import FriendsList from '../components/FriendsList';
 import { User } from '../types/User';
 import Bac from '../components/Bac';
 import UserInfo from '../components/UserInfo';
+import FriendRequests from '../components/FriendRequests';
+import FindUser from '../components/FindUser';
 
 const Profile: React.FC = () => {
   const { username } = useParams<{ username?: string }>();
@@ -39,6 +41,7 @@ const Profile: React.FC = () => {
       }
       const data = await response.json();
       setProfileUser(data);
+      console.log(data)
     } catch (error: any) {
       setError(error.message);
       console.error('Error fetching profile data:', error);
@@ -50,13 +53,15 @@ const Profile: React.FC = () => {
   if (error) return <div>Error: {error}</div>;
   if (!profileUser) return null;
 
-  const { height, weight, sex, friends } = profileUser;
+  const { height, weight, sex } = profileUser;
 
 
   return (
     <StyledProfile>
+      <FindUser />
       <UserInfo profileUser={profileUser} />
-      <FriendsList friends={friends} />
+      <FriendsList />
+      <FriendRequests />
       <Bac userMetrics={{sex, weight, height}} />
     </StyledProfile>
   );

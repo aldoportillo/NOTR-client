@@ -5,10 +5,13 @@ import { BsGenderAmbiguous } from 'react-icons/bs';
 import styled from 'styled-components';
 import { useAuth } from '../context/AuthContext';
 import { User } from '../types/User';
+import useFriendRequest from '../hooks/useFriendRequest';
 
 function UserInfo({ profileUser }: { profileUser: User }) {
-    const { firstName, lastName, height, weight, sex, friends, dob, username } = profileUser;
+    const { _id, firstName, lastName, height, weight, sex, friends, dob, username } = profileUser;
+    console.log(_id)
     const { auth, logout } = useAuth();
+    const {sendFriendRequest} = useFriendRequest();
 
     const getAge = () => {
         const dobDate = new Date(dob);
@@ -34,7 +37,7 @@ function UserInfo({ profileUser }: { profileUser: User }) {
             <Actions>
                 {!username || username === auth.user?.username ? (
                     <LogoutButton onClick={logout}>Logout</LogoutButton>
-                ) : null}
+                ) : <LogoutButton onClick={() => sendFriendRequest(_id)}>Add Friend</LogoutButton>}
             </Actions>
         </Wrapper>
     );
