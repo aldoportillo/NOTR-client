@@ -32,6 +32,7 @@ export const useManageDrinks = (spiritData: SpiritData[]) => {
         
         if (specs && specs.length > 0) {
             const ethanol = getMacros(specs, spiritData).ethanol;
+            addEthanolToDB(ethanol)
             setTotalEthanol(totalEthanol => totalEthanol + ethanol);
             setDrinks(currentDrinks => [...currentDrinks, ...cocktail]);
         } else if (cocktail.length === 0) {
@@ -39,6 +40,7 @@ export const useManageDrinks = (spiritData: SpiritData[]) => {
             return;
         } else {
             const ethanol = getMacros(cocktail, spiritData).ethanol;
+            addEthanolToDB(ethanol)
             setTotalEthanol(totalEthanol => totalEthanol + ethanol);
             setDrinks(currentDrinks => [...currentDrinks, ...cocktail]);
         }
@@ -54,6 +56,32 @@ export const useManageDrinks = (spiritData: SpiritData[]) => {
         setCocktail([]);
     }, [setCocktail]);
 
-    return { addDrinkToState, clearCocktail };
+    const addEthanolToDB = useCallback(async (ethanol: number) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/ethanol/record`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${auth.token}`,
+                },
+                body: JSON.stringify({ ethanol: ethanol }),
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage || "Failed to add ethanol to user");
+            }
+
+            toast.success("Ethanol added to user successfully");
+            return response;
+            } catch (error) {
+                console.error("Error adding ethanol to user:", error);
+                toast.error(error.toString());
+                throw error;
+            }
+        }, [auth.token]);
+
+
+    return { addDrinkToState, clearCocktail, addEthanolToDB };
 };
 

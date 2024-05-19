@@ -22,7 +22,6 @@ function FriendsList() {
       }
       const data = await response.json();
       setFriends(data);
-      console.log(data);
     } catch (error) {
       console.error('Error fetching friends data:', error);
     }

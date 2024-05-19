@@ -3,6 +3,7 @@ import { UserMetrics } from '../types/UserMetrics';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { useDrinks } from '../context/DrinksContext';
+import { useAuth } from '../context/AuthContext'; // Assuming this is how you get auth details
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { Link } from 'react-router-dom';
@@ -11,23 +12,35 @@ import { FaInfoCircle } from 'react-icons/fa';
 export default function Bac({ userMetrics }: { userMetrics: UserMetrics }) {
   const [bac, setBac] = useState<number>(0);
   const { totalEthanol } = useDrinks();
+  const { auth } = useAuth(); // Using auth context to access token
 
   useEffect(() => {
     if (userMetrics && userMetrics.weight && userMetrics.height) {
-      calculateBAC(userMetrics);
+      fetchBAC();
     }
-  }, [userMetrics, totalEthanol]);
-
-  const calculateBAC = (metrics: UserMetrics) => {
-    if (!metrics.weight || metrics.height === undefined) {
-      toast('Please fill all fields.');
-      return;
+  }, [userMetrics, totalEthanol, auth.token]); 
+  
+  const fetchBAC = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/ethanol/bac`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${auth.token}`,
+          'Content-Type': 'application/json'
+        }
+        // body: JSON.stringify({
+        //   //Add user_id eventually
+        // })
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch BAC data');
+      }
+      const data = await response.json();
+      setBac(data.bac);
+    } catch (error) {
+      console.error('Error fetching BAC data:', error);
+      toast(`Error: ${error.message}`);
     }
-
-    const bmi = 703 * (metrics.weight / (metrics.height ** 2));
-    const widmarkFactor = metrics.sex === 'male' ? 1.0181 - (0.01213 * bmi) : 1.0181 - (0.01240 * bmi);
-    const calculatedBac = (totalEthanol * 100) / (widmarkFactor * (453.592 * metrics.weight));
-    setBac(calculatedBac);
   };
 
   return (
@@ -35,7 +48,7 @@ export default function Bac({ userMetrics }: { userMetrics: UserMetrics }) {
       <Title>Blood Alcohol Content <Link to="/disclaimer"><FaInfoCircle /></Link></Title>
       <CircularProgressbar
         value={bac}
-        text={`${bac.toFixed(2)}%`}
+        text={`${bac}%`}
         styles={buildStyles({
           textColor: 'white',
           pathColor: bac > 0.08 ? 'red' : bac > 0.05 ? 'yellow' : 'green',
@@ -44,7 +57,8 @@ export default function Bac({ userMetrics }: { userMetrics: UserMetrics }) {
         minValue={0}
         maxValue={0.4}
       />
-      <Subheader>You have consumed {totalEthanol.toFixed(2)}g of ethanol</Subheader>
+      {/* <Subheader>You have consumed {totalEthanol.toFixed(2)}g of ethanol</Subheader> */}
+      <Subheader>Approximately {(bac / 0.015).toFixed(2)} hours til sober</Subheader>
     </Wrapper>
   );
 }
@@ -76,4 +90,4 @@ const Title = styled.h3`
 const Subheader = styled.p`
     margin-top: 20px;
     color: white;
-    `;
+`;

@@ -41,7 +41,6 @@ const Profile: React.FC = () => {
       }
       const data = await response.json();
       setProfileUser(data);
-      console.log(data);
     } catch (error: any) {
       setError(error.message);
       console.error('Error fetching profile data:', error);
