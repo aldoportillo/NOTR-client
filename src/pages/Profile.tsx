@@ -83,6 +83,10 @@ const StyledProfile = styled.div`
   color: white;
   min-height: 100vh;
   width: 100%;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 

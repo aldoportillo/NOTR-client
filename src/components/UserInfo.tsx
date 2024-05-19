@@ -40,17 +40,23 @@ function UserInfo({ profileUser }: { profileUser: User }) {
 export default UserInfo;
 
 const Wrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 20px;
-    background-color: var(--header);
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 960px;
-    margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--header);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 960px;
+  margin: 20px auto;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 10px;
+  }
 `;
+
 
 const ProfileSection = styled.div`
     display: flex;

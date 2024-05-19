@@ -65,7 +65,7 @@ export default FriendRequests;
 
 const Wrapper = styled.div`
   margin-top: 20px;
-  width: 80%;
+  width: 100%;
   max-width: 600px;
   background: var(--header);
   padding: 15px;
@@ -75,10 +75,12 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
-  h2 {
-    color: var(--accent);
+  @media (max-width: 768px) {
+    width: 95%;
+    padding: 10px;
   }
 `;
+
 
 const RequestItem = styled.div`
   display: flex;
