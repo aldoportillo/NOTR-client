@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { User } from '../types/User'; 
 import useFriendRequest from '../hooks/useFriendRequest';

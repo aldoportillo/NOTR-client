@@ -2,16 +2,12 @@ import DefaultImage from '../assets/notr-logo-medium-transparent.png';
 import { GiBodyHeight, GiWeightScale } from 'react-icons/gi';
 import { BsGenderAmbiguous } from 'react-icons/bs';
 import styled from 'styled-components';
-import { useAuth } from '../context/AuthContext';
 import { User } from '../types/User';
-import useFriendRequest from '../hooks/useFriendRequest';
 import UserProfileActions from './UserProfileActions';
 
 function UserInfo({ profileUser }: { profileUser: User }) {
-    const { _id, firstName, lastName, height, weight, sex, friends, dob, username } = profileUser;
+    const {  firstName, lastName, height, weight, sex, friends, dob } = profileUser;
 
-    const { auth, logout } = useAuth();
-    const {sendFriendRequest} = useFriendRequest();
 
     const getAge = () => {
         const dobDate = new Date(dob);
@@ -108,15 +104,3 @@ const Actions = styled.div`
     flex: 1;
 `;
 
-const LogoutButton = styled.button`
-    padding: 10px 20px;
-    background: var(--accent);
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    &:hover {
-        background: var(--toastify-color-progress-dark);
-    }
-`;
