@@ -1,4 +1,3 @@
-import React from 'react';
 import DefaultImage from '../assets/notr-logo-medium-transparent.png';
 import { GiBodyHeight, GiWeightScale } from 'react-icons/gi';
 import { BsGenderAmbiguous } from 'react-icons/bs';
@@ -6,10 +5,11 @@ import styled from 'styled-components';
 import { useAuth } from '../context/AuthContext';
 import { User } from '../types/User';
 import useFriendRequest from '../hooks/useFriendRequest';
+import UserProfileActions from './UserProfileActions';
 
 function UserInfo({ profileUser }: { profileUser: User }) {
     const { _id, firstName, lastName, height, weight, sex, friends, dob, username } = profileUser;
-    console.log(_id)
+
     const { auth, logout } = useAuth();
     const {sendFriendRequest} = useFriendRequest();
 
@@ -35,9 +35,7 @@ function UserInfo({ profileUser }: { profileUser: User }) {
                 <InfoRow>Friends: {friends.length}</InfoRow>
             </InfoSection>
             <Actions>
-                {!username || username === auth.user?.username ? (
-                    <LogoutButton onClick={logout}>Logout</LogoutButton>
-                ) : <LogoutButton onClick={() => sendFriendRequest(_id)}>Add Friend</LogoutButton>}
+                <UserProfileActions profileUser={profileUser} />
             </Actions>
         </Wrapper>
     );
