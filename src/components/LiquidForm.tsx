@@ -1,13 +1,13 @@
 import { toast } from 'react-toastify';
 import TechniqueList from './TechniqueList';
-import { Cocktail } from '../types/Cocktail';
 import { SpiritData } from '../types/SpiritData';
 import Button from './Button/Button';
 import styled from 'styled-components';
+import { Spec } from '../types/Spec';
 
 interface LiquidFormProps {
-  cocktail: Cocktail[];
-  setCocktail: React.Dispatch<React.SetStateAction<Cocktail[]>>;
+  cocktail: Spec[];
+  setCocktail: React.Dispatch<React.SetStateAction<Spec[]>>;
   spiritData: SpiritData[];
   technique?: Technique;
   setTechnique?: React.Dispatch<React.SetStateAction<Technique>>;
@@ -17,7 +17,7 @@ type Technique = 'shaken' | 'stirred' | 'built';
 
 export default function LiquidForm({ cocktail, setCocktail, spiritData, technique, setTechnique }: LiquidFormProps) {
   const renderOptions = spiritData.map(liquid => (
-    <option key={liquid._id} value={liquid.name}>{liquid.name}</option>
+    <option key={liquid.id} value={liquid.name}>{liquid.name}</option>
   ));
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
