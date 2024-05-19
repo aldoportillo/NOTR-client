@@ -14,12 +14,12 @@ export default function Cocktails({cocktailData, loading}: CocktailProps) {
     
 
     const renderCocktails = cocktailData?.map(cocktail => {
-        const {name, _id, image} = cocktail
+        const {id, name, glass, slug, image_url} = cocktail
         return (
-            <CocktailCard key={_id}>
-                <Link to={`/cocktail/${_id}`} state={{ from: "cocktail", data: cocktail}}>
+            <CocktailCard key={id}>
+                <Link to={`/cocktail/${slug}`} state={{ from: "cocktail", data: cocktail}}>
                     <h3>{name}</h3>
-                    <img src={image.filePath} alt="" />
+                    <img src={image_url} alt={`${name} inside a ${glass} glass`} />
                 </Link>
             </CocktailCard>
         )
@@ -39,8 +39,8 @@ export default function Cocktails({cocktailData, loading}: CocktailProps) {
             <title>Cocktails | Neat on the Rocks</title>
             <meta name="description" content="Welcome to Neat on the Rocks, your passport to a new realm of cocktail enjoyment that blends health-conscious choices with irresistible flavors. For bartenders and cocktail aficionados who value both taste and well-being, we present an innovative platform that transforms the way you drink." />
             <meta name="keywords" content="alcohol, calories, ethanol, abv, nutrition, glassware, bar, bartender, vodka, gin, tequila, best tequila, instructions" />
-            <meta property="og:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
-            <meta name="twitter:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
+            <meta property="og:imageUrl" content="https://res.cloudinary.com/dkhtrg1ts/imageUrl/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
+            <meta name="twitter:imageUrl" content="https://res.cloudinary.com/dkhtrg1ts/imageUrl/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
       </Helmet>
     </>
   )

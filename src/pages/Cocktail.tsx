@@ -1,69 +1,69 @@
 import { getMacros } from '../functions/getMacros';
 import NutritionLabel from '../components/NutritionLabel/NutritionLabel';
-import { toast } from 'react-toastify';
-import React from 'react';
-import { Spec } from '../types/Spec';
+import React, { useEffect } from 'react';
 import { SpiritData } from '../types/SpiritData';
 import { CocktailData } from '../types/CocktailData';
 import Button from '../components/Button/Button';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
-
-type Drinks = Spec[];
+import { Macros } from '../types/Macros';
+import { useManageDrinks } from '../hooks/useManageDrinks';
 
 interface CocktailProps {
   spiritData: SpiritData[];
-  setTotalEthanol: React.Dispatch<React.SetStateAction<number>>;
-  setDrinks: React.Dispatch<React.SetStateAction<Drinks[]>>;
 }
 
-export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: CocktailProps) {
+export default function Cocktail({ spiritData }: CocktailProps) {
   const location = useLocation();
   const data = location.state as { data: CocktailData }; 
 
-  const { name, specs, instructions, description, image, glass, garnish } = data.data;
 
-  const renderSpecList = specs.map((spirit, index) => {
+  const { name, specs, description, image_url, glass, garnish } = data.data;
+  const { addDrinkToState } = useManageDrinks(spiritData);
+
+  const renderSpecList = specs.map((spec, index) => {
     return (
       <li key={index}>
-        {spirit.dashes ? `${spirit.dashes} dashes of ${spirit.spirit}` : `${spirit.ounces} oz of ${spirit.spirit}`}
+        {spec.ounces} oz of {spec.spirit}
       </li>
     );
   });
 
-  const renderInstructions = instructions.map((instruction, index) => (
-    <li key={index}>{instruction}</li>
-  ));
+  const [macros, setMacros] = React.useState<Macros>({
+    "fat": 0,
+    "carb": 0,
+    "sugar": 0,
+    "addedsugar": 0,
+    "protein": 0,
+    "calories": 0,
+    "ethanol": 0
+});
 
-  const addToDrinks = () => {
-    setDrinks((currentDrinks) => [...currentDrinks, specs]);
-    setTotalEthanol((currentEthanol) => currentEthanol + getMacros(specs, spiritData).ethanol);
-    toast(`🍸 ${name} added to Drinks. 🍸`);
-  };
+  useEffect(() => {
+    setMacros(getMacros(specs, spiritData));
+  }, [specs, spiritData]);
 
   return (
     <>
       <Wrapper className='cocktail-page'>
         <h2>{name}</h2>
-        <img src={image.filePath} alt={name} />
+        <img src={image_url} alt={name} />
         <p>{description}</p>
         <div className='space-between'>
           <div>
             <h3>Spec List</h3>
             <ul>{renderSpecList}</ul>
-            <h3>Instructions</h3>
-            <ol>{renderInstructions}</ol>
             <h3>Glassware</h3>
             <p>{glass}</p>
             <h3>Garnish</h3>
             <p>{garnish}</p>
           </div>
-          <NutritionLabel item={getMacros(specs, spiritData)} />
+          <NutritionLabel macros={macros} />
         </div>
         <div className="inline">
           <Button to="/cocktails" variant="secondary" size="small">Back to Cocktails</Button>
-          <Button variant="primary" size="small" onClick={addToDrinks}>Add to Drinks</Button>
+          <Button variant="primary" size="small" onClick={() => addDrinkToState({specs: specs})}>Add to Drinks</Button>
         </div> 
       </Wrapper>
 
@@ -71,47 +71,70 @@ export default function Cocktail({ spiritData, setDrinks, setTotalEthanol }: Coc
         <title>{ name } | Neat on the Rocks</title>
         <meta name="description" content={ description } />
         <meta name="keywords" content="alcohol, calories, ethanol, abv, nutrition, glassware, bar, bartender, vodka, gin, tequila, best tequila, instructions" />
-        <meta property="og:image" content={ image.filePath } />
-        <meta name="twitter:image" content={ image.filePath } />
+        <meta property="og:image" content={ image_url } />
+        <meta name="twitter:image" content={ image_url } />
       </Helmet>
     </>
   );
 }
 
 const Wrapper = styled.div`
-
   display: flex;
   flex-direction: column;
-  margin: 5vw 30vw 0vw 30vw;
+  margin: 2rem auto; 
+  max-width: 960px;
+  width: 100%; 
 
-  img{
-    width: 80vw; /* I don't like this solution but for some reason the wrapper set to 100% and img set to 100% isn't inheriting the width from the wrapper */
+  img {
+    width: 100%;
+    height: auto; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
   }
 
-  .inline{
+  .inline {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between; 
+    margin-top: 20px;
   }
 
-  @media only screen and (min-width:1025px) {
-    .space-between{
-      display: flex;
-      gap: 20px;
-      justify-content: space-between;
-    }
-    .space-between > div{
+  .space-between {
+    display: flex;
+    gap: 20px; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+
+    > div {
       flex: 1;
     }
+  }
 
+  h2, h3 {
+    color: var(--accent);
+    margin-bottom: 10px; 
+  }
+
+  p {
+    line-height: 1.6; 
+    color: rgba(255, 255, 255, 0.9); 
+  }
+
+  ul {
+    list-style: none; 
+    padding: 0;
+    margin: 0; 
+  }
+
+  li {
+    background: var(--header);
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+  }
+
+  @media (max-width: 1024px) {
+    .space-between, .inline {
+      flex-direction: column; 
     }
-
-    .inline{
-      justify-content: space-between;
-     
-      gap: 20px;
-    }
-    
-
-
-  
-`
+  }
+`;

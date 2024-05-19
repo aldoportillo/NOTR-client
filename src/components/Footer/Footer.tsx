@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <Wrapper>
         <div className='footer-rows'>
-            <Link to="/help">How to navigate</Link>
+            <Link to="/disclaimer">Disclaimer</Link>
             <a href="https://github.com/aldoportillo" target="_blank" rel="noreferrer">Follow me on Github</a>
         </div>
         <div className='footer-rows'>

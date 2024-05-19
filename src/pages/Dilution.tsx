@@ -4,32 +4,29 @@ import DilutionResults from '../components/DilutionResults/DilutionResults'
 import { getDilutionIngredients } from '../functions/getDilutionIngredients'
 import { dilutionCalculus } from '../functions/dilutionCalculus'
 import IngredientLists from '../components/IngredientLists/IngredientLists'
-import { getMacros } from '../functions/getMacros'
-import { toast } from 'react-toastify'
 import { SpiritData } from '../types/SpiritData'
-import { Spec } from '../types/Spec'
 import styled from 'styled-components'
 import { CocktailAttributes } from '../types/CocktailAttributes'
 import { Helmet } from 'react-helmet'
+import { useDrinks } from '../context/DrinksContext'
+import { useManageDrinks } from '../hooks/useManageDrinks'
 
-type Drinks = Spec[];
 
 interface DilutionProps {
   loading: boolean;
   spiritData: SpiritData[];
-  drinks: Drinks[];
-  setDrinks: React.Dispatch<React.SetStateAction<Drinks[]>>;
-  setTotalEthanol: React.Dispatch<React.SetStateAction<number>>;
-
 }
 
 type Technique = 'shaken' | 'stirred' | 'built';
 
 
-export default function Dilution({ loading, spiritData, drinks, setDrinks, setTotalEthanol }: DilutionProps) {
+export default function Dilution({ loading, spiritData }: DilutionProps) {
 
 
-  const [cocktail, setCocktail] = React.useState<Spec[]>([]);
+  const { cocktail, setCocktail } = useDrinks();
+  const [technique, setTechnique] = React.useState<Technique>("shaken");
+  const { addDrinkToState, clearCocktail } = useManageDrinks(spiritData);
+
   const [cocktailAttributes, setCocktailAttributes] = React.useState<CocktailAttributes>({
     dilution: 0,
     finalVolume: 0,
@@ -38,7 +35,6 @@ export default function Dilution({ loading, spiritData, drinks, setDrinks, setTo
     acid: 0,
     sugarAcid: 0,
   });
-  const [technique, setTechnique] = React.useState<Technique>("shaken");
 
   useEffect(() => {
     if (!loading) {
@@ -46,18 +42,6 @@ export default function Dilution({ loading, spiritData, drinks, setDrinks, setTo
     }
   }, [cocktail, technique, spiritData, loading]);
 
-  const addDrinkToState = () => {
-    const ethanol = getMacros(cocktail, spiritData).ethanol;
-    setTotalEthanol(totalEthanol => totalEthanol += ethanol);
-    setDrinks([...drinks, cocktail]);
-    toast(`🍸 Cocktail added. Visit my BAC page.🍸`);
-    setCocktail([]);
-  };
-
-  const clearDrink = () => {
-    toast(`🫗 Cocktail Spilled 🫗`);
-    setCocktail([]);
-  };
 
   return (
     <>
@@ -66,8 +50,8 @@ export default function Dilution({ loading, spiritData, drinks, setDrinks, setTo
         <>
         <Wrapper className='dilution-page'>
           <h2>Perfect Cocktail Calculator</h2>
-          <LiquidForm setTechnique={setTechnique} cocktail={cocktail} setCocktail={setCocktail} spiritData={spiritData} />
-          <IngredientLists ingredients={cocktail} setIngredients={setCocktail} addDrinkToState={addDrinkToState} clearDrink={clearDrink} />
+          <LiquidForm technique={technique} setTechnique={setTechnique} cocktail={cocktail} setCocktail={setCocktail} spiritData={spiritData} />
+          <IngredientLists ingredients={cocktail} setIngredients={setCocktail} addDrinkToState={addDrinkToState} clearDrink={clearCocktail} />
           <DilutionResults cocktailAttributes={cocktailAttributes} />
         </Wrapper>
         <Helmet>
@@ -82,30 +66,28 @@ export default function Dilution({ loading, spiritData, drinks, setDrinks, setTo
     </>
   );
 }
-
 const Wrapper = styled.div`
-
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 
-  h2{
+  h2 {
     color: white;
   }
 
-
-  .liquid-form{
+  .liquid-form {
     width: 80vw;
   }
 
-
-@media only screen and (min-width:1025px) {
+  @media only screen and (min-width: 1025px) {
     display: grid;
-    grid-template: "title title"
-              "liquids ingredients"
-              "results results";
-              column-gap: 20px;
+    grid-template-areas:
+      "title title"
+      "liquids ingredients"
+      "results results";
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
     row-gap: 20px;
     
     h2 {
@@ -113,19 +95,19 @@ const Wrapper = styled.div`
       text-align: center;
     }
 
-  .liquid-form{
-    grid-area: liquids;
-    top: 0;
-  }
+    .liquid-form {
+      grid-area: liquids;
+      width: 100%;  
+    }
 
-  .dilution-results{
-    grid-area: results;
-    width: 80vw;
-  }
+    .ingredient-list { 
+      grid-area: ingredients;
+      width: 100%; 
+    }
 
-  
-  .liquid-form{
-    width: auto;
+    .dilution-results {
+      grid-area: results;
+      width: 100%;  
+    }
   }
-}
-`
+`;

@@ -1,32 +1,13 @@
-import { Cocktail } from '../types/Cocktail';
+import { Spec } from '../types/Spec';
+import { Macros } from '../types/Macros';
+import { SpiritData } from '../types/SpiritData';
 
-interface NutritionalInfo {
-  name: string;
-  calories: number;
-  protein: number;
-  addedSugar: number;
-  sugar: number;
-  carb: number;
-  fat: number;
-  ethanol: number;
-}
-
-interface Macros {
-  fat: number;
-  carb: number;
-  sugar: number;
-  addedSugar: number;
-  protein: number;
-  calories: number;
-  ethanol: number;
-}
-
-export const getMacros = (cocktail: Cocktail[], data: NutritionalInfo[]): Macros => {
+export const getMacros = (cocktail: Spec[], data: SpiritData[]): Macros => {
   const macros: Macros = {
     fat: 0,
     carb: 0,
     sugar: 0,
-    addedSugar: 0,
+    addedsugar: 0,
     protein: 0,
     calories: 0,
     ethanol: 0,
@@ -35,10 +16,10 @@ export const getMacros = (cocktail: Cocktail[], data: NutritionalInfo[]): Macros
   cocktail.forEach((item) => {
     data.forEach((item2) => {
       if (item2.name === item.spirit) {
-        const amount = item.ounces ?? (item.dashes ?? 0) * 0.02083333333; // 1 dash = 1/48th of an ounce
+        const amount = item.ounces ?? 0;
         macros.calories += amount * item2.calories;
         macros.protein += amount * item2.protein;
-        macros.addedSugar += amount * item2.addedSugar;
+        macros.addedsugar += amount * item2.addedsugar;
         macros.sugar += amount * item2.sugar;
         macros.carb += amount * item2.carb;
         macros.fat += amount * item2.fat;
@@ -49,3 +30,5 @@ export const getMacros = (cocktail: Cocktail[], data: NutritionalInfo[]): Macros
 
   return macros;
 };
+
+//?? (item.dashes ?? 0) * 0.02083333333;  1 dash = 1/48th of an ounce

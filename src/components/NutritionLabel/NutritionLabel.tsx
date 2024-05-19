@@ -1,19 +1,8 @@
-import React from "react";
 import styled from "styled-components";
+import { Macros } from "../../types/Macros";
 
-interface NutritionLabelProps {
-  item: {
-    calories: number;
-    ethanol: number;
-    fat: number;
-    carb: number;
-    sugar: number;
-    addedSugar: number;
-    protein: number;
-  };
-}
+const NutritionLabel = ({ macros }: { macros: Macros }) => {
 
-const NutritionLabel: React.FC<NutritionLabelProps> = ({ item }) => {
   return (
     <Wrapper>
       <h2 className="title">Cocktail Facts</h2>
@@ -22,32 +11,32 @@ const NutritionLabel: React.FC<NutritionLabelProps> = ({ item }) => {
         Serving Size <p>1 drink</p>
       </h3>
       <h2>
-        Calories <p>{Math.ceil(item.calories)}</p>
+        Calories <p>{Math.ceil(macros.calories)}</p>
       </h2>
 
       <div className="thick2"></div>
       <h3>
-        Ethanol <p>{Math.ceil(item.ethanol)}g </p>
+        Ethanol <p>{Math.ceil(macros.ethanol)}g </p>
       </h3>
       <hr />
       <h3>
-        Total Fat <p>{Math.ceil(item.fat)} g</p>
+        Total Fat <p>{Math.ceil(macros.fat)} g</p>
       </h3>
       <hr />
       <h3>
-        Total Carbohydrate <p>{Math.ceil(item.carb)} g</p>
+        Total Carbohydrate <p>{Math.ceil(macros.carb)} g</p>
       </h3>
       <hr />
       <h3>
-        <p>Total Sugars {Math.ceil(item.sugar)} g</p>
+        <p>Total Sugars {Math.ceil(macros.sugar)} g</p>
       </h3>
       <hr />
       <h3>
-        <p>Includes {Math.ceil(item.addedSugar)} g Added Sugars</p>
+        <p>Includes {Math.ceil(macros.addedsugar)} g Added Sugars</p>
       </h3>
       <hr />
       <h3>
-        Protein <p>{Math.ceil(item.protein)} g</p>
+        Protein <p>{Math.ceil(macros.protein)} g</p>
       </h3>
       <div className="thick1"></div>
     </Wrapper>

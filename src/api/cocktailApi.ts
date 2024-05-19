@@ -1,18 +1,5 @@
 import fetchData from './axiosRequests';
-
-export interface Cocktail {
-    _id:          string;
-    name:         string;
-    image:        Image;
-    specs:        Spec[];
-    instructions: Instruction[];
-    description:  string;
-    method:       Method;
-    garnish:      string;
-    type:         Type;
-    glass:        string;
-    __v:          number;
-}
+import {Cocktail} from '../types/Cocktail';
 
 export interface Image {
     filePath: string;
@@ -52,10 +39,10 @@ export enum Type {
 
 
 export const fetchCocktails = async (): Promise<Cocktail[]> => {
-    let url = 'https://neatontherocks-server.onrender.com/cocktails';
+    let url = `${import.meta.env.VITE_SERVER_URI}/cocktails`;
 
     if (process.env.NODE_ENV === 'development') {
-      url = 'http://localhost:5000/cocktails';
+      url = `${import.meta.env.VITE_SERVER_URI}/cocktails`;
     }
     
   return await fetchData<Cocktail[]>(url);
