@@ -59,7 +59,7 @@ const Profile: React.FC = () => {
     <StyledProfile>
       <FindUser />
       <UserInfo profileUser={profileUser} />
-      <Bac userMetrics={{ sex, weight, height }} />
+      <Bac userId={profileUser._id} userMetrics={{ sex, weight, height }} />
       {isCurrentUser && (
         <>
           <FriendsList />
