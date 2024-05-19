@@ -41,7 +41,7 @@ const Profile: React.FC = () => {
       }
       const data = await response.json();
       setProfileUser(data);
-      console.log(data)
+      console.log(data);
     } catch (error: any) {
       setError(error.message);
       console.error('Error fetching profile data:', error);
@@ -54,15 +54,20 @@ const Profile: React.FC = () => {
   if (!profileUser) return null;
 
   const { height, weight, sex } = profileUser;
-
+  const isCurrentUser = auth.user && profileUser && auth.user._id === profileUser._id;
 
   return (
     <StyledProfile>
       <FindUser />
       <UserInfo profileUser={profileUser} />
-      <FriendsList />
-      <FriendRequests />
-      <Bac userMetrics={{sex, weight, height}} />
+      <Bac userMetrics={{ sex, weight, height }} />
+      {isCurrentUser && (
+        <>
+          <FriendsList />
+          <FriendRequests />
+        </>
+      )}
+      
     </StyledProfile>
   );
 };
