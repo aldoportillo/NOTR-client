@@ -8,6 +8,7 @@ import Bac from '../components/Bac';
 import UserInfo from '../components/UserInfo';
 import FriendRequests from '../components/FriendRequests';
 import FindUser from '../components/FindUser';
+import EditProfile from '../components/EditProfile';
 
 const Profile: React.FC = () => {
   const { username } = useParams<{ username?: string }>();
@@ -64,6 +65,7 @@ const Profile: React.FC = () => {
         <>
           <FriendsList />
           <FriendRequests />
+          <EditProfile />
         </>
       )}
       
