@@ -63,7 +63,7 @@ const Signup: React.FC = () => {
             return;
         }
 
-        const totalHeightInInches = formData.feet * 12 + formData.inches;
+        const totalHeightInInches = (Number(formData.feet) * 12) + Number(formData.inches);
 
         try {
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users`, {
