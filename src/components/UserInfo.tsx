@@ -4,11 +4,11 @@ import { BsGenderAmbiguous } from 'react-icons/bs';
 import styled from 'styled-components';
 import { User } from '../types/User';
 import UserProfileActions from './UserProfileActions';
+import { FaBirthdayCake } from 'react-icons/fa';
 
 
-function UserInfo({profileUser}: {profileUser: User}) {
+function UserInfo({profileUser, isCurrentUser}: {profileUser: User, isCurrentUser: boolean}) {
     const {  firstName, lastName, height, weight, sex, friends, dob } = profileUser;
-
 
     const getAge = () => {
         const dobDate = new Date(dob);
@@ -27,8 +27,9 @@ function UserInfo({profileUser}: {profileUser: User}) {
             </ProfileSection>
             <InfoSection>
                 <InfoRow><GiBodyHeight /> {Math.floor(height / 12)} ft {height % 12} in</InfoRow>
-                <InfoRow><GiWeightScale /> {weight} lbs</InfoRow>
-                <InfoRow><BsGenderAmbiguous /> {sex} {getAge()} years</InfoRow>
+                {isCurrentUser && <InfoRow><GiWeightScale /> {weight} lbs</InfoRow>}
+                <InfoRow><BsGenderAmbiguous /> {sex} </InfoRow>
+                <InfoRow><FaBirthdayCake /> {getAge()} years</InfoRow>
                 <InfoRow>Friends: {friends.length}</InfoRow>
             </InfoSection>
             <Actions>

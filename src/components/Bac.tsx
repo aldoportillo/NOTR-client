@@ -3,13 +3,13 @@ import { UserMetrics } from '../types/UserMetrics';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { useDrinks } from '../context/DrinksContext';
-import { useAuth } from '../context/AuthContext'; // Assuming this is how you get auth details
+import { useAuth } from '../context/AuthContext'; 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { Link } from 'react-router-dom';
 import { FaInfoCircle } from 'react-icons/fa';
 
-export default function Bac({ userMetrics, userId }: { userMetrics: UserMetrics, userId: string}) {
+export default function Bac({ userMetrics, userId, isCurrentUser, name }: { userMetrics: UserMetrics, userId: string, isCurrentUser: boolean, name: string}) {
   const [bac, setBac] = useState<number>(0);
   const { totalEthanol, setTotalEthanol } = useDrinks();
   const { auth } = useAuth();
@@ -58,7 +58,7 @@ export default function Bac({ userMetrics, userId }: { userMetrics: UserMetrics,
         minValue={0}
         maxValue={0.4}
       />
-      <Subheader>You have consumed {totalEthanol.toFixed(2)}g of ethanol</Subheader>
+      {isCurrentUser ? <Subheader>You have consumed {totalEthanol.toFixed(2)}g of ethanol</Subheader> : <Subheader>{name} has consumed {totalEthanol.toFixed(2)}g of ethanol</Subheader>}
       <Subheader>Approximately {(bac / 0.015).toFixed(2)} hours til sober</Subheader>
     </Wrapper>
   );

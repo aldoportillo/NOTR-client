@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import { UserMetrics } from '../types/UserMetrics';
 
 interface FormData {
     weight: number;
@@ -10,14 +11,14 @@ interface FormData {
     inches: number;
 }
 
-function EditProfile() {
+function EditProfile({userMetrics}: {userMetrics: UserMetrics}) {
+
     const { auth } = useAuth();
-    const { height, weight } = auth.user;
 
     const [formData, setFormData] = useState<FormData>({
-        weight: weight,
-        feet: height && Math.floor(height / 12),
-        inches: height && height % 12,
+        weight: userMetrics.weight || 0,
+        feet: userMetrics.height && Math.floor(userMetrics.height / 12) || 0,
+        inches: userMetrics.height && userMetrics.height % 12 || 0,
     });
     const [showModal, setShowModal] = useState(false);
 

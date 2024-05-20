@@ -59,13 +59,13 @@ const Profile: React.FC = () => {
   return (
     <StyledProfile>
       <FindUser />
-      <UserInfo profileUser={profileUser} />
-      <Bac userId={profileUser._id} userMetrics={{ sex, weight, height }} />
+      <UserInfo profileUser={profileUser} isCurrentUser={isCurrentUser} />
+      <Bac userId={profileUser._id} userMetrics={{ sex, weight, height }} isCurrentUser={isCurrentUser} name={profileUser.firstName} />
       {isCurrentUser && (
         <>
           <FriendsList />
           <FriendRequests />
-          <EditProfile />
+          <EditProfile userMetrics={{ sex, weight, height }}/>
         </>
       )}
       
