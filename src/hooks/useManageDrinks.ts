@@ -13,7 +13,7 @@ interface ManageDrinksOptions {
     specs?: Spec[];
 }
 
-export const useManageDrinks = (spiritData: SpiritData[]) => {
+export const useManageDrinks = (spiritData?: SpiritData[]) => {
     const { setCocktail, setDrinks, setTotalEthanol, cocktail } = useDrinks();
     const { auth } = useAuth();
 
