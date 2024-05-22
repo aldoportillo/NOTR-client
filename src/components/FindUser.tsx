@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useAuth } from '../context/AuthContext';
 
 function FindUser() {
-  const [username, setUsername] = useState('');
+  const [profile, setProfile] = useState('');
   const navigate = useNavigate();
 
   const { auth } = useAuth(); 
@@ -13,7 +13,7 @@ function FindUser() {
 const handleSearch = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/profile/${username}`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/profile/${profile}`, {
             method: 'GET',
             headers: {
                     'Authorization': `Bearer ${auth.token}`,
@@ -22,7 +22,7 @@ const handleSearch = async (event: React.FormEvent) => {
         });
 
         if (response.ok) {
-            navigate(`/profile/${username}`);
+            navigate(`/profile/${profile}`);
         } else {
             toast.error('User not found');
         }
@@ -38,8 +38,8 @@ const handleSearch = async (event: React.FormEvent) => {
         <input
           type="text"
           placeholder="Enter username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={profile}
+          onChange={(e) => setProfile(e.target.value)}
           required
         />
         <button type="submit">Search</button>
