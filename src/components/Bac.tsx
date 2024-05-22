@@ -13,12 +13,6 @@ export default function Bac({ userMetrics, userId, isCurrentUser, name }: { user
   const [bac, setBac] = useState<number>(0);
   const { totalEthanol, setTotalEthanol } = useDrinks();
   const { auth } = useAuth();
-
-  useEffect(() => {
-    if (userMetrics && userMetrics.weight && userMetrics.height) {
-      fetchBAC();
-    }
-  }, [userMetrics, totalEthanol, auth.token]); 
   
   const fetchBAC = async () => {
     try {
@@ -44,12 +38,18 @@ export default function Bac({ userMetrics, userId, isCurrentUser, name }: { user
     }
   };
 
+  useEffect(() => {
+    if (userMetrics && userMetrics.weight && userMetrics.height) {
+      fetchBAC();
+    }
+  }, [userMetrics, auth.token]); 
+
   return (
     <Wrapper>
       <Title>Blood Alcohol Content <Link to="/disclaimer"><FaInfoCircle /></Link></Title>
       <CircularProgressbar
         value={bac}
-        text={`${bac}%`}
+        text={`${bac}`}
         styles={buildStyles({
           textColor: 'white',
           pathColor: bac > 0.08 ? 'red' : bac > 0.05 ? 'yellow' : 'green',
