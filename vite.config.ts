@@ -14,11 +14,11 @@ export default defineConfig({
         description: 'Keep track of your drinks',
         theme_color: '#f49a73',
         icons: [
-          // {
-          //   src: 'pwa-192x192.png',
-          //   sizes: '192x192',
-          //   type: 'image/png',
-          // },
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/jpeg',
+          },
           {
             src: 'pwa-512x512.png',
             sizes: '512x512',
