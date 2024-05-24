@@ -13,6 +13,7 @@ export default defineConfig({
         short_name: 'NOTR',
         description: 'Keep track of your drinks',
         theme_color: '#f49a73',
+        display: 'standalone',
         icons: [
           {
             src: 'pwa-192x192.png',
