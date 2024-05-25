@@ -7,13 +7,16 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['logo.svg', 'robots.txt'], 
+      includeAssets: ['logo2.svg', 'robots.txt'],
       manifest: {
         name: 'Neat on the Rocks',
         short_name: 'NOTR',
         description: 'Keep track of your drinks',
         theme_color: '#f49a73',
+        background_color: '#ffffff',
         display: 'standalone',
+        scope: '/',
+        start_url: '/',
         icons: [
           {
             src: 'pwa-192x192.png',
