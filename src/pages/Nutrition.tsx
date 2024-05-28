@@ -17,7 +17,7 @@ interface NutritionProps {
 export default function Nutrition({ spiritData, loading }: NutritionProps) {
 
   const { cocktail, setCocktail } = useDrinks(); 
-  const { addDrinkToState, clearCocktail } = useManageDrinks(spiritData);
+  const { clearCocktail } = useManageDrinks(spiritData);
 
     return (
         <>
@@ -28,7 +28,7 @@ export default function Nutrition({ spiritData, loading }: NutritionProps) {
                     <h2>Nutrition Calculator</h2>
                     <LiquidForm setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />
 
-                    <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearCocktail} addDrinkToState={addDrinkToState} />
+                    <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearCocktail} spiritData={spiritData} />
 
                     <NutritionLabel macros={getMacros(cocktail, spiritData)} />
                 </Wrapper>
