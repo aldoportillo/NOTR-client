@@ -15,8 +15,6 @@ export default function Bac({ userMetrics, userId, isCurrentUser, name }: { user
   const { auth } = useAuth();
 
   const stableDrinks = useMemo(() => {
-    console.log('Memo Renders')
-    console.log(drinks)
     //TODO: Once we remove "totalEthanol" state, we will expand this useMemo. I still need to think. Experimenting ATM. Maybe reducing drinks and if ethanol changes, then we can update the totalEthanol state.
     return [...drinks];
   }, [drinks]);
@@ -48,7 +46,6 @@ export default function Bac({ userMetrics, userId, isCurrentUser, name }: { user
   
 
   useEffect(() => {
-    console.log("BAC UseEffect Renders")
     if (userMetrics && userMetrics.weight && userMetrics.height) {
       fetchBAC();
     }
