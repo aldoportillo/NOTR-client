@@ -14,7 +14,7 @@ interface ManageDrinksOptions {
 }
 
 export const useManageDrinks = (spiritData?: SpiritData[]) => {
-    const { setCocktail, setDrinks, setTotalEthanol, cocktail } = useDrinks();
+    const { setCocktail, setTotalEthanol, cocktail } = useDrinks();
     const { auth } = useAuth();
 
     const addDrinkToState = useCallback((options: ManageDrinksOptions = {}) => {
@@ -33,16 +33,12 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
         if (specs && specs.length > 0) {
             const ethanol = getMacros(specs, spiritData).ethanol;
             addEthanolToDB(ethanol)
-            setTotalEthanol(totalEthanol => totalEthanol + ethanol);
-            setDrinks(currentDrinks => [...currentDrinks, ...cocktail]);
         } else if (cocktail.length === 0) {
             toast.error("You cannot add an empty drink");
             return;
         } else {
             const ethanol = getMacros(cocktail, spiritData).ethanol;
             addEthanolToDB(ethanol)
-            setTotalEthanol(totalEthanol => totalEthanol + ethanol);
-            setDrinks(currentDrinks => [...currentDrinks, ...cocktail]);
         }
 
         if (resetCocktail) {
@@ -50,7 +46,7 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
         }
 
         toast.success(`🍸 ${name || "Cocktail"} added. Visit profile page.🍸`);
-    }, [setCocktail, setDrinks, setTotalEthanol, cocktail, spiritData, auth.user]);
+    }, [setCocktail, setTotalEthanol, cocktail, spiritData, auth.user]);
 
     const clearCocktail = useCallback(() => {
         setCocktail([]);

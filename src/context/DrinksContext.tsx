@@ -1,9 +1,10 @@
 import React, { createContext, useState, useContext, ReactNode, FC } from 'react';
 import { Spec } from '../types/Spec';
+import { DrinksCocktail } from '../types/DrinksCocktail';
 
 interface DrinksContextType {
-    drinks: Spec[];
-    setDrinks: React.Dispatch<React.SetStateAction<Spec[]>>;
+    drinks: DrinksCocktail[];
+    setDrinks: React.Dispatch<React.SetStateAction<DrinksCocktail[]>>;
     totalEthanol: number;
     setTotalEthanol: React.Dispatch<React.SetStateAction<number>>;
     cocktail: Spec[]; 
@@ -13,7 +14,7 @@ interface DrinksContextType {
 const DrinksContext = createContext<DrinksContextType | undefined>(undefined);
 
 export const DrinksProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const [drinks, setDrinks] = useState<Spec[]>([]);
+    const [drinks, setDrinks] = useState<DrinksCocktail[]>([]);
     const [totalEthanol, setTotalEthanol] = useState<number>(0);
     const [cocktail, setCocktail] = useState<Spec[]>([]);
 

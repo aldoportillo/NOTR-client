@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { UserMetrics } from '../types/UserMetrics';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
@@ -11,8 +11,15 @@ import { FaInfoCircle } from 'react-icons/fa';
 
 export default function Bac({ userMetrics, userId, isCurrentUser, name }: { userMetrics: UserMetrics, userId: string, isCurrentUser: boolean, name: string}) {
   const [bac, setBac] = useState<number>(0);
-  const { totalEthanol, setTotalEthanol } = useDrinks();
+  const { drinks, totalEthanol, setTotalEthanol } = useDrinks();
   const { auth } = useAuth();
+
+  const stableDrinks = useMemo(() => {
+    console.log('Memo Renders')
+    console.log(drinks)
+    //TODO: Once we remove "totalEthanol" state, we will expand this useMemo. I still need to think. Experimenting ATM.
+    return [...drinks];
+  }, [drinks]);
   
   const fetchBAC = async () => {
     try {
@@ -38,11 +45,14 @@ export default function Bac({ userMetrics, userId, isCurrentUser, name }: { user
     }
   };
 
+  
+
   useEffect(() => {
+    console.log("BAC UseEffect Renders")
     if (userMetrics && userMetrics.weight && userMetrics.height) {
       fetchBAC();
     }
-  }, [userMetrics, auth.token]); 
+  }, [userMetrics, auth.token, stableDrinks]); 
 
   return (
     <Wrapper>
@@ -58,7 +68,7 @@ export default function Bac({ userMetrics, userId, isCurrentUser, name }: { user
         minValue={0}
         maxValue={0.4}
       />
-      {isCurrentUser ? <Subheader>You have consumed {totalEthanol.toFixed(2)}g of ethanol</Subheader> : <Subheader>{name} has consumed {totalEthanol.toFixed(2)}g of ethanol</Subheader>}
+      {isCurrentUser ? <Subheader>You have {totalEthanol.toFixed(2)}g of ethanol in your system</Subheader> : <Subheader>{name} has {totalEthanol.toFixed(2)}g of ethanol in their system</Subheader>}
       <Subheader>Approximately {(bac / 0.015).toFixed(2)} hours til sober</Subheader>
     </Wrapper>
   );

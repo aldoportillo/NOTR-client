@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useManageDrinks } from "../hooks/useManageDrinks";
+import { useDrinks } from "../context/DrinksContext";
 
 interface FormData {
     ounces: number;
@@ -9,6 +10,7 @@ interface FormData {
 
 function AddEthanol() {
     const { addEthanolToDB } = useManageDrinks();
+    const { setDrinks } = useDrinks();
 
     const [formData, setFormData] = useState<FormData>({
         ounces: 0,
@@ -27,7 +29,16 @@ function AddEthanol() {
 
         const { ounces, abv } = formData;
         const ethanol = ounces * 29.5735 * (abv / 100) * 0.789;
-        
+
+        setDrinks((prevDrinks) => [
+            ...prevDrinks,
+            {
+                name: "Ethanol",
+                ounces,
+                abv,
+                ethanol
+            }
+        ]);
         addEthanolToDB(ethanol);
     };
 
