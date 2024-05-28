@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import DesktopNav from '../DesktopNav'
+import DesktopNav from './DesktopNav'
 import { Spin as Hamburger } from 'hamburger-react'
 import React from 'react'
-import Logo from "../../assets/notr-logo-medium-transparent.png"
+import Logo from "../assets/notr-logo-medium-transparent.png"
 import styled from 'styled-components'
 
 interface HeaderProps {

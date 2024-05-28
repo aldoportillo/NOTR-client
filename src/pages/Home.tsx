@@ -2,7 +2,7 @@ import BartenderSvg from "../assets/bartender.svg"
 import BartenderSvg2 from "../assets/bartender2.svg"
 import Cheers from "../assets/cheers.svg"
 import { Link } from 'react-router-dom'
-import Button from "../components/Button/Button"
+import Button from "../components/Button"
 import styled from "styled-components"
 import { colors } from "../styles/colors"
 import { Helmet } from "react-helmet"

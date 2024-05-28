@@ -1,17 +1,20 @@
 import { nanoid } from 'nanoid'
 import styled from 'styled-components';
-import Button from '../Button/Button';
-import { Spec } from '../../types/Spec';
+import Button from './Button';
+import { Spec } from '../types/Spec';
+import { useManageDrinks } from '../hooks/useManageDrinks';
+import { SpiritData } from '../types/SpiritData';
 
 interface IngredientListsProps {
   ingredients: Spec[];
   setIngredients: (ingredients: Spec[]) => void;
   clearDrink: () => void;
-  addDrinkToState: () => void;
+  spiritData: SpiritData[];
 }
 
-export default function IngredientLists({ingredients, setIngredients, clearDrink, addDrinkToState}: IngredientListsProps) {
+export default function IngredientLists({ingredients, setIngredients, clearDrink, spiritData}: IngredientListsProps) {
 
+    const { addDrinkToState } = useManageDrinks(spiritData);
     const removeIngredient = (e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>) => {
          setIngredients(ingredients.filter(function(obj) {
             return obj.spirit !== e.currentTarget.innerText
@@ -45,7 +48,7 @@ export default function IngredientLists({ingredients, setIngredients, clearDrink
               </Button>
             </TableCell>
             <TableCell>
-              <Button variant="primary" size="small" onClick={() => addDrinkToState()}>
+              <Button variant="primary" size="small" onClick={() => addDrinkToState({specs: ingredients})}>
                 Add Drink
               </Button>
             </TableCell>

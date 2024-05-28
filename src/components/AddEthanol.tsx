@@ -1,44 +1,54 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import styled from "styled-components";
 import { useManageDrinks } from "../hooks/useManageDrinks";
 
 interface FormData {
+    name: string;
     ounces: number;
     abv: number;
 }
 
 function AddEthanol() {
-    const { addEthanolToDB } = useManageDrinks();
+    const { addDrinkToState } = useManageDrinks();
 
     const [formData, setFormData] = useState<FormData>({
+        name: "Wine/Beer",
         ounces: 0,
-        abv: 0
+        abv: 0,
     });
+
+    const ethanol = useMemo(() => {
+        return formData.ounces * 29.5735 * (formData.abv / 100) * 0.789;
+    }, [formData.ounces, formData.abv]);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
-            [e.target.id]: parseFloat(e.target.value)
+            [e.target.id]: parseFloat(e.target.value) || 0,
         });
     };
 
     const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-
-        const { ounces, abv } = formData;
-        const ethanol = ounces * 29.5735 * (abv / 100) * 0.789;
-        
-        addEthanolToDB(ethanol);
-    };
+        addDrinkToState({info: {...formData, ethanol}});
+        setFormData({
+            name: "Wine/Beer",
+            ounces: 0,
+            abv: 0,
+        })
+    }
 
     return (
         <Container>
             <Title>Add Ethanol</Title>
             <StyledForm>
                 <StyledLabel htmlFor="ounces">Ounces</StyledLabel>
-                <StyledInput type="number" id="ounces" onChange={onChange} />
+                <StyledInput type="number" id="ounces" value={formData.ounces} onChange={onChange} />
                 <StyledLabel htmlFor="abv">ABV (%)</StyledLabel>
-                <StyledInput type="number" id="abv" onChange={onChange} />
+                <StyledInput type="number" id="abv" value={formData.abv} onChange={onChange} />
+                <EthanolDisplay>
+                    Ethanol: {ethanol.toFixed(2)} grams
+                </EthanolDisplay>
                 <StyledButton onClick={submitForm}>Add Ethanol</StyledButton>
             </StyledForm>
         </Container>
@@ -97,4 +107,10 @@ const StyledButton = styled.button`
   &:hover {
     background-color: darken(var(--accent), 10%);
   }
+`;
+
+const EthanolDisplay = styled.div`
+  margin: 10px 0;
+  color: var(--accent);
+  font-weight: bold;
 `;

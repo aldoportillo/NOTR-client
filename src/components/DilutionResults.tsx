@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { CocktailAttributes } from "../../types/CocktailAttributes"
+import { CocktailAttributes } from "../types/CocktailAttributes"
 
 interface cocktailAttributesProps{
     cocktailAttributes: CocktailAttributes

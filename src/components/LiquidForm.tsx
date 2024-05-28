@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import TechniqueList from './TechniqueList';
 import { SpiritData } from '../types/SpiritData';
-import Button from './Button/Button';
+import Button from './Button';
 import styled from 'styled-components';
 import { Spec } from '../types/Spec';
 

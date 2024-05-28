@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import LiquidForm from '../components/LiquidForm'
-import DilutionResults from '../components/DilutionResults/DilutionResults'
+import DilutionResults from '../components/DilutionResults'
 import { getDilutionIngredients } from '../functions/getDilutionIngredients'
 import { dilutionCalculus } from '../functions/dilutionCalculus'
-import IngredientLists from '../components/IngredientLists/IngredientLists'
+import IngredientLists from '../components/IngredientLists'
 import { SpiritData } from '../types/SpiritData'
 import styled from 'styled-components'
 import { CocktailAttributes } from '../types/CocktailAttributes'
@@ -25,7 +25,7 @@ export default function Dilution({ loading, spiritData }: DilutionProps) {
 
   const { cocktail, setCocktail } = useDrinks();
   const [technique, setTechnique] = React.useState<Technique>("shaken");
-  const { addDrinkToState, clearCocktail } = useManageDrinks(spiritData);
+  const { clearCocktail } = useManageDrinks(spiritData);
 
   const [cocktailAttributes, setCocktailAttributes] = React.useState<CocktailAttributes>({
     dilution: 0,
@@ -51,7 +51,7 @@ export default function Dilution({ loading, spiritData }: DilutionProps) {
         <Wrapper className='dilution-page'>
           <h2>Perfect Cocktail Calculator</h2>
           <LiquidForm technique={technique} setTechnique={setTechnique} cocktail={cocktail} setCocktail={setCocktail} spiritData={spiritData} />
-          <IngredientLists ingredients={cocktail} setIngredients={setCocktail} addDrinkToState={addDrinkToState} clearDrink={clearCocktail} />
+          <IngredientLists ingredients={cocktail} setIngredients={setCocktail} spiritData={spiritData} clearDrink={clearCocktail} />
           <DilutionResults cocktailAttributes={cocktailAttributes} />
         </Wrapper>
         <Helmet>

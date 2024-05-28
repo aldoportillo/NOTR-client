@@ -5,56 +5,34 @@ import { Spec } from '../types/Spec';
 import { SpiritData } from '../types/SpiritData';
 import { getMacros } from '../functions/getMacros';
 import { useAuth } from '../context/AuthContext';
+import { DrinksCocktail } from '../types/DrinksCocktail';
 
 interface ManageDrinksOptions {
     checkAuth?: boolean;
     resetCocktail?: boolean;
     name?: string;
     specs?: Spec[];
+    info?: DrinksCocktail;
 }
 
 export const useManageDrinks = (spiritData?: SpiritData[]) => {
-    const { setCocktail, setDrinks, setTotalEthanol, cocktail } = useDrinks();
+    const { setDrinks, setCocktail } = useDrinks();
     const { auth } = useAuth();
 
-    const addDrinkToState = useCallback((options: ManageDrinksOptions = {}) => {
-        const { resetCocktail = true, name = "", specs } = options;
-        
-        if (!auth.user) {
-            toast.error("You must be logged in to add drinks");
-            return;
-        }
-        
-        if (!Array.isArray(spiritData)) {
-            console.error("Invalid spirit data provided to getMacros:", spiritData);
-            return;
-        }
-        
-        if (specs && specs.length > 0) {
-            const ethanol = getMacros(specs, spiritData).ethanol;
-            addEthanolToDB(ethanol)
-            setTotalEthanol(totalEthanol => totalEthanol + ethanol);
-            setDrinks(currentDrinks => [...currentDrinks, ...cocktail]);
-        } else if (cocktail.length === 0) {
-            toast.error("You cannot add an empty drink");
-            return;
-        } else {
-            const ethanol = getMacros(cocktail, spiritData).ethanol;
-            addEthanolToDB(ethanol)
-            setTotalEthanol(totalEthanol => totalEthanol + ethanol);
-            setDrinks(currentDrinks => [...currentDrinks, ...cocktail]);
-        }
-
-        if (resetCocktail) {
-            setCocktail([]);
-        }
-
-        toast.success(`🍸 ${name || "Cocktail"} added. Visit profile page.🍸`);
-    }, [setCocktail, setDrinks, setTotalEthanol, cocktail, spiritData, auth.user]);
-
-    const clearCocktail = useCallback(() => {
-        setCocktail([]);
-    }, [setCocktail]);
+    
+    const createDrink = (data) => ({
+        name: data.name || 'Cocktail from Nutrition/Dilution', 
+        ethanol: data.ethanol || 0,
+        carbs: data.carbs || 0, 
+        calories: data.calories || 0,
+        fat: data.fat || 0,
+        protein: data.protein || 0,
+        sugar: data.sugar || 0,
+        addedsugar: data.addedsugar || 0,
+        ounces: data.ounces || 0,
+        abv: data.abv || 0,
+        createdAt: new Date(),
+    });
 
     const addEthanolToDB = useCallback(async (ethanol: number) => {
         try {
@@ -64,7 +42,7 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${auth.token}`,
                 },
-                body: JSON.stringify({ ethanol: ethanol }),
+                body: JSON.stringify({ ethanol }),
             });
 
             if (!response.ok) {
@@ -74,14 +52,45 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
 
             toast.success("Ethanol added to user successfully");
             return response;
-            } catch (error) {
-                console.error("Error adding ethanol to user:", error);
-                toast.error(error.toString());
-                throw error;
-            }
-        }, [auth.token]);
+        } catch (error) {
+            console.error("Error adding ethanol to user:", error);
+            toast.error(error.toString());
+            throw error;
+        }
+    }, [auth.token]);
 
+    const addDrinkToState = useCallback((options: ManageDrinksOptions = {}) => {
+        const { resetCocktail = true, name = "", specs, info } = options;
 
-    return { addDrinkToState, clearCocktail, addEthanolToDB };
+        if (!auth.user) {
+            toast.error("You must be logged in to add drinks");
+            return;
+        }
+
+        if (info && info.ounces > 0 && info.abv > 0) {
+            const drinksCocktail = createDrink(info);
+            setDrinks((prevDrinks) => [...prevDrinks, drinksCocktail]);
+            addEthanolToDB(info.ethanol);
+        } else if (specs && specs.length > 0) {
+            const drinkDetails = getMacros(specs, spiritData);
+            const drinksCocktail = createDrink(drinkDetails);
+            setDrinks((prevDrinks) => [...prevDrinks, drinksCocktail]);
+            addEthanolToDB(drinkDetails.ethanol);
+        } else {
+            toast.error("You cannot add an empty drink");
+            return;
+        }
+
+        if (resetCocktail) {
+            setCocktail([]);
+        }
+
+        toast.success(`🍸 ${name || "Cocktail"} added. Visit profile page.🍸`);
+    }, [setCocktail, setDrinks, addEthanolToDB, auth.user, spiritData]);
+
+    const clearCocktail = useCallback(() => {
+        setCocktail([]);
+    }, [setCocktail]);
+
+    return { addDrinkToState, clearCocktail };
 };
-
