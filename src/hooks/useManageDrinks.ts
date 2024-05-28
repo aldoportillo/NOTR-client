@@ -5,24 +5,50 @@ import { Spec } from '../types/Spec';
 import { SpiritData } from '../types/SpiritData';
 import { getMacros } from '../functions/getMacros';
 import { useAuth } from '../context/AuthContext';
+import { DrinksCocktail } from '../types/DrinksCocktail';
 
 interface ManageDrinksOptions {
     checkAuth?: boolean;
     resetCocktail?: boolean;
     name?: string;
     specs?: Spec[];
+    info?: DrinksCocktail
 }
 
 export const useManageDrinks = (spiritData?: SpiritData[]) => {
-    const { setCocktail, setTotalEthanol, cocktail } = useDrinks();
+    const { setDrinks, setCocktail, setTotalEthanol, cocktail } = useDrinks();
     const { auth } = useAuth();
 
     const addDrinkToState = useCallback((options: ManageDrinksOptions = {}) => {
-        const { resetCocktail = true, name = "", specs } = options;
-        
+        const { resetCocktail = true, name = "", specs, info } = options;
+
         if (!auth.user) {
             toast.error("You must be logged in to add drinks");
             return;
+        }
+
+        if ( info && info.ounces > 0 && info.abv > 0) {
+            //For AddEthanol Page
+            const { name, ounces, abv} = info;
+            const ethanol = ounces * 29.5735 * (abv / 100) * 0.789;
+
+            console.log("For Add Ethanol Page Hook")
+            const drinksCocktail: DrinksCocktail = {
+                name: name || 'Wine/Beer', 
+                ethanol: ethanol,
+                carbs: 0, 
+                calories: 0,
+                fat: 0,
+                protein: 0,
+                sugar: 0,
+                addedsugar: 0,
+                ounces: ounces,
+                abv: abv,
+                createdAt: new Date(),
+            };
+
+            setDrinks((prevDrinks) => [...prevDrinks, drinksCocktail]);
+            addEthanolToDB(ethanol);
         }
         
         if (!Array.isArray(spiritData)) {
@@ -31,13 +57,34 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
         }
         
         if (specs && specs.length > 0) {
-            const ethanol = getMacros(specs, spiritData).ethanol;
+            //For Cocktail Page
+            const drink = getMacros(specs, spiritData);
+        
+            const ethanol = drink.ethanol;
             addEthanolToDB(ethanol)
         } else if (cocktail.length === 0) {
             toast.error("You cannot add an empty drink");
             return;
         } else {
-            const ethanol = getMacros(cocktail, spiritData).ethanol;
+            //For Nutrition and Dilution Page
+            const {name, ethanol, carb, calories, fat, protein, sugar, addedsugar} = getMacros(cocktail, spiritData);
+
+            const drinksCocktail: DrinksCocktail = {
+                name: name || 'Default Drink Name', 
+                ethanol: ethanol,
+                carbs: carb, 
+                calories: calories,
+                fat: fat,
+                protein: protein,
+                sugar: sugar,
+                addedsugar: addedsugar,
+                ounces: 0,
+                abv: 0,
+                createdAt: new Date(),
+            };
+
+            setDrinks((prevDrinks) => [...prevDrinks, drinksCocktail]);
+           
             addEthanolToDB(ethanol)
         }
 

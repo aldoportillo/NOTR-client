@@ -1,47 +1,33 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useManageDrinks } from "../hooks/useManageDrinks";
-import { useDrinks } from "../context/DrinksContext";
 
 interface FormData {
+    name: string;
     ounces: number;
     abv: number;
 }
 
 function AddEthanol() {
-    const { addEthanolToDB } = useManageDrinks();
-    const { setDrinks } = useDrinks();
+    const { addDrinkToState } = useManageDrinks();
 
     const [formData, setFormData] = useState<FormData>({
+        name: "Wine/Beer",
         ounces: 0,
-        abv: 0
+        abv: 0,
     });
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
-            [e.target.id]: parseFloat(e.target.value)
+            [e.target.id]: parseFloat(e.target.value),
         });
     };
 
     const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-
-        const { ounces, abv } = formData;
-        const ethanol = ounces * 29.5735 * (abv / 100) * 0.789;
-
-        setDrinks((prevDrinks) => [
-            ...prevDrinks,
-            {
-                name: "Ethanol",
-                ounces,
-                abv,
-                ethanol
-            }
-        ]);
-        addEthanolToDB(ethanol);
-    };
-
+        addDrinkToState({info: formData});
+    }
     return (
         <Container>
             <Title>Add Ethanol</Title>
