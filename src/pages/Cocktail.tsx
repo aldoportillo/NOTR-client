@@ -1,9 +1,9 @@
 import { getMacros } from '../functions/getMacros';
-import NutritionLabel from '../components/NutritionLabel/NutritionLabel';
+import NutritionLabel from '../components/NutritionLabel';
 import React, { useEffect } from 'react';
 import { SpiritData } from '../types/SpiritData';
 import { CocktailData } from '../types/CocktailData';
-import Button from '../components/Button/Button';
+import Button from '../components/Button';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';

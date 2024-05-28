@@ -1,7 +1,7 @@
 import LiquidForm from '../components/LiquidForm'
-import NutritionLabel from '../components/NutritionLabel/NutritionLabel'
+import NutritionLabel from '../components/NutritionLabel'
 import { getMacros } from '../functions/getMacros'
-import IngredientLists from '../components/IngredientLists/IngredientLists'
+import IngredientLists from '../components/IngredientLists'
 import LoadingGif from '../assets/loading.gif'
 import { SpiritData } from '../types/SpiritData';
 import styled from 'styled-components'

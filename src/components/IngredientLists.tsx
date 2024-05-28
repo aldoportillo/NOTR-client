@@ -1,9 +1,9 @@
 import { nanoid } from 'nanoid'
 import styled from 'styled-components';
-import Button from '../Button/Button';
-import { Spec } from '../../types/Spec';
-import { useManageDrinks } from '../../hooks/useManageDrinks';
-import { SpiritData } from '../../types/SpiritData';
+import Button from './Button';
+import { Spec } from '../types/Spec';
+import { useManageDrinks } from '../hooks/useManageDrinks';
+import { SpiritData } from '../types/SpiritData';
 
 interface IngredientListsProps {
   ingredients: Spec[];
