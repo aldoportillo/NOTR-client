@@ -34,15 +34,15 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
         createdAt: new Date(),
     });
 
-    const addEthanolToDB = useCallback(async (ethanol: number) => {
+    const addDrinkToDB = useCallback(async (drink: DrinksCocktail) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/ethanol/record`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/cocktail-entry/record`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${auth.token}`,
                 },
-                body: JSON.stringify({ ethanol }),
+                body: JSON.stringify(drink),
             });
 
             if (!response.ok) {
@@ -70,12 +70,12 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
         if (info && info.ounces > 0 && info.abv > 0) {
             const drinksCocktail = createDrink(info);
             setDrinks((prevDrinks) => [...prevDrinks, drinksCocktail]);
-            addEthanolToDB(info.ethanol);
+            addDrinkToDB(drinksCocktail);
         } else if (specs && specs.length > 0) {
             const drinkDetails = getMacros(specs, spiritData);
             const drinksCocktail = createDrink(drinkDetails);
             setDrinks((prevDrinks) => [...prevDrinks, drinksCocktail]);
-            addEthanolToDB(drinkDetails.ethanol);
+            addDrinkToDB(drinksCocktail);
         } else {
             toast.error("You cannot add an empty drink");
             return;
@@ -86,7 +86,7 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
         }
 
         toast.success(`🍸 ${name || "Cocktail"} added. Visit profile page.🍸`);
-    }, [setCocktail, setDrinks, addEthanolToDB, auth.user, spiritData]);
+    }, [setCocktail, setDrinks, addDrinkToDB, auth.user, spiritData]);
 
     const clearCocktail = useCallback(() => {
         setCocktail([]);
