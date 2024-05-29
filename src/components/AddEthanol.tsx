@@ -4,48 +4,60 @@ import { useManageDrinks } from "../hooks/useManageDrinks";
 
 interface FormData {
     name: string;
-    ounces: number;
-    abv: number;
+    ounces: string;
+    abv: string;
 }
 
 function AddEthanol() {
     const { addDrinkToState } = useManageDrinks();
 
     const [formData, setFormData] = useState<FormData>({
-        name: "Wine/Beer",
-        ounces: 0,
-        abv: 0,
+        name: "",
+        ounces: "",
+        abv: "",
     });
 
     const ethanol = useMemo(() => {
-        return formData.ounces * 29.5735 * (formData.abv / 100) * 0.789;
+        const ouncesNum = parseFloat(formData.ounces) || 0;
+        const abvNum = parseFloat(formData.abv) || 0;
+        return ouncesNum * 29.5735 * (abvNum / 100) * 0.789;
     }, [formData.ounces, formData.abv]);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
-            [e.target.id]: parseFloat(e.target.value) || 0,
+            [e.target.id]: e.target.value,
         });
     };
 
     const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        addDrinkToState({info: {...formData, ethanol}});
+
+        const cleanedData = {
+            ...formData,
+            ounces: parseFloat(formData.ounces) || 0,
+            abv: parseFloat(formData.abv) || 0,
+            ethanol
+        };
+        addDrinkToState({info: cleanedData});
+
         setFormData({
-            name: "Wine/Beer",
-            ounces: 0,
-            abv: 0,
-        })
+            name: "",
+            ounces: "",
+            abv: "",
+        });
     }
 
     return (
         <Container>
             <Title>Add Ethanol</Title>
             <StyledForm>
+                <StyledLabel htmlFor="name">Name</StyledLabel>
+                <StyledInput type="text" id="name" placeholder="Wine/Beer (Optional)" value={formData.name} onChange={onChange} />
                 <StyledLabel htmlFor="ounces">Ounces</StyledLabel>
-                <StyledInput type="number" id="ounces" value={formData.ounces} onChange={onChange} />
+                <StyledInput type="number" id="ounces" placeholder="12" value={formData.ounces} onChange={onChange} />
                 <StyledLabel htmlFor="abv">ABV (%)</StyledLabel>
-                <StyledInput type="number" id="abv" value={formData.abv} onChange={onChange} />
+                <StyledInput type="number" id="abv" placeholder="5.5" value={formData.abv} onChange={onChange} />
                 <EthanolDisplay>
                     Ethanol: {ethanol.toFixed(2)} grams
                 </EthanolDisplay>
