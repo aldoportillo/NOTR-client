@@ -8,16 +8,40 @@ import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
 import { useDrinks } from '../context/DrinksContext'
 import { useManageDrinks } from '../hooks/useManageDrinks'
+import { useEffect, useState } from 'react'
+import { dilutionCalculus } from '../functions/dilutionCalculus'
+import { getDilutionIngredients } from '../functions/getDilutionIngredients'
+import { CocktailAttributes } from '../types/CocktailAttributes'
+import DilutionResults from '../components/DilutionResults'
 
 interface NutritionProps {
     spiritData: SpiritData[];
     loading: boolean;
 }
 
+type Technique = 'shaken' | 'stirred' | 'built';
+
 export default function Nutrition({ spiritData, loading }: NutritionProps) {
 
   const { cocktail, setCocktail } = useDrinks(); 
   const { clearCocktail } = useManageDrinks(spiritData);
+  const [technique, setTechnique] = useState<Technique>("shaken");
+
+  const [cocktailAttributes, setCocktailAttributes] = useState<CocktailAttributes>({
+    dilution: 0,
+    finalVolume: 0,
+    abv: 0,
+    sugarConcentration: 0,
+    acid: 0,
+    sugarAcid: 0,
+  });
+
+  useEffect(() => {
+    if (!loading) {
+      setCocktailAttributes(dilutionCalculus(getDilutionIngredients(cocktail, spiritData), technique));
+    }
+  }, [cocktail, technique, spiritData, loading]);
+
 
     return (
         <>
@@ -26,11 +50,13 @@ export default function Nutrition({ spiritData, loading }: NutritionProps) {
             ) : (
                 <Wrapper>
                     <h2>Nutrition Calculator</h2>
-                    <LiquidForm setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />
+                    <LiquidForm technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />
 
                     <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearCocktail} spiritData={spiritData} />
 
                     <NutritionLabel macros={getMacros(cocktail, spiritData)} />
+
+                    <DilutionResults cocktailAttributes={cocktailAttributes} />
                 </Wrapper>
             )}
             <Helmet>
@@ -58,7 +84,8 @@ const Wrapper = styled.div`
     grid-template-areas:
       "title title"
       "liquids macros"
-      "ingredients macros";
+      "ingredients macros"
+      "results results";
     grid-template-columns: 1fr 1fr;
     column-gap: 20px;
     row-gap: 20px;
@@ -79,6 +106,7 @@ const Wrapper = styled.div`
 
     .nutrition-label {
       grid-area: macros;
+      height: 100%;
     }
 
     .liquid-form,

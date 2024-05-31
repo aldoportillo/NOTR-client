@@ -35,8 +35,8 @@ export default function IngredientLists({ingredients, setIngredients, clearDrink
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHeaderCell>name</TableHeaderCell>
-            <TableHeaderCell>ounces</TableHeaderCell>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Ounces</TableHeaderCell>
           </TableRow>
         </TableHeader>
         <tbody>{renderIngredients}</tbody>
