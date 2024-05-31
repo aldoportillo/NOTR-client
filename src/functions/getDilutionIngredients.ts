@@ -9,14 +9,14 @@ import { SpiritData } from "../types/SpiritData";
       totalSugar: 0,
       totalAcid: 0,
     };
-  
+    
     cocktail.forEach((item) => {
       data.forEach((item2) => {
         if(item2.name === item.spirit){
-          const volume = item.ounces
+          const volume = typeof(item.ounces) == 'string' ? parseFloat(item.ounces): item.ounces;
           ingredients.totalVolume += volume;
           ingredients.totalAbv += (volume * item2.abv);
-          ingredients.totalSugar += (volume * item2.sugarConcentration);
+          ingredients.totalSugar += (volume * item2.sugarconcentration);
           ingredients.totalAcid += (volume * item2.acid);
         }
       });
