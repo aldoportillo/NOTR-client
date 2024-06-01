@@ -62,13 +62,9 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
             addDrinkToDB(cocktailData);
         } else if (specs && specs.length > 0) {
             //From Liquid Form and Cocktail Page
-            console.log(specs)
-            console.log(technique)
             const cocktailData = calculateCocktailData(name, specs, spiritData, technique);
-
-            console.log(cocktailData)
-            //setDrinks((prevDrinks) => [...prevDrinks, cocktailData]);
-            //addDrinkToDB(cocktailData);
+            setDrinks((prevDrinks) => [...prevDrinks, cocktailData]);
+            addDrinkToDB(cocktailData);
         } else {
             toast.error("You cannot add an empty drink");
             return;
