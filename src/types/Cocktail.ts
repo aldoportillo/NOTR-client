@@ -1,4 +1,5 @@
 import { Spec } from './Spec';
+import { Technique } from './Technique';
 
 export interface Cocktail {
     id:           number;
@@ -7,7 +8,7 @@ export interface Cocktail {
     image_url:    string;
     slug:         string;
     glass:        string;
-    technique:    string;
+    technique:    Technique;
     garnish:      string;
     specs:        Spec[];
 }
