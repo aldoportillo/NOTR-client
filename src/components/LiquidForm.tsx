@@ -4,6 +4,7 @@ import { SpiritData } from '../types/SpiritData';
 import Button from './Button';
 import styled from 'styled-components';
 import { Spec } from '../types/Spec';
+import { Technique } from '../types/Technique';
 
 interface LiquidFormProps {
   cocktail: Spec[];
@@ -12,8 +13,6 @@ interface LiquidFormProps {
   technique?: Technique;
   setTechnique?: React.Dispatch<React.SetStateAction<Technique>>;
 }
-
-type Technique = 'shaken' | 'stirred' | 'built';
 
 export default function LiquidForm({ cocktail, setCocktail, spiritData, technique, setTechnique }: LiquidFormProps) {
   const renderOptions = spiritData.map(liquid => (

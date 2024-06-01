@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { DrinksCocktail } from '../types/DrinksCocktail';
 import { calculateCocktailData } from '../functions/calculateCocktailData';
 import { calculateDrinkData } from '../functions/calculateDrinkData';
+import { Technique } from '../types/Technique';
 
 interface ManageDrinksOptions {
     checkAuth?: boolean;
@@ -14,6 +15,7 @@ interface ManageDrinksOptions {
     name?: string;
     specs?: Spec[];
     info?: DrinksCocktail;
+    technique?: Technique;
 }
 
 export const useManageDrinks = (spiritData?: SpiritData[]) => {
@@ -46,7 +48,7 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
     }, [auth.token]);
 
     const addDrinkToState = useCallback((options: ManageDrinksOptions = {}) => {
-        const { resetCocktail = true, name = "", specs, info } = options;
+        const { resetCocktail = true, name = "Cocktail", specs, info, technique } = options;
 
         if (!auth.user) {
             toast.error("You must be logged in to add drinks");
@@ -59,9 +61,10 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
             setDrinks((prevDrinks) => [...prevDrinks, cocktailData]);
             addDrinkToDB(cocktailData);
         } else if (specs && specs.length > 0) {
-            //From Liquid Form and Cocktail PageCalculus(getDilutionIngredients(specs, spiritData), "shaken");
+            //From Liquid Form and Cocktail Page
             console.log(specs)
-            const cocktailData = calculateCocktailData(specs, spiritData, "shaken");
+            console.log(technique)
+            const cocktailData = calculateCocktailData(name, specs, spiritData, technique);
 
             console.log(cocktailData)
             //setDrinks((prevDrinks) => [...prevDrinks, cocktailData]);

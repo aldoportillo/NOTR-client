@@ -13,13 +13,12 @@ import { dilutionCalculus } from '../functions/dilutionCalculus'
 import { getDilutionIngredients } from '../functions/getDilutionIngredients'
 import { CocktailAttributes } from '../types/CocktailAttributes'
 import DilutionResults from '../components/DilutionResults'
+import { Technique } from '../types/Technique'
 
 interface NutritionProps {
     spiritData: SpiritData[];
     loading: boolean;
 }
-
-type Technique = 'shaken' | 'stirred' | 'built';
 
 export default function Nutrition({ spiritData, loading }: NutritionProps) {
 
@@ -52,7 +51,7 @@ export default function Nutrition({ spiritData, loading }: NutritionProps) {
                     <h2>Nutrition Calculator</h2>
                     <LiquidForm technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />
 
-                    <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearCocktail} spiritData={spiritData} />
+                    <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearCocktail} spiritData={spiritData} technique={technique}/>
 
                     <NutritionLabel macros={getMacros(cocktail, spiritData)} />
 

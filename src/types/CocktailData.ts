@@ -1,4 +1,5 @@
 import { Spec } from './Spec';
+import { Technique } from './Technique';
 
 export interface CocktailData {
   id:           number;
@@ -7,7 +8,7 @@ export interface CocktailData {
   image_url:    string;
   slug:         string;
   glass:        string;
-  technique:    string;
+  technique:    Technique;
   garnish:      string;
   specs:        Spec[];
 }
@@ -15,12 +16,6 @@ export interface CocktailData {
 
 export interface Spirit {
   name: string;
-}
-
-export interface Technique {
-  id:          number;
-  name:        string;
-  instruction: Instruction[];
 }
 
 export interface Instruction {
