@@ -15,7 +15,6 @@ const SlidingNav: React.FC<SlidingNavProps> = ({ opennav }) => {
     <Wrapper opennav={opennav}>
       <StyledNavLink to="/cocktails">Cocktails</StyledNavLink>
       <StyledNavLink to="/nutrition">Nutrition</StyledNavLink>
-      <StyledNavLink to="/dilution">Dilution</StyledNavLink>
       <ExternalLink href="https://pay.neatonthe.rocks" target='_blank' rel="noreferrer">Donate</ExternalLink>
       {!isLoggedIn && <StyledNavLink to="/auth">Log In</StyledNavLink>}
       {isLoggedIn && <StyledNavLink to="/profile">Profile</StyledNavLink>}

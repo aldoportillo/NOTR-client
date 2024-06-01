@@ -66,7 +66,6 @@ function App() {
             <Route path="/nutrition" element={<PageContainer children={<Nutrition spiritData={spiritData} loading={loadingSpirits}/>}/>} />
             <Route path="/cocktails" element={<PageContainer children={<Cocktails cocktailData={cocktailData} loading={loadingCocktails}/>} />} />
             <Route path="/cocktail/:slug" element={<PageContainer children={<Cocktail spiritData={spiritData} />} />} />
-            <Route path="/dilution" element={<PageContainer children={<Dilution  loading={loadingSpirits} spiritData={spiritData} />} />} />
             <Route path="/auth" element={<PageContainer children={<AuthForm />} />} />
             <Route path="/profile/" element={<PageContainer children={<Profile />} />} />
             <Route path="/profile/:username" element={<PageContainer children={<Profile />} />} />
