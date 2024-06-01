@@ -17,6 +17,7 @@ import AdminPanel from './pages/AdminPanel';
 import AdminRoute from './components/AdminRoute';
 import { DrinksProvider } from './context/DrinksContext';
 import DisclaimerPage from './pages/Disclaimer';
+import Drinks from './pages/Drinks';
 
 function App() {
 
@@ -68,6 +69,7 @@ function App() {
             <Route path="/auth" element={<PageContainer children={<AuthForm />} />} />
             <Route path="/profile/" element={<PageContainer children={<Profile />} />} />
             <Route path="/profile/:username" element={<PageContainer children={<Profile />} />} />
+            <Route path="/drinks" element={<PageContainer children={<Drinks />} />} />
             <Route path="/admin" element={<PageContainer children={<AdminRoute><AdminPanel /></AdminRoute>} />} />
             <Route path="/disclaimer" element={<PageContainer children={<DisclaimerPage />} />} />
             <Route path="*">"404 Not Found"</Route>
