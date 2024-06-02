@@ -1,4 +1,5 @@
 export interface CocktailOutput {
+    _id?: number;
     name: string;
     ethanol: number;
     carbs: number;
@@ -10,4 +11,5 @@ export interface CocktailOutput {
     ounces: number;
     abv: number;
     sugarAcid: number;
+    timestamp?: string;
   }
