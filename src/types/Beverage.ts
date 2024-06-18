@@ -1,5 +1,5 @@
 export interface Beverage {
-    id: number;
+    id?: number;
     verified: boolean;
     name: string;
     abv: number;

@@ -1,10 +1,44 @@
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import { useAuth } from '../context/AuthContext';
 
-function NewBeverageForm({beverageData, onChange, submitForm}) {
-    console.log(beverageData)
+function NewBeverageForm({beverageData, setBeverageData, setFormType, setDisplayScanner, setFormData}) {
+    const { auth } = useAuth();
+    const onChange = (e) => {
+        setBeverageData({
+            ...beverageData,
+            [e.target.id]: e.target.value,
+        });
+    };
+
+    const submitForm = async (e) => {
+        e.preventDefault();
+        setFormType(null);
+        setDisplayScanner(false);
+        await axios.post(`${import.meta.env.VITE_SERVER_URI}/beverages`, 
+        beverageData, {
+            headers: {
+                'Authorization': `Bearer ${auth.token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((res) => {
+                toast.success(`Thank you for adding ${res.data.name}! We will review it shortly.`);
+            })
+            .catch((error) => {
+                toast.error('There was an error adding this to our database. You can still submit it to your drinks consumed.', error);
+            });
+        setFormData({
+            name: beverageData.name,
+            ounces: beverageData.ounces,
+            abv: beverageData.abv,
+        });
+    };
+
     return (
         <StyledForm>
-            <StyledLabel htmlFor="upcCode">{beverageData.upcCode}</StyledLabel>
+            <StyledLabel htmlFor="upcCode">{beverageData.upc_code}</StyledLabel>
             <StyledLabel htmlFor="name">Name</StyledLabel>
             <StyledInput type="text" id="name" placeholder="Wine/Beer" value={beverageData?.name} onChange={onChange} />
             <StyledLabel htmlFor="ounces">Ounces</StyledLabel>

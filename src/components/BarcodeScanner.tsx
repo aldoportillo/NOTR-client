@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
 import { fetchBeverage } from '../api/beverageApi';
 import NewBeverageForm from './NewBeverageForm';
+import { useAuth } from '../context/AuthContext';
 
-const BarcodeScanner = ({setVersion, setBeverageData, beverageData}) => {
+const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setFormData}) => {
   const videoRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const codeReader = new BrowserMultiFormatReader();
   const [ formType, setFormType ] = useState(null);
+  const { auth } = useAuth();
+
+
 
   useEffect(() => {
     if (!isActive) return;
@@ -29,7 +33,7 @@ const BarcodeScanner = ({setVersion, setBeverageData, beverageData}) => {
                 return true;
               } catch (error) {
                 console.error('Error fetching beverage:', error);
-                setBeverageData(prevData => ({...prevData, upcCode: upcCode}));
+                setBeverageData(prevData => ({...prevData, "upc_code": upcCode, "creator_id": auth.user._id}));
                 setFormType("new");
               }
 
@@ -80,7 +84,7 @@ const BarcodeScanner = ({setVersion, setBeverageData, beverageData}) => {
       )}
       {formType === "new" && 
       <Modal>
-        <NewBeverageForm beverageData={beverageData} />
+        <NewBeverageForm beverageData={beverageData} setBeverageData={setBeverageData} setFormType={setFormType} setDisplayScanner={setDisplayScanner} setFormData={setFormData}/>
       </Modal>}
     </Container>
   );
