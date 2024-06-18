@@ -30,3 +30,13 @@ This project encapsulates four years of relentless work and learning. Through th
 ## Entity Relationship Diagram
 
 ![Neat on the Rocks ERD](./src/assets/notr-erd.svg)
+
+## Technologies Used
+
+- **Frontend**: React, TypeScript, Axios, Styled Components, React-Router, React-Toastify,  Zxing
+- **Backend**: Node, Express, MongoDB, PostgreSQL Mongoose, JWT, Bcrypt, Cloudinary, Nodemon, Dotenv, Cors
+- **DevOps**: GitHub Actions, Docker, Docker-Compose, Nginx, PM2, ECS, AWS, EC2, RDS, S3, Route 53, CloudFront, Vercel
+
+## Future Implementations with Investments
+
+- **ABBYY**: Implement [ABBYY](https://www.abbyy.com/) OCR to scan the label of a bottle and retrieve its information from our database.
