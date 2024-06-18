@@ -4,6 +4,7 @@ import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
 import { fetchBeverage } from '../api/beverageApi';
 import NewBeverageForm from './NewBeverageForm';
 import { useAuth } from '../context/AuthContext';
+import VerifiedBeverageForm from './VerifiedBeverageForm';
 
 const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setFormData}) => {
   const videoRef = useRef(null);
@@ -30,6 +31,7 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
                 console.log("Fetching beverage data");
                 const data = await fetchBeverage(upcCode);
                 setBeverageData(data);
+                setFormType("exists");
                 return true;
               } catch (error) {
                 console.error('Error fetching beverage:', error);
@@ -59,18 +61,6 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
     };
   }, [isActive]);
 
-  // useEffect(() => {
-  //   console.log(beverageData)
-  //   if(!beverageData){
-  //     console.log("No beverage data");
-  //     setVersion("barcode")
-  //   } else if (beverageData?.verified) {
-  //     setVersion("unverified-form"); //TODO: Remove this to conditionally make some inputs immulatble
-  //   } else {
-  //     setVersion("verified-form");
-  //   }
-  // }, [beverageData]);
-
   return (
     <Container>
       {!isActive && (
@@ -82,9 +72,13 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
           <InfoText>Point the camera at a barcode.</InfoText>
         </>
       )}
-      {formType === "new" && 
+      {formType === "new" &&
       <Modal>
         <NewBeverageForm beverageData={beverageData} setBeverageData={setBeverageData} setFormType={setFormType} setDisplayScanner={setDisplayScanner} setFormData={setFormData}/>
+      </Modal>}
+      {formType === "exists" &&
+      <Modal>
+        <VerifiedBeverageForm beverageData={beverageData} setBeverageData={setBeverageData} setFormType={setFormType} setDisplayScanner={setDisplayScanner} setFormData={setFormData}/>
       </Modal>}
     </Container>
   );
@@ -136,7 +130,7 @@ const Modal = styled.div`
     border: 1px solid var(--accent);
     z-index: 10;
     overflow-y: scroll;
-    height: 80vh;
+    max-height: 60vh;
     
 
     > button {

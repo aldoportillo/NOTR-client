@@ -16,6 +16,7 @@ function NewBeverageForm({beverageData, setBeverageData, setFormType, setDisplay
         e.preventDefault();
         setFormType(null);
         setDisplayScanner(false);
+        beverageData.ethanol = parseFloat(beverageData.ounces) * 29.5735 * (parseFloat(beverageData.abv) / 100) * 0.789;
         await axios.post(`${import.meta.env.VITE_SERVER_URI}/beverages`, 
         beverageData, {
             headers: {
@@ -38,7 +39,8 @@ function NewBeverageForm({beverageData, setBeverageData, setFormType, setDisplay
 
     return (
         <StyledForm>
-            <StyledLabel htmlFor="upcCode">{beverageData.upc_code}</StyledLabel>
+          <StyledHeader>Add New Beverage</StyledHeader>
+            <StyledSubHeader>This doesn't exist in our database yet. Feel free to add it. Leave undefined fields empty.</StyledSubHeader>
             <StyledLabel htmlFor="name">Name</StyledLabel>
             <StyledInput type="text" id="name" placeholder="Wine/Beer" value={beverageData?.name} onChange={onChange} />
             <StyledLabel htmlFor="ounces">Ounces</StyledLabel>
@@ -49,8 +51,6 @@ function NewBeverageForm({beverageData, setBeverageData, setFormType, setDisplay
             <StyledInput type="text" id="flavors" placeholder="Strawberry" value={beverageData?.flavors} onChange={onChange} />
             <StyledLabel htmlFor="calories">Calories</StyledLabel>
             <StyledInput type="number" id="calories" placeholder="100" value={beverageData?.calories} onChange={onChange} />
-            <StyledLabel htmlFor="ethanol">Ethanol</StyledLabel>
-            <StyledInput type="number" id="ethanol" placeholder="10" value={beverageData?.ethanol} onChange={onChange} />
             <StyledLabel htmlFor="fat">Fat</StyledLabel>
             <StyledInput type="number" id="fat" placeholder="5" value={beverageData?.fat} onChange={onChange} />
             <StyledLabel htmlFor="carb">Carb</StyledLabel>
@@ -68,6 +68,16 @@ function NewBeverageForm({beverageData, setBeverageData, setFormType, setDisplay
 }
 
 export default NewBeverageForm
+
+const StyledHeader = styled.h3`
+    color: var(--accent);
+    margin-bottom: 5px;
+`;
+
+const StyledSubHeader = styled.p`
+    color: white;
+    margin-bottom: 10px;
+`;
 
 
 const StyledForm = styled.form`
