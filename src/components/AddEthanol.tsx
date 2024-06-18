@@ -1,6 +1,9 @@
 import { useState, useMemo } from "react";
 import styled from "styled-components";
 import { useManageDrinks } from "../hooks/useManageDrinks";
+import BarcodeScanner from "./BarcodeScanner";
+import { Beverage } from "../types/Beverage";
+import NewBeverageForm from "./NewBeverageForm";
 
 interface FormData {
     name: string;
@@ -10,11 +13,14 @@ interface FormData {
 
 function AddEthanol() {
     const { addDrinkToState } = useManageDrinks();
+    const [ version, setVersion ] = useState("free-form");
+    const [ beverageData, setBeverageData] = useState<Beverage>(null);
 
     const [formData, setFormData] = useState<FormData>({
         name: "",
         ounces: "",
         abv: "",
+
     });
 
     const ethanol = useMemo(() => {
@@ -51,6 +57,9 @@ function AddEthanol() {
     return (
         <Container>
             <Title>Add Ethanol</Title>
+            <StyledButton onClick={() => setVersion("free-form")}>Open Input</StyledButton>
+            <StyledButton onClick={() => setVersion("barcode")}>Barcode</StyledButton>
+            {version === "free-form" &&
             <StyledForm>
                 <StyledLabel htmlFor="name">Name</StyledLabel>
                 <StyledInput type="text" id="name" placeholder="Wine/Beer (Optional)" value={formData.name} onChange={onChange} />
@@ -62,7 +71,11 @@ function AddEthanol() {
                     Ethanol: {ethanol.toFixed(2)} grams
                 </EthanolDisplay>
                 <StyledButton onClick={submitForm}>Add Ethanol</StyledButton>
-            </StyledForm>
+            </StyledForm>}
+            {version === "barcode" && <BarcodeScanner setBeverageData={setBeverageData} setVersion={setVersion} beverageData={beverageData} />}
+            {version === "verified-form" && <h3>Verified Form</h3>}
+            {version === "unverified-form" && <h3>Unverified Form</h3>}
+            {/* {version === "new-beverage-form" && <NewBeverageForm formData={formData} onChange={onChange} submitForm={submitForm} />} */}
         </Container>
     );
 }
@@ -125,4 +138,29 @@ const EthanolDisplay = styled.div`
   margin: 10px 0;
   color: var(--accent);
   font-weight: bold;
+`;
+
+const Modal = styled.div`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: var(--background);
+    border: 1px solid var(--accent);
+    z-index: 10;
+
+    > button {
+        margin: 10px;
+        padding: 5px 10px;
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: darken(var(--accent), 10%);
+        }
+    }
 `;

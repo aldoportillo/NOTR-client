@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
+import { fetchBeverage } from '../api/beverageApi';
+import NewBeverageForm from './NewBeverageForm';
 
-const BarcodeScanner = () => {
+const BarcodeScanner = ({setVersion, setBeverageData, beverageData}) => {
   const videoRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const codeReader = new BrowserMultiFormatReader();
+  const [ formType, setFormType ] = useState(null);
 
   useEffect(() => {
     if (!isActive) return;
@@ -15,9 +18,23 @@ const BarcodeScanner = () => {
         const videoInputDevices = await codeReader.listVideoInputDevices();
         codeReader.decodeFromVideoDevice(videoInputDevices[0].deviceId, videoRef.current, (result, err) => {
           if (result) {
-            console.log(`Barcode read: ${result.getText()}`);
-            setIsActive(false);
-            codeReader.reset(); 
+            (async () => {
+              setIsActive(false);
+              const upcCode = result.getText();
+              console.log(`Barcode read: ${upcCode}`);
+              try {
+                console.log("Fetching beverage data");
+                const data = await fetchBeverage(upcCode);
+                setBeverageData(data);
+                return true;
+              } catch (error) {
+                console.error('Error fetching beverage:', error);
+                setBeverageData(prevData => ({...prevData, upcCode: upcCode}));
+                setFormType("new");
+              }
+
+              codeReader.reset(); 
+            })();
           }
 
           if (err) {
@@ -38,6 +55,18 @@ const BarcodeScanner = () => {
     };
   }, [isActive]);
 
+  // useEffect(() => {
+  //   console.log(beverageData)
+  //   if(!beverageData){
+  //     console.log("No beverage data");
+  //     setVersion("barcode")
+  //   } else if (beverageData?.verified) {
+  //     setVersion("unverified-form"); //TODO: Remove this to conditionally make some inputs immulatble
+  //   } else {
+  //     setVersion("verified-form");
+  //   }
+  // }, [beverageData]);
+
   return (
     <Container>
       {!isActive && (
@@ -49,6 +78,10 @@ const BarcodeScanner = () => {
           <InfoText>Point the camera at a barcode.</InfoText>
         </>
       )}
+      {formType === "new" && 
+      <Modal>
+        <NewBeverageForm beverageData={beverageData} />
+      </Modal>}
     </Container>
   );
 };
@@ -86,4 +119,33 @@ const ScanButton = styled.button`
   &:hover {
     background-color: var(--header, #23272a);
   }
+`;
+
+
+const Modal = styled.div`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 50px;
+    background: var(--background);
+    border: 1px solid var(--accent);
+    z-index: 10;
+    overflow-y: scroll;
+    height: 80vh;
+    
+
+    > button {
+        margin: 10px;
+        padding: 5px 10px;
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: darken(var(--accent), 10%);
+        }
+    }
 `;
