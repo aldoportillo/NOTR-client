@@ -4,15 +4,17 @@ import Button from './Button';
 import { Spec } from '../types/Spec';
 import { useManageDrinks } from '../hooks/useManageDrinks';
 import { SpiritData } from '../types/SpiritData';
+import { Technique } from '../types/Technique';
 
 interface IngredientListsProps {
   ingredients: Spec[];
   setIngredients: (ingredients: Spec[]) => void;
   clearDrink: () => void;
   spiritData: SpiritData[];
+  technique: Technique;
 }
 
-export default function IngredientLists({ingredients, setIngredients, clearDrink, spiritData}: IngredientListsProps) {
+export default function IngredientLists({ingredients, setIngredients, clearDrink, spiritData, technique}: IngredientListsProps) {
 
     const { addDrinkToState } = useManageDrinks(spiritData);
     const removeIngredient = (e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>) => {
@@ -35,8 +37,8 @@ export default function IngredientLists({ingredients, setIngredients, clearDrink
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHeaderCell>name</TableHeaderCell>
-            <TableHeaderCell>ounces</TableHeaderCell>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Ounces</TableHeaderCell>
           </TableRow>
         </TableHeader>
         <tbody>{renderIngredients}</tbody>
@@ -48,7 +50,7 @@ export default function IngredientLists({ingredients, setIngredients, clearDrink
               </Button>
             </TableCell>
             <TableCell>
-              <Button variant="primary" size="small" onClick={() => addDrinkToState({specs: ingredients})}>
+              <Button variant="primary" size="small" onClick={() => addDrinkToState({specs: ingredients, technique: technique})}>
                 Add Drink
               </Button>
             </TableCell>

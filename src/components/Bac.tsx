@@ -21,7 +21,7 @@ export default function Bac({ userMetrics, userId, isCurrentUser, name }: { user
   
   const fetchBAC = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/ethanol/bac`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/cocktail-entry/bac`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${auth.token}`,

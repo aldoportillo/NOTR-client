@@ -19,7 +19,7 @@ export default function Cocktail({ spiritData }: CocktailProps) {
   const data = location.state as { data: CocktailData }; 
 
 
-  const { name, specs, description, image_url, glass, garnish } = data.data;
+  const { name, specs, description, image_url, glass, garnish, technique } = data.data;
   const { addDrinkToState } = useManageDrinks(spiritData);
 
   const renderSpecList = specs.map((spec, index) => {
@@ -63,7 +63,7 @@ export default function Cocktail({ spiritData }: CocktailProps) {
         </div>
         <div className="inline">
           <Button to="/cocktails" variant="secondary" size="small">Back to Cocktails</Button>
-          <Button variant="primary" size="small" onClick={() => addDrinkToState({specs: specs})}>Add to Drinks</Button>
+          <Button variant="primary" size="small" onClick={() => addDrinkToState({name: name, specs: specs, technique: technique})}>Add to Drinks</Button>
         </div> 
       </Wrapper>
 

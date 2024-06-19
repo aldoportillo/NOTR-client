@@ -64,10 +64,10 @@ const Profile: React.FC = () => {
       <Bac userId={profileUser._id} userMetrics={{ sex, weight, height }} isCurrentUser={isCurrentUser} name={profileUser.firstName} />
       {isCurrentUser && (
         <>
+          <AddEthanol />
           <FriendsList />
           <FriendRequests />
           <EditProfile userMetrics={{ sex, weight, height }}/>
-          <AddEthanol />
         </>
       )}
       

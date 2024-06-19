@@ -10,7 +10,7 @@ export interface SpiritData {
     addedsugar:         number;
     protein:            number;
     abv:                number;
-    sugarConcentration: number;
+    sugarconcentration: number;
     acid:               number;
 }
 

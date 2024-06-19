@@ -20,7 +20,7 @@ export default function DilutionResults({ cocktailAttributes }: cocktailAttribut
   return (
     <Wrapper>
     <Table>
-        <caption>Results: </caption>
+        <Caption>Dilution Results</Caption>
         <TableHeader>
             <TableRow className='table-head'>
                 <TableHeaderCell>Attribute</TableHeaderCell>
@@ -71,6 +71,12 @@ const Wrapper = styled.div`
     background-color: #838383;
     width: 100%;
     grid-area: results;
+`;
+
+const Caption = styled.caption`
+    font-size: 1.1em;
+    color: white;
+    font-weight: bold;
 `;
 
 const Table = styled.table`

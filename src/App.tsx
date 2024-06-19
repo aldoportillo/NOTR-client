@@ -8,7 +8,6 @@ import { SpiritData } from './types/SpiritData';
 import Cocktails from './pages/Cocktails';
 import Cocktail from './pages/Cocktail';
 import { CocktailData } from './types/CocktailData';
-import Dilution from './pages/Dilution';
 import { fetchCocktails } from './api/cocktailApi';
 import { fetchSpirits } from './api/spiritApi';
 import { AuthProvider } from './context/AuthContext';
@@ -18,6 +17,7 @@ import AdminPanel from './pages/AdminPanel';
 import AdminRoute from './components/AdminRoute';
 import { DrinksProvider } from './context/DrinksContext';
 import DisclaimerPage from './pages/Disclaimer';
+import Drinks from './pages/Drinks';
 
 function App() {
 
@@ -66,10 +66,10 @@ function App() {
             <Route path="/nutrition" element={<PageContainer children={<Nutrition spiritData={spiritData} loading={loadingSpirits}/>}/>} />
             <Route path="/cocktails" element={<PageContainer children={<Cocktails cocktailData={cocktailData} loading={loadingCocktails}/>} />} />
             <Route path="/cocktail/:slug" element={<PageContainer children={<Cocktail spiritData={spiritData} />} />} />
-            <Route path="/dilution" element={<PageContainer children={<Dilution  loading={loadingSpirits} spiritData={spiritData} />} />} />
             <Route path="/auth" element={<PageContainer children={<AuthForm />} />} />
             <Route path="/profile/" element={<PageContainer children={<Profile />} />} />
             <Route path="/profile/:username" element={<PageContainer children={<Profile />} />} />
+            <Route path="/drinks" element={<PageContainer children={<Drinks />} />} />
             <Route path="/admin" element={<PageContainer children={<AdminRoute><AdminPanel /></AdminRoute>} />} />
             <Route path="/disclaimer" element={<PageContainer children={<DisclaimerPage />} />} />
             <Route path="*">"404 Not Found"</Route>

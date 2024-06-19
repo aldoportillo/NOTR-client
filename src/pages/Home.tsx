@@ -24,8 +24,8 @@ export default function Home () {
               <ul>
                   <li><b>BAC Insights: </b>Stay informed about your alcohol consumption using our advanced <Link to="/profile" className='orange-font'>Blood Alcohol Content (BAC) tracker</Link>. Available in your profile. Immerse yourself in the art of responsible drinking.</li>
                   <li><b>Nutrition in Every Sip: </b>Maintain your nutritional balance while enjoying your favorite libations. Our <Link to="/nutrition" className='orange-font'>Macronutrient Calculator</Link> empowers you to make informed choices.</li>
-                  <li><b>Perfect Mix, Every Time: </b>Unleash your inner mixologist with confidence. Our <Link to="/dilution" className='orange-font'>Perfect Cocktail Calculator</Link> ensures harmonious blends that tantalize your taste buds.</li>
-                  <li><b>Library of Distinctive Cocktails: </b>From timeless classics to contemporary creations, explore a diverse <Link to="/dilution" className='orange-font'>collection of cocktails</Link> designed to inspire and delight.</li>
+                  <li><b>Perfect Mix, Every Time: </b>Unleash your inner mixologist with confidence. Our <Link to="/nutrition" className='orange-font'>Perfect Cocktail Calculator</Link> ensures harmonious blends that tantalize your taste buds.</li>
+                  <li><b>Library of Distinctive Cocktails: </b>From timeless classics to contemporary creations, explore a diverse <Link to="/cocktails" className='orange-font'>collection of cocktails</Link> designed to inspire and delight.</li>
                   <li><b>Sourced for Excellence: </b>Elevate your creations with premium bar tools sourced for their exceptional quality. Your cocktails deserve nothing but the best.</li>
               </ul>
 

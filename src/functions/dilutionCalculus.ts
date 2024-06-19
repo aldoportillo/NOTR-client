@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { CocktailAttributes } from "../types/CocktailAttributes";
+import { Technique } from "../types/Technique";
 
 interface Ingredients {
     totalAbv: number;
@@ -7,8 +8,6 @@ interface Ingredients {
     totalSugar: number;
     totalAcid: number;
 }
-
-type Technique = 'shaken' | 'stirred' | 'built';
 
 function estimateDilution(abv: number, technique: Technique): number | false {
     if (technique === 'shaken') {

@@ -3,9 +3,11 @@ import { useDrinks } from '../context/DrinksContext';
 import { toast } from 'react-toastify';
 import { Spec } from '../types/Spec';
 import { SpiritData } from '../types/SpiritData';
-import { getMacros } from '../functions/getMacros';
 import { useAuth } from '../context/AuthContext';
 import { DrinksCocktail } from '../types/DrinksCocktail';
+import { calculateCocktailData } from '../functions/calculateCocktailData';
+import { calculateDrinkData } from '../functions/calculateDrinkData';
+import { Technique } from '../types/Technique';
 
 interface ManageDrinksOptions {
     checkAuth?: boolean;
@@ -13,36 +15,22 @@ interface ManageDrinksOptions {
     name?: string;
     specs?: Spec[];
     info?: DrinksCocktail;
+    technique?: Technique;
 }
 
 export const useManageDrinks = (spiritData?: SpiritData[]) => {
     const { setDrinks, setCocktail } = useDrinks();
     const { auth } = useAuth();
 
-    
-    const createDrink = (data) => ({
-        name: data.name || 'Cocktail from Nutrition/Dilution', 
-        ethanol: data.ethanol || 0,
-        carbs: data.carbs || 0, 
-        calories: data.calories || 0,
-        fat: data.fat || 0,
-        protein: data.protein || 0,
-        sugar: data.sugar || 0,
-        addedsugar: data.addedsugar || 0,
-        ounces: data.ounces || 0,
-        abv: data.abv || 0,
-        createdAt: new Date(),
-    });
-
-    const addEthanolToDB = useCallback(async (ethanol: number) => {
+    const addDrinkToDB = useCallback(async (drink: DrinksCocktail) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/ethanol/record`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/cocktail-entry/record`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${auth.token}`,
                 },
-                body: JSON.stringify({ ethanol }),
+                body: JSON.stringify(drink),
             });
 
             if (!response.ok) {
@@ -60,7 +48,7 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
     }, [auth.token]);
 
     const addDrinkToState = useCallback((options: ManageDrinksOptions = {}) => {
-        const { resetCocktail = true, name = "", specs, info } = options;
+        const { resetCocktail = true, name = "Cocktail", specs, info, technique } = options;
 
         if (!auth.user) {
             toast.error("You must be logged in to add drinks");
@@ -68,14 +56,15 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
         }
 
         if (info && info.ounces > 0 && info.abv > 0) {
-            const drinksCocktail = createDrink(info);
-            setDrinks((prevDrinks) => [...prevDrinks, drinksCocktail]);
-            addEthanolToDB(info.ethanol);
+            //From Add Ethanol Form
+            const cocktailData = calculateDrinkData(info);
+            setDrinks((prevDrinks) => [...prevDrinks, cocktailData]);
+            addDrinkToDB(cocktailData);
         } else if (specs && specs.length > 0) {
-            const drinkDetails = getMacros(specs, spiritData);
-            const drinksCocktail = createDrink(drinkDetails);
-            setDrinks((prevDrinks) => [...prevDrinks, drinksCocktail]);
-            addEthanolToDB(drinkDetails.ethanol);
+            //From Liquid Form and Cocktail Page
+            const cocktailData = calculateCocktailData(name, specs, spiritData, technique);
+            setDrinks((prevDrinks) => [...prevDrinks, cocktailData]);
+            addDrinkToDB(cocktailData);
         } else {
             toast.error("You cannot add an empty drink");
             return;
@@ -86,7 +75,7 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
         }
 
         toast.success(`🍸 ${name || "Cocktail"} added. Visit profile page.🍸`);
-    }, [setCocktail, setDrinks, addEthanolToDB, auth.user, spiritData]);
+    }, [setCocktail, setDrinks, addDrinkToDB, auth.user, spiritData]);
 
     const clearCocktail = useCallback(() => {
         setCocktail([]);
