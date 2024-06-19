@@ -10,6 +10,7 @@ function NewBeverageForm({beverageData, setBeverageData, setFormType, setDisplay
             ...beverageData,
             [e.target.id]: e.target.value,
         });
+
     };
 
     const submitForm = async (e) => {

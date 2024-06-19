@@ -26,9 +26,7 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
             (async () => {
               setIsActive(false);
               const upcCode = result.getText();
-              console.log(`Barcode read: ${upcCode}`);
               try {
-                console.log("Fetching beverage data");
                 const data = await fetchBeverage(upcCode);
                 setBeverageData(data);
                 setFormType("exists");
@@ -78,7 +76,6 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
         <NewBeverageForm beverageData={beverageData} setBeverageData={setBeverageData} setFormType={setFormType} setDisplayScanner={setDisplayScanner} setFormData={setFormData}/>
       }
       {formType === "exists" &&
-      
         <VerifiedBeverageForm beverageData={beverageData} setBeverageData={setBeverageData} setFormType={setFormType} setDisplayScanner={setDisplayScanner} setFormData={setFormData}/>
       }
     </Container>

@@ -8,7 +8,6 @@ function VerifiedBeverageForm({beverageData, setBeverageData, setFormType, setDi
             [e.target.id]: e.target.value,
         });
     };
-    console.log(beverageData);
 
     const submitForm = async (e) => {
         e.preventDefault();
@@ -22,7 +21,6 @@ function VerifiedBeverageForm({beverageData, setBeverageData, setFormType, setDi
         });
     };
 
-    console.log(beverageData);
     return (
         <StyledForm>
             <StyledHeader>{beverageData.name}</StyledHeader>

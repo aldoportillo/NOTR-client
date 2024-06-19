@@ -15,7 +15,6 @@ function Drinks() {
    console.table(res.data);
 
    const renderDrinks = res.data?.map((drink: CocktailOutput) => {
-    console.log(drink)
       return (
         <div key={drink._id}>
           <h1>ID {drink._id}</h1>
