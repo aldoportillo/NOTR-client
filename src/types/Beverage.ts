@@ -14,4 +14,5 @@ export interface Beverage {
     added_sugar?: number;
     protein?: number;
     creator_id?: string;
+    type?: string;
 }

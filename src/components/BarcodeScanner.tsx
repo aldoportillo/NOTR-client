@@ -70,16 +70,17 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
         <>
           <StyledVideo ref={videoRef} />
           <InfoText>Point the camera at a barcode.</InfoText>
+          <button onClick={() => setDisplayScanner(false)}>Close Scanner</button>
+
         </>
       )}
       {formType === "new" &&
-      <Modal>
         <NewBeverageForm beverageData={beverageData} setBeverageData={setBeverageData} setFormType={setFormType} setDisplayScanner={setDisplayScanner} setFormData={setFormData}/>
-      </Modal>}
+      }
       {formType === "exists" &&
-      <Modal>
+      
         <VerifiedBeverageForm beverageData={beverageData} setBeverageData={setBeverageData} setFormType={setFormType} setDisplayScanner={setDisplayScanner} setFormData={setFormData}/>
-      </Modal>}
+      }
     </Container>
   );
 };
@@ -94,6 +95,41 @@ const Container = styled.div`
   color: white;
   padding: 20px;
   box-sizing: border-box;
+  width: 80%;
+  min-height: 200px;
+  max-height: 80%;
+  overflow-y: scroll;
+
+
+  position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--background);
+    border: 1px solid var(--accent);
+    z-index: 10;
+    overflow-y: scroll;
+    
+
+    > button {
+        margin: 10px;
+        padding: 5px 10px;
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        margin: auto 0;
+        cursor: pointer;
+
+        &:hover {
+            background-color: darken(var(--accent), 10%);
+        }
+    }
+
+    @media (min-width: 1200px) {
+      width: 30%;
+      padding: 10px;
+    }
 `;
 
 const StyledVideo = styled.video`
@@ -117,33 +153,4 @@ const ScanButton = styled.button`
   &:hover {
     background-color: var(--header, #23272a);
   }
-`;
-
-
-const Modal = styled.div`
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px 50px;
-    background: var(--background);
-    border: 1px solid var(--accent);
-    z-index: 10;
-    overflow-y: scroll;
-    max-height: 60vh;
-    
-
-    > button {
-        margin: 10px;
-        padding: 5px 10px;
-        background-color: var(--accent);
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-
-        &:hover {
-            background-color: darken(var(--accent), 10%);
-        }
-    }
 `;

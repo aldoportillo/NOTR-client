@@ -5,104 +5,135 @@ import BarcodeScanner from "./BarcodeScanner";
 import { Beverage } from "../types/Beverage";
 
 interface FormData {
-    name: string;
-    ounces: string;
-    abv: string;
+  name: string;
+  ounces: string;
+  abv: string;
 }
 
 function AddEthanol() {
-    const { addDrinkToState } = useManageDrinks();
-    const [ displayScanner, setDisplayScanner ] = useState(false); 
-    const [ beverageData, setBeverageData] = useState<Beverage>({
-        verified: false,
-        name: "",
-        abv: 0,
-        ounces: 0,
-        upc_code: "",
-        flavors: "",
-        calories: 0,
-        ethanol: 0,
-        fat: 0,
-        carb: 0,
-        sugar: 0,
-        added_sugar: 0,
-        protein: 0,
-        creator_id: "",
+  const { addDrinkToState } = useManageDrinks();
+  const [displayScanner, setDisplayScanner] = useState(false);
+  const [beverageData, setBeverageData] = useState<Beverage>({
+    verified: false,
+    name: "",
+    abv: 0,
+    ounces: 0,
+    upc_code: "",
+    flavors: "",
+    calories: 0,
+    ethanol: 0,
+    fat: 0,
+    carb: 0,
+    sugar: 0,
+    added_sugar: 0,
+    protein: 0,
+    creator_id: "",
+    type: "",
+  });
+
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    ounces: "",
+    abv: "",
+  });
+
+  const ethanol = useMemo(() => {
+    const ouncesNum = parseFloat(formData.ounces) || 0;
+    const abvNum = parseFloat(formData.abv) || 0;
+    return ouncesNum * 29.5735 * (abvNum / 100) * 0.789;
+  }, [formData.ounces, formData.abv]);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
     });
+  };
 
-    const [formData, setFormData] = useState<FormData>({
-        name: "",
-        ounces: "",
-        abv: "",
+  const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
 
-    });
-
-    const ethanol = useMemo(() => {
-        const ouncesNum = parseFloat(formData.ounces) || 0;
-        const abvNum = parseFloat(formData.abv) || 0;
-        return ouncesNum * 29.5735 * (abvNum / 100) * 0.789;
-    }, [formData.ounces, formData.abv]);
-
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.id]: e.target.value,
-        });
+    const cleanedData = {
+      ...formData,
+      ounces: parseFloat(formData.ounces) || 0,
+      abv: parseFloat(formData.abv) || 0,
+      ethanol,
     };
+    addDrinkToState({ info: cleanedData });
 
-    const submitForm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
+    setFormData({
+      name: "",
+      ounces: "",
+      abv: "",
+    });
+  };
 
-        const cleanedData = {
-            ...formData,
-            ounces: parseFloat(formData.ounces) || 0,
-            abv: parseFloat(formData.abv) || 0,
-            ethanol
-        };
-        addDrinkToState({info: cleanedData});
-
-        setFormData({
-            name: "",
-            ounces: "",
-            abv: "",
-        });
-    }
-
-    return (
-        <Container>
-            <Title>Add Ethanol</Title>
-            <StyledButton onClick={() => setDisplayScanner(!displayScanner)}>Open Input</StyledButton>
-            <StyledButton onClick={() => setDisplayScanner(!displayScanner)}>Barcode</StyledButton>
-            {!displayScanner &&
-            <StyledForm>
-                <StyledLabel htmlFor="name">Name</StyledLabel>
-                <StyledInput type="text" id="name" placeholder="Wine/Beer (Optional)" value={formData.name} onChange={onChange} />
-                <StyledLabel htmlFor="ounces">Ounces</StyledLabel>
-                <StyledInput type="number" id="ounces" placeholder="12" value={formData.ounces} onChange={onChange} />
-                <StyledLabel htmlFor="abv">ABV (%)</StyledLabel>
-                <StyledInput type="number" id="abv" placeholder="5.5" value={formData.abv} onChange={onChange} />
-                <EthanolDisplay>
-                    Ethanol: {ethanol.toFixed(2)} grams
-                </EthanolDisplay>
-                <StyledButton onClick={submitForm}>Add Ethanol</StyledButton>
-            </StyledForm>}
-            {displayScanner && <BarcodeScanner setBeverageData={setBeverageData} beverageData={beverageData} setDisplayScanner={setDisplayScanner} setFormData={setFormData} />}
-            {/* {version === "verified-form" && <h3>Verified Form</h3>}
-            {version === "unverified-form" && <h3>Unverified Form</h3>} */}
-            {/* {version === "new-beverage-form" && <NewBeverageForm formData={formData} onChange={onChange} submitForm={submitForm} />} */}
-        </Container>
-    );
+  return (
+    <Container>
+      <Title>Add Ethanol</Title>
+      <StyledButton onClick={() => setDisplayScanner(!displayScanner)}>
+        Open Scanner
+      </StyledButton>
+      {!displayScanner && (
+        <StyledForm>
+          <StyledLabel htmlFor="name">Name</StyledLabel>
+          <StyledInput
+            type="text"
+            id="name"
+            placeholder="Wine/Beer (Optional)"
+            value={formData.name}
+            onChange={onChange}
+          />
+          <StyledLabel htmlFor="ounces">Ounces</StyledLabel>
+          <StyledInput
+            type="number"
+            id="ounces"
+            placeholder="12"
+            value={formData.ounces}
+            onChange={onChange}
+          />
+          <StyledLabel htmlFor="abv">ABV (%)</StyledLabel>
+          <StyledInput
+            type="number"
+            id="abv"
+            placeholder="5.5"
+            value={formData.abv}
+            onChange={onChange}
+          />
+          <EthanolDisplay>Ethanol: {ethanol.toFixed(2)} grams</EthanolDisplay>
+          <StyledButton onClick={submitForm}>Add Ethanol</StyledButton>
+        </StyledForm>
+      )}
+      {displayScanner && (
+        <BarcodeScanner
+          setBeverageData={setBeverageData}
+          beverageData={beverageData}
+          setDisplayScanner={setDisplayScanner}
+          setFormData={setFormData}
+        />
+      )}
+    </Container>
+  );
 }
 
 export default AddEthanol;
 
 const Container = styled.div`
-  padding: 20px;
-  background-color: var(--header);
-  border-radius: 8px;
-  color: white;
+  margin-top: 20px;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
+  background: var(--header);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    padding: 10px;
+  }
 `;
 
 const Title = styled.h3`

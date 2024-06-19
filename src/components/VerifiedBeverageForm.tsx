@@ -22,13 +22,14 @@ function VerifiedBeverageForm({beverageData, setBeverageData, setFormType, setDi
         });
     };
 
+    console.log(beverageData);
     return (
         <StyledForm>
             <StyledHeader>{beverageData.name}</StyledHeader>
-            <StyledSubHeader>{beverageData.abv}%</StyledSubHeader>
+            <StyledSubHeader>{beverageData?.flavors} {beverageData.abv}%</StyledSubHeader>
             <StyledLabel htmlFor="ounces">Ounces</StyledLabel>
             <StyledInput type="number" id="ounces" placeholder="12" value={beverageData?.ounces} onChange={onChange} />
-            <StyledButton onClick={submitForm}>Add Ethanol</StyledButton>
+            <StyledButton onClick={submitForm}>Autofill Form</StyledButton>
             
         </StyledForm>
     )

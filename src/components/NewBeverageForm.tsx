@@ -47,21 +47,29 @@ function NewBeverageForm({beverageData, setBeverageData, setFormType, setDisplay
             <StyledInput type="number" id="ounces" placeholder="12" value={beverageData?.ounces} onChange={onChange} />
             <StyledLabel htmlFor="abv">ABV (%)</StyledLabel>
             <StyledInput type="number" id="abv" placeholder="5.5" value={beverageData?.abv} onChange={onChange} />
-            <StyledLabel htmlFor="flavors">Flavors</StyledLabel>
+            <StyledLabel htmlFor="flavors">Flavors (Optional)</StyledLabel>
             <StyledInput type="text" id="flavors" placeholder="Strawberry" value={beverageData?.flavors} onChange={onChange} />
-            <StyledLabel htmlFor="calories">Calories</StyledLabel>
+            <StyledLabel htmlFor="calories">Calories (Optional)</StyledLabel>
             <StyledInput type="number" id="calories" placeholder="100" value={beverageData?.calories} onChange={onChange} />
-            <StyledLabel htmlFor="fat">Fat</StyledLabel>
+            <StyledLabel htmlFor="fat">Fat (Optional)</StyledLabel>
             <StyledInput type="number" id="fat" placeholder="5" value={beverageData?.fat} onChange={onChange} />
-            <StyledLabel htmlFor="carb">Carb</StyledLabel>
+            <StyledLabel htmlFor="carb">Carb (Optional)</StyledLabel>
             <StyledInput type="number" id="carb" placeholder="10" value={beverageData?.carb} onChange={onChange} />
-            <StyledLabel htmlFor="sugar">Sugar</StyledLabel>
+            <StyledLabel htmlFor="sugar">Sugar (Optional)</StyledLabel>
             <StyledInput type="number" id="sugar" placeholder="10" value={beverageData?.sugar} onChange={onChange} />
-            <StyledLabel htmlFor="added_sugar">Added Sugar</StyledLabel>
+            <StyledLabel htmlFor="added_sugar">Added Sugar (Optional)</StyledLabel>
             <StyledInput type="number" id="added_sugar" placeholder="10" value={beverageData?.added_sugar} onChange={onChange} />
-            <StyledLabel htmlFor="protein">Protein</StyledLabel>
+            <StyledLabel htmlFor="protein">Protein (Optional)</StyledLabel>
             <StyledInput type="number" id="protein" placeholder="10" value={beverageData?.protein} onChange={onChange} />
-            <StyledButton onClick={submitForm}>Add Ethanol</StyledButton>
+            <StyledLabel htmlFor="type">Type</StyledLabel>
+            <StyledDropdown id="type" value={beverageData?.type} onChange={onChange}>
+              <option value="beer">Beer</option>
+              <option value="wine">Wine</option>
+              <option value="spirit">Spirit</option>
+              <option value="other">Other</option>
+            </StyledDropdown>
+            
+            <StyledButton onClick={submitForm}>Submit for Review</StyledButton>
             
         </StyledForm>
     )
@@ -91,6 +99,20 @@ const StyledLabel = styled.label`
 `;
 
 const StyledInput = styled.input`
+  margin-bottom: 10px;
+  padding: 8px;
+  background: var(--overlay);
+  border: none;
+  border-radius: 4px;
+  color: white;
+
+  &:focus {
+    outline: none;
+    border: 1px solid var(--accent);
+  }
+`;
+
+const StyledDropdown = styled.select`
   margin-bottom: 10px;
   padding: 8px;
   background: var(--overlay);

@@ -96,14 +96,21 @@ function EditProfile({userMetrics}: {userMetrics: UserMetrics}) {
 export default EditProfile;
 
 const Wrapper = styled.div`
-  padding: 20px;
-  background-color: var(--header);
+margin-top: 20px;
+  width: 100%;
+  max-width: 600px;
+  background: var(--header);
+  padding: 15px;
   border-radius: 8px;
-  color: white;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: auto;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    padding: 10px;
+  }
 `;
 
 const Title = styled.h3`
