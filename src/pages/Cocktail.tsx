@@ -19,6 +19,7 @@ export default function Cocktail({ spiritData }: CocktailProps) {
   const data = location.state as { data: CocktailData }; 
 
 
+
   const { name, specs, description, image_url, glass, garnish, technique } = data.data;
   const { addDrinkToState } = useManageDrinks(spiritData);
 
@@ -34,7 +35,7 @@ export default function Cocktail({ spiritData }: CocktailProps) {
     "fat": 0,
     "carb": 0,
     "sugar": 0,
-    "addedsugar": 0,
+    "added_sugar": 0,
     "protein": 0,
     "calories": 0,
     "ethanol": 0
@@ -47,16 +48,16 @@ export default function Cocktail({ spiritData }: CocktailProps) {
   return (
     <>
       <Wrapper className='cocktail-page'>
-        <h2>{name}</h2>
+        <h2 className='section-header'>{name}</h2>
         <img src={image_url} alt={name} />
         <p>{description}</p>
         <div className='space-between'>
           <div>
-            <h3>Spec List</h3>
+            <h3 className='section-header'>Spec List</h3>
             <ul>{renderSpecList}</ul>
-            <h3>Glassware</h3>
+            <h3 className='section-header'>Glassware</h3>
             <p>{glass}</p>
-            <h3>Garnish</h3>
+            <h3 className='section-header'>Garnish</h3>
             <p>{garnish}</p>
           </div>
           <NutritionLabel macros={macros} />
@@ -109,7 +110,7 @@ const Wrapper = styled.div`
     }
   }
 
-  h2, h3 {
+  .section-header {
     color: var(--accent);
     margin-bottom: 10px; 
   }

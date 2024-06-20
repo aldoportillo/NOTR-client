@@ -32,7 +32,7 @@ const NutritionLabel = ({ macros }: { macros: Macros }) => {
       </h3>
       <hr />
       <h3>
-        <p>Includes {Math.ceil(macros.addedsugar)} g Added Sugars</p>
+        <p>Includes {Math.ceil(macros.added_sugar)} g Added Sugars</p>
       </h3>
       <hr />
       <h3>

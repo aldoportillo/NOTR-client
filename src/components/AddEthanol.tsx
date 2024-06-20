@@ -28,7 +28,7 @@ function AddEthanol() {
     added_sugar: 0,
     protein: 0,
     creator_id: "",
-    type: "",
+    type: "other",
   });
 
   const [formData, setFormData] = useState<FormData>({

@@ -7,7 +7,7 @@ export interface Spirit {
   fat:                number;
   carb:               number;
   sugar:              number;
-  addedsugar:         number;
+  added_sugar:         number;
   protein:            number;
   abv:                number;
   sugarconcentration: number;

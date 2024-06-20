@@ -11,7 +11,7 @@ export function calculateDrinkData(info: DrinksCocktail): CocktailOutput{
         fat: 0,
         protein: 0,
         sugar: 0,
-        addedSugar: 0,
+        added_sugar: 0,
         ounces: info.ounces,
         abv: info.abv,
         sugarAcid: 0

@@ -7,7 +7,7 @@ export interface CocktailOutput {
     fat: number;
     protein: number;
     sugar: number;
-    addedSugar: number;
+    added_sugar: number;
     ounces: number;
     abv: number;
     sugarAcid: number;
