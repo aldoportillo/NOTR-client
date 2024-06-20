@@ -23,7 +23,7 @@ function Drinks() {
           <h2>OZ: {drink.ounces.toFixed(2)}</h2>
           <h2>Sugar Acid: {drink.sugarAcid?.toFixed(2)}</h2>
           <h2>Time: {formatDateTime(drink.timestamp)}</h2>
-          <NutritionLabel macros={{calories: drink.calories, ethanol: drink.ethanol, fat: drink.fat, carb: drink.carbs, sugar: drink.sugar, addedsugar: drink.addedSugar, protein: drink.protein}} />
+          <NutritionLabel macros={{calories: drink.calories, ethanol: drink.ethanol, fat: drink.fat, carb: drink.carbs, sugar: drink.sugar, added_sugar: drink.addedSugar, protein: drink.protein}} />
         </div>
       )
    })

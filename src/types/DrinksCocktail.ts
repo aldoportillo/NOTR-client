@@ -6,7 +6,7 @@ export interface DrinksCocktail {
     fat?: number;
     protein?: number;
     sugar?: number;
-    addedsugar?: number;
+    added_sugar?: number;
     ounces?: number;
     abv?: number;
     createdAt?: Date;

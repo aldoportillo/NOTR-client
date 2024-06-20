@@ -18,6 +18,8 @@ export default function Cocktail({ spiritData }: CocktailProps) {
   const location = useLocation();
   const data = location.state as { data: CocktailData }; 
 
+  console.log(data)
+
 
   const { name, specs, description, image_url, glass, garnish, technique } = data.data;
   const { addDrinkToState } = useManageDrinks(spiritData);
@@ -34,7 +36,7 @@ export default function Cocktail({ spiritData }: CocktailProps) {
     "fat": 0,
     "carb": 0,
     "sugar": 0,
-    "addedsugar": 0,
+    "added_sugar": 0,
     "protein": 0,
     "calories": 0,
     "ethanol": 0

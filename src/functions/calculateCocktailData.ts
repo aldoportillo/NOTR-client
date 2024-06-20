@@ -20,7 +20,7 @@ export function calculateCocktailData(name: string, cocktail: Spec[], spiritsDat
     fat: macros.fat,
     protein: macros.protein,
     sugar: macros.sugar,
-    addedSugar: macros.addedsugar,
+    addedSugar: macros.added_sugar,
     ounces: cocktailAttributes.finalVolume,
     abv: cocktailAttributes.abv,
     sugarAcid: cocktailAttributes.sugarAcid

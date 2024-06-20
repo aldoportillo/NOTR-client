@@ -29,11 +29,13 @@ function App() {
   const [loadingSpirits, setLoadingSpirits] = useState(true)
 
 
+
   useEffect(() => {
     const loadCocktailData = async () => {
       try {
         const data: CocktailData[] = await fetchCocktails();
 
+        console.log(data)
         setCocktailData(data);
       } catch (error) {
         console.error("Error fetching cocktail data:", error);

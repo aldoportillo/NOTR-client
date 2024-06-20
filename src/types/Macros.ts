@@ -6,6 +6,6 @@ export interface Macros {
           fat: number;
           carb: number;
           sugar: number;
-          addedsugar: number;
+          added_sugar: number;
           protein: number;
 }

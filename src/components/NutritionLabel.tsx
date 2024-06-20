@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Macros } from "../types/Macros";
 
 const NutritionLabel = ({ macros }: { macros: Macros }) => {
+  console.log(macros);  
 
   return (
     <Wrapper>
@@ -32,7 +33,7 @@ const NutritionLabel = ({ macros }: { macros: Macros }) => {
       </h3>
       <hr />
       <h3>
-        <p>Includes {Math.ceil(macros.addedsugar)} g Added Sugars</p>
+        <p>Includes {Math.ceil(macros.added_sugar)} g Added Sugars</p>
       </h3>
       <hr />
       <h3>

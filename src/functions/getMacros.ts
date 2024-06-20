@@ -7,7 +7,7 @@ export const getMacros = (cocktail: Spec[], data: SpiritData[]): Macros => {
     fat: 0,
     carb: 0,
     sugar: 0,
-    addedsugar: 0,
+    added_sugar: 0,
     protein: 0,
     calories: 0,
     ethanol: 0,
@@ -19,7 +19,7 @@ export const getMacros = (cocktail: Spec[], data: SpiritData[]): Macros => {
         const amount = item.ounces ?? 0;
         macros.calories += amount * item2.calories;
         macros.protein += amount * item2.protein;
-        macros.addedsugar += amount * item2.addedsugar;
+        macros.added_sugar += amount * item2.added_sugar;
         macros.sugar += amount * item2.sugar;
         macros.carb += amount * item2.carb;
         macros.fat += amount * item2.fat;
