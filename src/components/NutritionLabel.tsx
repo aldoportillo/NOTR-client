@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Macros } from "../types/Macros";
 
 const NutritionLabel = ({ macros }: { macros: Macros }) => {
-  console.log(macros);  
 
   return (
     <Wrapper>
