@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
 import { fetchBeverage } from '../api/beverageApi';
 import NewBeverageForm from './NewBeverageForm';
-import { useAuth } from '../context/AuthContext';
 import VerifiedBeverageForm from './VerifiedBeverageForm';
+import { useAuth } from '../context/AuthContext';
 
-const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setFormData}) => {
+const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setFormData }) => {
   const videoRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const codeReader = new BrowserMultiFormatReader();
-  const [ formType, setFormType ] = useState(null);
+  const [formType, setFormType] = useState(null);
   const { auth } = useAuth();
 
   useEffect(() => {
@@ -19,47 +19,23 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
     const startScanner = async () => {
       try {
         const videoInputDevices = await codeReader.listVideoInputDevices();
-        let selectedDeviceId = videoInputDevices[0]?.deviceId; // Default to the first device if no rear camera is found
-    
-        const rearCameraDevice = videoInputDevices.find(device =>
-          device.label.toLowerCase().includes('back') ||
-          device.label.toLowerCase().includes('rear')
-        );
-    
-        if (rearCameraDevice) {
-          selectedDeviceId = rearCameraDevice.deviceId;
-        }
-    
+        const selectedDeviceId = videoInputDevices.find(device => device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('rear'))?.deviceId || videoInputDevices[0].deviceId;
+
         const constraints = {
           video: {
             deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
-            facingMode: rearCameraDevice ? "environment" : "user",
+            facingMode: "environment", 
             width: { ideal: 1280 },
             height: { ideal: 720 }
           }
         };
-    
+
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        const track = stream.getVideoTracks()[0];
-    
-        // Check and log capabilities
-        const capabilities = track.getCapabilities && track.getCapabilities();
-        console.log('Camera capabilities:', capabilities);
-    
-        if (capabilities && capabilities.torch) {
-          try {
-            await track.applyConstraints({ advanced: [{ torch: true }] });
-            console.log("Torch enabled");
-          } catch (error) {
-            console.error("Error enabling torch:", error);
-          }
-        } else {
-          console.log("Torch not supported on this device's camera");
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          await videoRef.current.play();
         }
-    
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
-    
+
         codeReader.decodeFromVideoDevice(selectedDeviceId, videoRef.current, (result, err) => {
           if (result) {
             setIsActive(false);
@@ -81,21 +57,22 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
           } else if (err && !(err instanceof NotFoundException)) {
             console.error(err);
           }
-          codeReader.reset();
         });
-    
       } catch (error) {
         console.error('Error starting the barcode scanner:', error);
       }
     };
-    
 
     startScanner();
 
     return () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+        const tracks = videoRef.current.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
       codeReader.reset();
     };
-  }, [isActive]);
+  }, [isActive, codeReader, auth.user._id]);
 
   return (
     <Container>
@@ -107,7 +84,6 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
           <StyledVideo ref={videoRef} />
           <InfoText>Point the camera at a barcode.</InfoText>
           <button onClick={() => setDisplayScanner(false)}>Close Scanner</button>
-
         </>
       )}
       {formType === "new" &&
