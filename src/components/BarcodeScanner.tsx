@@ -3,17 +3,15 @@ import styled from 'styled-components';
 import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
 import { fetchBeverage } from '../api/beverageApi';
 import NewBeverageForm from './NewBeverageForm';
-import { useAuth } from '../context/AuthContext';
 import VerifiedBeverageForm from './VerifiedBeverageForm';
+import { useAuth } from '../context/AuthContext';
 
-const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setFormData}) => {
+const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setFormData }) => {
   const videoRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const codeReader = new BrowserMultiFormatReader();
-  const [ formType, setFormType ] = useState(null);
+  const [formType, setFormType] = useState(null);
   const { auth } = useAuth();
-
-
 
   useEffect(() => {
     if (!isActive) return;
@@ -21,30 +19,43 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
     const startScanner = async () => {
       try {
         const videoInputDevices = await codeReader.listVideoInputDevices();
-        codeReader.decodeFromVideoDevice(videoInputDevices[0].deviceId, videoRef.current, (result, err) => {
+        const selectedDeviceId = videoInputDevices.find(device => device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('rear'))?.deviceId || videoInputDevices[0].deviceId;
+
+        const constraints = {
+          video: {
+            deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
+            facingMode: "environment", 
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          }
+        };
+
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          await videoRef.current.play();
+        }
+
+        codeReader.decodeFromVideoDevice(selectedDeviceId, videoRef.current, (result, err) => {
           if (result) {
-            (async () => {
-              setIsActive(false);
-              const upcCode = result.getText();
-              try {
-                const data = await fetchBeverage(upcCode);
+            setIsActive(false);
+            const upcCode = result.getText();
+            fetchBeverage(upcCode)
+              .then(data => {
                 setBeverageData(data);
                 setFormType("exists");
-                return true;
-              } catch (error) {
+              })
+              .catch(error => {
                 console.error('Error fetching beverage:', error);
-                setBeverageData(prevData => ({...prevData, "upc_code": upcCode, "creator_id": auth.user._id}));
+                setBeverageData(prevData => ({
+                  ...prevData,
+                  "upc_code": upcCode,
+                  "creator_id": auth.user._id
+                }));
                 setFormType("new");
-              }
-
-              codeReader.reset(); 
-            })();
-          }
-
-          if (err) {
-            if (!(err instanceof NotFoundException)) {
-              console.error(err);
-            }
+              });
+          } else if (err && !(err instanceof NotFoundException)) {
+            console.error(err);
           }
         });
       } catch (error) {
@@ -55,9 +66,13 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
     startScanner();
 
     return () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+        const tracks = videoRef.current.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
       codeReader.reset();
     };
-  }, [isActive]);
+  }, [isActive, codeReader, auth.user._id]);
 
   return (
     <Container>
@@ -69,7 +84,6 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
           <StyledVideo ref={videoRef} />
           <InfoText>Point the camera at a barcode.</InfoText>
           <button onClick={() => setDisplayScanner(false)}>Close Scanner</button>
-
         </>
       )}
       {formType === "new" &&
