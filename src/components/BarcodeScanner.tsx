@@ -19,24 +19,32 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
     const startScanner = async () => {
       try {
         const videoInputDevices = await codeReader.listVideoInputDevices();
-        const selectedDeviceId = videoInputDevices.find(device => device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('rear'))?.deviceId || videoInputDevices[0].deviceId;
-
+        const rearCameraDevice = videoInputDevices.find(device =>
+          device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('rear')
+        ) || videoInputDevices[0];  
+    
         const constraints = {
           video: {
-            deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
-            facingMode: "environment", 
-            width: { ideal: 1280 },
-            height: { ideal: 720 }
+            deviceId: rearCameraDevice ? { exact: rearCameraDevice.deviceId } : undefined,
+            facingMode: "environment"
           }
         };
-
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          await videoRef.current.play();
+    
+        const stream = await navigator.mediaDevices.getUserMedia(constraints).catch(error => {
+          console.error("Failed to get media stream:", error);
+          return null;
+        });
+        if (!stream) {
+          console.error("Unable to access camera stream.");
+          return;
         }
-
-        codeReader.decodeFromVideoDevice(selectedDeviceId, videoRef.current, (result, err) => {
+    
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play().catch(error => {
+          console.error("Error playing the video stream: ", error);
+        });
+    
+        codeReader.decodeFromVideoDevice(rearCameraDevice.deviceId, videoRef.current, (result, err) => {
           if (result) {
             setIsActive(false);
             const upcCode = result.getText();
@@ -58,11 +66,12 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
             console.error(err);
           }
         });
+    
       } catch (error) {
         console.error('Error starting the barcode scanner:', error);
       }
     };
-
+    
     startScanner();
 
     return () => {
