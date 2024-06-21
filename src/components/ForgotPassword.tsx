@@ -1,46 +1,40 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom"
 import { toast } from 'react-toastify';
 
-interface LoginProps {
+interface ForgotPasswordProps {
     setForgotPassword: (value: boolean) => void;
 }
 
-const Login: React.FC<LoginProps> = ({setForgotPassword}) => {
+const Login: React.FC<ForgotPasswordProps> = ({setForgotPassword}) => {
+    
     const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleResetSubmission = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/login`, { email, password });
-            login(response.data.token, response.data.user);
-            navigate(`/profile/${response.data.user.username}`);
-            toast.success('🥃 Login successful! Welcome to NOTR! 🧊');
+            await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/password-reset-initiate`, { email });
+            setEmail('');
+            setForgotPassword(false);
+            navigate('/');
+            toast.success('📧 Reset email sent! Check your inbox for further instructions.');
         } catch (error) {
-            console.error('Login error:', error);
-            toast.error('Invalid email or password.');
+            console.error('Reset error:', error);
         }
-    };
+    }
 
     return (
-        <Form onSubmit={handleLogin}>
-            <h2>Login</h2>
+        <Form onSubmit={handleResetSubmission}>
+            <h2>Send Reset Email</h2>
             <FormGroup>
                 <Label>Email:</Label>
                 <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </FormGroup>
-            <FormGroup>
-                <Label>Password:</Label>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            </FormGroup>
-            <Button type="submit">Login</Button>
-            <SubLink onClick={() => setForgotPassword(true)}>Forgot your password?</SubLink>
+            <Button type="submit">Request Reset</Button>
+            <SubLink onClick={() => setForgotPassword(false)}>Did you remember?</SubLink>
         </Form>
     );
 };

@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Login from '../components/Login';
 import SignUp from '../components/SignUp';
+import ForgotPassword from '../components/ForgotPassword';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const AuthPage: React.FC = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [forgotPassword, setForgotPassword] = useState(false);
 
     const { auth } = useAuth();
     const navigate = useNavigate();
@@ -19,10 +21,10 @@ const AuthPage: React.FC = () => {
         <Container>
             <div className={`container ${isLogin ? "" : "right-panel-active"}`}>
                 <div className="form-container sign-up-container">
-                    <SignUp />
+                     <SignUp /> 
                 </div>
                 <div className="form-container sign-in-container">
-                    <Login />
+                  {forgotPassword ? <ForgotPassword setForgotPassword={setForgotPassword}/> : <Login setForgotPassword={setForgotPassword}/>}
                 </div>
                 <div className="overlay-container">
                     <div className="overlay">
@@ -185,8 +187,8 @@ const Container = styled.div`
 
   button {
     border-radius: 20px;
-    border: 1px solid #ff4b2b;
-    background-color: #ff4b2b;
+    border: 1px solid var(--background);
+    background-color: var(--accent);
     color: #ffffff;
     font-size: 12px;
     font-weight: bold;
