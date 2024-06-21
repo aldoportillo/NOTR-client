@@ -18,6 +18,7 @@ import AdminRoute from './components/AdminRoute';
 import { DrinksProvider } from './context/DrinksContext';
 import DisclaimerPage from './pages/Disclaimer';
 import Drinks from './pages/Drinks';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
 
@@ -72,6 +73,7 @@ function App() {
             <Route path="/drinks" element={<PageContainer children={<Drinks />} />} />
             <Route path="/admin" element={<PageContainer children={<AdminRoute><AdminPanel /></AdminRoute>} />} />
             <Route path="/disclaimer" element={<PageContainer children={<DisclaimerPage />} />} />
+            <Route path="/reset-password/:token" element={<PageContainer children={<ResetPassword />} />} />
             <Route path="*">"404 Not Found"</Route>
           </Routes>
           </DrinksProvider>
