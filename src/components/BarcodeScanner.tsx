@@ -19,18 +19,48 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
     const startScanner = async () => {
       try {
         const videoInputDevices = await codeReader.listVideoInputDevices();
+        let selectedDeviceId = videoInputDevices[0]?.deviceId; // Default to the first device if no rear camera is found
     
-        const rearCameraDeviceId = videoInputDevices.find(device =>
+        const rearCameraDevice = videoInputDevices.find(device =>
           device.label.toLowerCase().includes('back') ||
           device.label.toLowerCase().includes('rear')
-        )?.deviceId;
+        );
     
-        if (!rearCameraDeviceId) {
-          console.error('No rear camera found');
-          return;
+        if (rearCameraDevice) {
+          selectedDeviceId = rearCameraDevice.deviceId;
         }
     
-        codeReader.decodeFromVideoDevice(rearCameraDeviceId, videoRef.current, (result, err) => {
+        const constraints = {
+          video: {
+            deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
+            facingMode: rearCameraDevice ? "environment" : "user",
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          }
+        };
+    
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        const track = stream.getVideoTracks()[0];
+    
+        // Check and log capabilities
+        const capabilities = track.getCapabilities && track.getCapabilities();
+        console.log('Camera capabilities:', capabilities);
+    
+        if (capabilities && capabilities.torch) {
+          try {
+            await track.applyConstraints({ advanced: [{ torch: true }] });
+            console.log("Torch enabled");
+          } catch (error) {
+            console.error("Error enabling torch:", error);
+          }
+        } else {
+          console.log("Torch not supported on this device's camera");
+        }
+    
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+    
+        codeReader.decodeFromVideoDevice(selectedDeviceId, videoRef.current, (result, err) => {
           if (result) {
             setIsActive(false);
             const upcCode = result.getText();
@@ -53,11 +83,13 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
           }
           codeReader.reset();
         });
+    
       } catch (error) {
         console.error('Error starting the barcode scanner:', error);
       }
     };
     
+
     startScanner();
 
     return () => {
