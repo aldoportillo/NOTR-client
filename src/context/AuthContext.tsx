@@ -1,13 +1,14 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
 
 const isTokenExpired = (token) => {
   if (!token) return true;
   const decoded = jwtDecode(token);
   console.log("decoded", decoded)
-  const currentTime = Date.now() / 1000; 
-  return decoded.exp < currentTime;  
+  const currentTime = Date.now() / 1000;
+  return decoded.exp < currentTime;
 };
 
 interface User {
@@ -44,27 +45,30 @@ export const useAuth = (): AuthContextType => {
 };
 
 interface AuthProviderProps {
-  children: React.ReactNode; 
+  children: React.ReactNode;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+
+  const navigate = useNavigate();
   const [auth, setAuth] = useState<{ token: string | null; user: User | null }>(() => {
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('user');
+    return {
+      token: token,
+      user: userData ? JSON.parse(userData) : null
+    };
+  });
 
-    if (token && !isTokenExpired(token)) {
-        return {
-            token: token,
-            user: userData ? JSON.parse(userData) : null
-        };
-    } else {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        toast.error('🫗 Session expired. Please login again! 🫗');
-        return { token: null, user: null };
+  useEffect(() => {
+    if (auth.token && isTokenExpired(auth.token)) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      setAuth({ token: null, user: null });
+      toast.error('🫗 Session expired. Please login again! 🫗');
+      navigate('/auth');
     }
-});
-
+  }, [auth.token])
 
   const login = (token: string, user: User) => {
     localStorage.setItem('token', token);
