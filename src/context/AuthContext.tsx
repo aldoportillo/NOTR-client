@@ -1,5 +1,14 @@
 import React, { createContext, useState, useContext } from 'react';
 import { toast } from 'react-toastify';
+import { jwtDecode } from "jwt-decode";
+
+const isTokenExpired = (token) => {
+  if (!token) return true;
+  const decoded = jwtDecode(token);
+  console.log("decoded", decoded)
+  const currentTime = Date.now() / 1000; 
+  return decoded.exp < currentTime;  
+};
 
 interface User {
   _id: string;
@@ -40,14 +49,22 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [auth, setAuth] = useState<{ token: string | null; user: User | null }>(() => {
-    
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('user');
-    return {
-      token: token,
-      user: userData ? JSON.parse(userData) : null
-    };
-  });
+
+    if (token && !isTokenExpired(token)) {
+        return {
+            token: token,
+            user: userData ? JSON.parse(userData) : null
+        };
+    } else {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        toast.error('🫗 Session expired. Please login again! 🫗');
+        return { token: null, user: null };
+    }
+});
+
 
   const login = (token: string, user: User) => {
     localStorage.setItem('token', token);
