@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 const isTokenExpired = (token) => {
   if (!token) return true;
   const decoded = jwtDecode(token);
-  console.log("decoded", decoded)
   const currentTime = Date.now() / 1000;
   return decoded.exp < currentTime;
 };
