@@ -13,45 +13,51 @@ const BarcodeScanner = ({ setBeverageData, beverageData, setDisplayScanner, setF
   const [ formType, setFormType ] = useState(null);
   const { auth } = useAuth();
 
-
-
   useEffect(() => {
     if (!isActive) return;
 
     const startScanner = async () => {
       try {
         const videoInputDevices = await codeReader.listVideoInputDevices();
-        codeReader.decodeFromVideoDevice(videoInputDevices[0].deviceId, videoRef.current, (result, err) => {
+    
+        const rearCameraDeviceId = videoInputDevices.find(device =>
+          device.label.toLowerCase().includes('back') ||
+          device.label.toLowerCase().includes('rear')
+        )?.deviceId;
+    
+        if (!rearCameraDeviceId) {
+          console.error('No rear camera found');
+          return;
+        }
+    
+        codeReader.decodeFromVideoDevice(rearCameraDeviceId, videoRef.current, (result, err) => {
           if (result) {
-            (async () => {
-              setIsActive(false);
-              const upcCode = result.getText();
-              try {
-                const data = await fetchBeverage(upcCode);
+            setIsActive(false);
+            const upcCode = result.getText();
+            fetchBeverage(upcCode)
+              .then(data => {
                 setBeverageData(data);
                 setFormType("exists");
-                return true;
-              } catch (error) {
+              })
+              .catch(error => {
                 console.error('Error fetching beverage:', error);
-                setBeverageData(prevData => ({...prevData, "upc_code": upcCode, "creator_id": auth.user._id}));
+                setBeverageData(prevData => ({
+                  ...prevData,
+                  "upc_code": upcCode,
+                  "creator_id": auth.user._id
+                }));
                 setFormType("new");
-              }
-
-              codeReader.reset(); 
-            })();
+              });
+          } else if (err && !(err instanceof NotFoundException)) {
+            console.error(err);
           }
-
-          if (err) {
-            if (!(err instanceof NotFoundException)) {
-              console.error(err);
-            }
-          }
+          codeReader.reset();
         });
       } catch (error) {
         console.error('Error starting the barcode scanner:', error);
       }
     };
-
+    
     startScanner();
 
     return () => {
