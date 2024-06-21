@@ -24,6 +24,7 @@ const Login: React.FC<LoginProps> = ({setForgotPassword}) => {
             toast.success('🥃 Login successful! Welcome to NOTR! 🧊');
         } catch (error) {
             console.error('Login error:', error);
+            toast.error('Invalid email or password.');
         }
     };
 
