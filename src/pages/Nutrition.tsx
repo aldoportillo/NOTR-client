@@ -32,7 +32,7 @@ export default function Nutrition({ spiritData, loading }: NutritionProps) {
     abv: 0,
     sugarConcentration: 0,
     acid: 0,
-    sugarAcid: 0,
+    sugar_acid: 0,
   });
 
   useEffect(() => {

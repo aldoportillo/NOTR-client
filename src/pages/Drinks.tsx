@@ -21,7 +21,7 @@ function Drinks() {
           <h1>{drink.name}</h1>
           <h2>ABV: {(drink.abv * 100).toFixed(2)}%</h2>
           <h2>OZ: {drink.ounces.toFixed(2)}</h2>
-          <h2>Sugar Acid: {drink.sugarAcid?.toFixed(2)}</h2>
+          <h2>Sugar Acid: {drink.sugar_acid?.toFixed(2)}</h2>
           <h2>Time: {formatDateTime(drink.timestamp)}</h2>
           <NutritionLabel macros={{calories: drink.calories, ethanol: drink.ethanol, fat: drink.fat, carb: drink.carbs, sugar: drink.sugar, added_sugar: drink.added_sugar, protein: drink.protein}} />
         </div>

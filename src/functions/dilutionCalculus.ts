@@ -32,6 +32,7 @@ function finalEthanol(ethanol: number, initialVolume: number, finalVolume: numbe
 }
 
 function finalSugarContent(initialSugar: number, initialVolume: number, finalVolume: number): number {
+    console.log(initialSugar, initialVolume, finalVolume);
     return (initialSugar * initialVolume) / finalVolume;
 }
 
@@ -64,7 +65,7 @@ export const dilutionCalculus = (ingredients: Ingredients, technique: Technique)
         abv: calculatedAbv,
         sugarConcentration: calculatedSugarConcentration,
         acid: calculatedAcid,
-        sugarAcid: calculatedSugarAcidRatio,
+        sugar_acid: calculatedSugarAcidRatio,
     };
 
     return attributes;

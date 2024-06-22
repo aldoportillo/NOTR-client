@@ -4,5 +4,5 @@ export interface CocktailAttributes {
     abv: number;
     sugarConcentration: number;
     acid: number;
-    sugarAcid: number;
+    sugar_acid: number;
 }
