@@ -46,7 +46,6 @@ function App() {
     const loadSpiritData = async () => {
       try {
         const data: SpiritData[] = await fetchSpirits();
-        console.log(data)
         setSpiritData(data);
       } catch (error) {
         console.error("Error fetching spirit data:", error);

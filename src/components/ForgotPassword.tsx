@@ -23,6 +23,7 @@ const Login: React.FC<ForgotPasswordProps> = ({setForgotPassword}) => {
             toast.success('📧 Reset email sent! Check your inbox for further instructions.');
         } catch (error) {
             console.error('Reset error:', error);
+            toast.error("Account not found. Please check your spelling and try again.")
         }
     }
 

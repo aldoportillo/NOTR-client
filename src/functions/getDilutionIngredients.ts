@@ -28,8 +28,6 @@ import { SpiritData } from "../types/SpiritData";
       ingredients.totalSugar /= ingredients.totalVolume;
       ingredients.totalAcid /= ingredients.totalVolume;
     }
-
-    console.log(ingredients);
   
     return ingredients;
   };
