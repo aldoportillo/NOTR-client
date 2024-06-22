@@ -32,7 +32,6 @@ function finalEthanol(ethanol: number, initialVolume: number, finalVolume: numbe
 }
 
 function finalSugarContent(initialSugar: number, initialVolume: number, finalVolume: number): number {
-    console.log(initialSugar, initialVolume, finalVolume);
     return (initialSugar * initialVolume) / finalVolume;
 }
 
