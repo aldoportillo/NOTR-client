@@ -16,7 +16,7 @@ import { SpiritData } from "../types/SpiritData";
           const volume = typeof(item.ounces) == 'string' ? parseFloat(item.ounces): item.ounces;
           ingredients.totalVolume += volume;
           ingredients.totalAbv += (volume * item2.abv);
-          ingredients.totalSugar += (volume * item2.sugarconcentration);
+          ingredients.totalSugar += (volume * item2.sugar_concentration);
           ingredients.totalAcid += (volume * item2.acid);
         }
       });
@@ -28,6 +28,8 @@ import { SpiritData } from "../types/SpiritData";
       ingredients.totalSugar /= ingredients.totalVolume;
       ingredients.totalAcid /= ingredients.totalVolume;
     }
+
+    console.log(ingredients);
   
     return ingredients;
   };

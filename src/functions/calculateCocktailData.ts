@@ -23,6 +23,6 @@ export function calculateCocktailData(name: string, cocktail: Spec[], spiritsDat
     added_sugar: macros.added_sugar,
     ounces: cocktailAttributes.finalVolume,
     abv: cocktailAttributes.abv,
-    sugarAcid: cocktailAttributes.sugarAcid
+    sugar_acid: cocktailAttributes.sugar_acid
 })
 }

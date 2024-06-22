@@ -58,8 +58,8 @@ export default function DilutionResults({ cocktailAttributes }: cocktailAttribut
             </TableRow>
             <TableRow>
                 <TableHeaderCell>Sugar-Acid ratio</TableHeaderCell>
-                <TableCell>{cocktailAttributes.sugarAcid.toFixed(2)}</TableCell>
-                <TableCell style={inRange(cocktailAttributes.sugarAcid, 7.5, 11.0) === "Perfect" ? {backgroundColor: "green"} : {backgroundColor: "red"}}>{inRange(cocktailAttributes.sugarAcid, 7.5, 11.0)}</TableCell>
+                <TableCell>{cocktailAttributes.sugar_acid.toFixed(2)}</TableCell>
+                <TableCell style={inRange(cocktailAttributes.sugar_acid, 7.5, 11.0) === "Perfect" ? {backgroundColor: "green"} : {backgroundColor: "red"}}>{inRange(cocktailAttributes.sugar_acid, 7.5, 11.0)}</TableCell>
             </TableRow>
         </tbody>
     </Table>

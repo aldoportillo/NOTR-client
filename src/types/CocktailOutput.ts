@@ -10,6 +10,6 @@ export interface CocktailOutput {
     added_sugar: number;
     ounces: number;
     abv: number;
-    sugarAcid: number;
+    sugar_acid: number;
     timestamp?: string;
   }
