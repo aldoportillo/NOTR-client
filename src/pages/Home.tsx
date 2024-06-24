@@ -68,7 +68,14 @@ const Wrapper = styled.div`
     width: 80vw;
 
     .orange-font{
-        color: ${colors.accent};
+        color: ${colors.accent}; 
+        text-decoration: none; /* Remove default underline */
+        font-weight: bold; 
+      
+        &:hover, &:focus {
+          text-decoration: underline;
+          color: '#D87C30'; 
+        }
       }
   
    .paragraph > .text-content > h2{
