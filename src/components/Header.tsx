@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import DesktopNav from './DesktopNav'
-import { Spin as Hamburger } from 'hamburger-react'
+import Hamburger from '../components/Hamburger'
 import React from 'react'
 import Logo from "../assets/notr-logo-medium-transparent.png"
 import styled from 'styled-components'
@@ -22,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ setOpennav, opennav, windowSize }) => {
               {windowSize > 1025 
               ? <DesktopNav /> 
               : <div className='hamburger'>
-                  <Hamburger toggled={opennav} toggle={setOpennav} size={25} direction="left" duration={0.4} color="white" easing="ease-in"/>
+                  <Hamburger toggled={opennav} toggle={setOpennav}  />
                 </div>}
             </div>
         </Wrapper>
