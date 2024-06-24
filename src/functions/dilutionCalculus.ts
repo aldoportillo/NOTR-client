@@ -40,7 +40,11 @@ function finalAcidContent(initialAcid: number, initialVolume: number, finalVolum
 }
 
 function sugarAcidRatio(finalSugarContent: number, finalAcidContent: number): number {
-    return finalSugarContent / finalAcidContent;
+    const sugarAcid = finalSugarContent / finalAcidContent;
+    if (!isFinite(sugarAcid)) {
+        return 0;
+    }
+    return sugarAcid;
 }
 
 export const dilutionCalculus = (ingredients: Ingredients, technique: Technique): CocktailAttributes => {

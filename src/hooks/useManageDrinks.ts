@@ -24,7 +24,6 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
 
     const addDrinkToDB = useCallback(async (drink: DrinksCocktail) => {
 
-        console.log(drink);
         try {
             const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/cocktail-entry/record`, {
                 method: "POST",
@@ -56,8 +55,6 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
             toast.error("You must be logged in to add drinks");
             return;
         }
-
-        console.log(specs)
 
         if (info && info.ounces > 0 && info.abv > 0) {
             //From Add Ethanol Form
