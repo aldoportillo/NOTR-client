@@ -70,6 +70,7 @@ const ButtonBase = styled.button<{ borderRadius: string; fontSize: string; paddi
 
 const PrimaryButton = styled(ButtonBase)`
   background-color: hsl(18,85%,70%);
+  color: #333333;
 `;
 
 const SecondaryButton = styled(ButtonBase)`
@@ -85,6 +86,10 @@ const DangerButton = styled(ButtonBase)`
 `;
 
 const PrimaryStyledLink = styled(PrimaryButton).attrs({ as: Link })`
+  text-decoration: none;
+  &:hover, &:focus {
+    text-decoration: underline;s
+  }
 `;
 
 const SecondaryStyledLink = styled(SecondaryButton).attrs({ as: Link })`

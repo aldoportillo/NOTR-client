@@ -24,7 +24,7 @@ function finalVolume(volume: number, dilution: number | false): number {
     if (typeof dilution === "number") {
         return (volume * dilution) + volume;
     }
-    return volume; // Return the original volume if dilution is false
+    return volume; 
 }
 
 function finalEthanol(ethanol: number, initialVolume: number, finalVolume: number): number {
@@ -40,7 +40,11 @@ function finalAcidContent(initialAcid: number, initialVolume: number, finalVolum
 }
 
 function sugarAcidRatio(finalSugarContent: number, finalAcidContent: number): number {
-    return finalSugarContent / finalAcidContent;
+    const sugarAcid = finalSugarContent / finalAcidContent;
+    if (!isFinite(sugarAcid)) {
+        return 0;
+    }
+    return sugarAcid;
 }
 
 export const dilutionCalculus = (ingredients: Ingredients, technique: Technique): CocktailAttributes => {
