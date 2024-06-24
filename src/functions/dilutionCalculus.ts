@@ -24,7 +24,7 @@ function finalVolume(volume: number, dilution: number | false): number {
     if (typeof dilution === "number") {
         return (volume * dilution) + volume;
     }
-    return volume; // Return the original volume if dilution is false
+    return volume; 
 }
 
 function finalEthanol(ethanol: number, initialVolume: number, finalVolume: number): number {

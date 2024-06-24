@@ -31,6 +31,8 @@ export default function Cocktail({ spiritData }: CocktailProps) {
     );
   });
 
+  console.log(specs);
+
   const [macros, setMacros] = React.useState<Macros>({
     "fat": 0,
     "carb": 0,

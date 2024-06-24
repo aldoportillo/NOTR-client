@@ -23,6 +23,8 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
     const { auth } = useAuth();
 
     const addDrinkToDB = useCallback(async (drink: DrinksCocktail) => {
+
+        console.log(drink);
         try {
             const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/cocktail-entry/record`, {
                 method: "POST",
@@ -55,6 +57,8 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
             return;
         }
 
+        console.log(specs)
+
         if (info && info.ounces > 0 && info.abv > 0) {
             //From Add Ethanol Form
             const cocktailData = calculateDrinkData(info);
@@ -63,6 +67,7 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
         } else if (specs && specs.length > 0) {
             //From Liquid Form and Cocktail Page
             const cocktailData = calculateCocktailData(name, specs, spiritData, technique);
+            
             setDrinks((prevDrinks) => [...prevDrinks, cocktailData]);
             addDrinkToDB(cocktailData);
         } else {
