@@ -91,6 +91,7 @@ export default function Cocktails({ cocktailData, loading }: CocktailProps) {
                         <Pagination
                             totalItems={filteredCocktails.length}
                             searchTerm={searchTerm}
+                            cocktailData={cocktailData}
                         >{filteredCocktails}</Pagination>
                     </>
                 )}

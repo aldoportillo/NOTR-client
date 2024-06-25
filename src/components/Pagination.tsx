@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom'
 
 
-function Pagination({ children, totalItems, searchTerm }) {
+function Pagination({ children, totalItems, searchTerm, cocktailData }) {
     const [pageNumbers, setPageNumbers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;
@@ -13,6 +13,10 @@ function Pagination({ children, totalItems, searchTerm }) {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentCocktails = children.slice(indexOfFirstItem, indexOfLastItem);
 
+    function mergeCocktailData(source, supplement) {
+        return { ...supplement, ...source };
+    }
+    
 
     const renderMissingSpirits = (spirits) => {
         return spirits.map(spirit => {
@@ -26,7 +30,7 @@ function Pagination({ children, totalItems, searchTerm }) {
         const {id, name, glass, slug, image_url, spirits_missing = []} = cocktail;
         return (
             <CocktailCard key={id}>
-                <Link to={`/cocktail/${slug}`} state={{ from: "cocktail", data: cocktail}}>
+                <Link to={`/cocktail/${slug}`} state={{ from: "cocktail", data: mergeCocktailData(cocktail, cocktailData.find(c => c.id === cocktail.id))}}>
                     <h3>{name}</h3>
                     <img src={image_url} alt={`${name} inside a ${glass} glass`} />
                     {(spirits_missing.length > 0) && renderMissingSpirits(spirits_missing) }
