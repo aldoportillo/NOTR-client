@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
+import { IoAddCircleOutline } from 'react-icons/io5';
 
 
 function Pagination({ children, totalItems, searchTerm, cocktailData }) {
@@ -13,15 +17,37 @@ function Pagination({ children, totalItems, searchTerm, cocktailData }) {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentCocktails = children.slice(indexOfFirstItem, indexOfLastItem);
 
+    const { auth } = useAuth();
+
     function mergeCocktailData(source, supplement) {
         return { ...supplement, ...source };
     }
-    
+
+    const addSpirit = async (spiritId, spiritName) => {
+        try {
+            await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/my-fridge`, { spiritId, spiritName }, {
+                headers: { Authorization: `Bearer ${auth.token}` }
+            });
+            toast.success(`🥶${spiritName} added to fridge!🥶`);
+        } catch (error) {
+            toast.error(`Failed to add ${spiritName} to fridge!`);
+            console.error('Failed to add item:', error);
+        }
+    }
 
     const renderMissingSpirits = (spirits) => {
+        console.log(spirits);
         return spirits.map(spirit => {
             return (
-                <p>{spirit.name}</p>
+                <MissingSpirit key={spirit.id}>
+                {spirit.name}
+                <IconButton 
+                    whileHover={{ scale: 1.1 }} 
+                    whileTap={{ scale: 0.9 }} 
+                    onClick={() => addSpirit(spirit.id, spirit.name)}>
+                        <IoAddCircleOutline size={24} />
+                </IconButton>
+            </MissingSpirit>
             )
         })
     }
@@ -154,3 +180,20 @@ const CocktailCard = styled.a`
         }
       }
 `
+const MissingSpirit = styled.p`
+    color: #C80815;
+    text-decoration: line-through; 
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%; 
+`;
+
+const IconButton = styled(motion.button)`
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+`;
