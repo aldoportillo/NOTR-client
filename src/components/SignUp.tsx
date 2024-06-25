@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
@@ -20,6 +20,83 @@ interface FormData {
     sex: string;
 }
 
+const StepOne = ({formData, handleChange}) => (
+    <>
+        <FormGroup>
+            <Label>First Name:</Label>
+            <Input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+        </FormGroup>
+        <FormGroup>
+            <Label>Last Name:</Label>
+            <Input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
+        </FormGroup>
+        <FormGroup>
+            <Label>Username:</Label>
+            <Input type="text" name="username" value={formData.username} onChange={handleChange} required />
+        </FormGroup>
+        <FormGroup>
+            <Label>Date of Birth:</Label>
+            <Input type="date" name="dob" value={formData.dob} onChange={handleChange} required />
+        </FormGroup>
+    </>
+);
+
+const StepTwo = ({formData, handleChange}) => (
+    <>
+        <FormGroup>
+            <Label>Height (Feet):</Label>
+            <Input type="number" name="feet" value={formData.feet} onChange={handleChange} required />
+        </FormGroup>
+        <FormGroup>
+            <Label>Height (Inches):</Label>
+            <Input type="number" name="inches" value={formData.inches} onChange={handleChange} required />
+        </FormGroup>
+        <FormGroup>
+            <Label>Weight:</Label>
+            <Input type="number" name="weight" value={formData.weight} onChange={handleChange} required />
+        </FormGroup>
+        <FormGroup>
+            <Label>Sex:</Label>
+            <Select name="sex" value={formData.sex} onChange={handleChange} required>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </Select>
+        </FormGroup>
+    </>
+);
+
+const StepThree = ({formData, handleChange}) => (
+    <>
+        <FormGroup>
+            <Label>Email:</Label>
+            <Input type="email" name="email" value={formData.email} onChange={handleChange} required />
+        </FormGroup>
+        <FormGroup>
+            <Label>Password:</Label>
+            <Input type="password" name="password" value={formData.password} onChange={handleChange} required />
+        </FormGroup>
+        <FormGroup>
+            <Label>Confirm Password:</Label>
+            <Input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+        </FormGroup>
+        
+    </>
+);
+
+const validateStepOne = (formData) => {
+    return formData.firstName.trim() !== '' && formData.lastName.trim() !== '' && formData.username.trim() !== '';
+};
+
+const validateStepTwo = (formData) => {
+    return formData.feet > 0 && formData.inches >= 0 && formData.weight > 0;
+};
+
+const validateStepThree = (formData) => {
+    return formData.email.trim() !== '' && formData.password.trim() !== '' && formData.confirmPassword.trim() !== '' && formData.password === formData.confirmPassword;
+};
+
+
 const Signup: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
         email: '',
@@ -37,7 +114,9 @@ const Signup: React.FC = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(1);
-const totalSteps = 3; 
+    const totalSteps = 3; 
+    const [isNextDisabled, setIsNextDisabled] = useState(true);
+
 
 const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -80,6 +159,7 @@ const prevStep = () => {
 
         const totalHeightInInches = (Number(formData.feet) * 12) + Number(formData.inches);
 
+        console.log(formData)
         try {
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users`, {
                 ...formData,
@@ -94,66 +174,22 @@ const prevStep = () => {
         }
     };
 
-    const StepOne = () => (
-        <>
-            <FormGroup>
-                <Label>First Name:</Label>
-                <Input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
-            </FormGroup>
-            <FormGroup>
-                <Label>Last Name:</Label>
-                <Input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
-            </FormGroup>
-            <FormGroup>
-                <Label>Username:</Label>
-                <Input type="text" name="username" value={formData.username} onChange={handleChange} required />
-            </FormGroup>
-        </>
-    );
-    
-    const StepTwo = () => (
-        <>
-            <FormGroup>
-                <Label>Height (Feet):</Label>
-                <Input type="number" name="feet" value={formData.feet} onChange={handleChange} required />
-            </FormGroup>
-            <FormGroup>
-                <Label>Height (Inches):</Label>
-                <Input type="number" name="inches" value={formData.inches} onChange={handleChange} required />
-            </FormGroup>
-            <FormGroup>
-                <Label>Weight:</Label>
-                <Input type="number" name="weight" value={formData.weight} onChange={handleChange} required />
-            </FormGroup>
-            <FormGroup>
-                <Label>Sex:</Label>
-                <Select name="sex" value={formData.sex} onChange={handleChange} required>
-                    <option value="">Select</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </Select>
-            </FormGroup>
-        </>
-    );
-    
-    const StepThree = () => (
-        <>
-            <FormGroup>
-                <Label>Email:</Label>
-                <Input type="email" name="email" value={formData.email} onChange={handleChange} required />
-            </FormGroup>
-            <FormGroup>
-                <Label>Password:</Label>
-                <Input type="password" name="password" value={formData.password} onChange={handleChange} required />
-            </FormGroup>
-            <FormGroup>
-                <Label>Confirm Password:</Label>
-                <Input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
-            </FormGroup>
-            
-        </>
-    );
-    
+    useEffect(() => {
+        switch (currentStep) {
+            case 1:
+                setIsNextDisabled(!validateStepOne(formData));
+                break;
+            case 2:
+                setIsNextDisabled(!validateStepTwo(formData));
+                break;
+            case 3:
+                setIsNextDisabled(!validateStepThree(formData));
+                break;
+            default:
+                setIsNextDisabled(true);
+                break;
+        }
+    }, [formData, currentStep]); 
 
     return (
         <Form onSubmit={handleSignup}>
@@ -169,16 +205,17 @@ const prevStep = () => {
         </div>
 
         <div className="form-body">
-            {currentStep === 1 && <StepOne />}
-            {currentStep === 2 && <StepTwo />}
-            {currentStep === 3 && <StepThree />}
+            {currentStep === 1 && <StepOne formData={formData} handleChange={handleChange}/>}
+            {currentStep === 2 && <StepTwo formData={formData} handleChange={handleChange}/>}
+            {currentStep === 3 && <StepThree formData={formData} handleChange={handleChange}/>}
         </div>
         <ButtonGroup>
             {currentStep > 1 && <Button onClick={prevStep}>Previous</Button>}
-            {currentStep === totalSteps ? (
-                <Button type="submit">Sign Up</Button>
-            ) : (
-                <Button onClick={nextStep}>Next</Button>
+            {currentStep < totalSteps && (
+                <Button onClick={nextStep} disabled={isNextDisabled}>Next</Button>
+            )}
+            {currentStep === totalSteps && (
+                <Button type="submit" disabled={isNextDisabled}>Sign Up</Button>
             )}
         </ButtonGroup>
         </Form>
@@ -269,5 +306,11 @@ const Button = styled.button`
     cursor: pointer;
     &:hover {
         background-color: darken(var(--accent), 10%);
+    }
+
+    &:disabled {
+        background-color: var(--overlay);
+        color: var(--header);
+        cursor: not-allowed;
     }
 `;
