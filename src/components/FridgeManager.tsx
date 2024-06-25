@@ -12,8 +12,10 @@ interface FridgeManagerProps {
 
 function FridgeManager({spiritData}: FridgeManagerProps) {
     const [fridgeItems, setFridgeItems] = useState([]);
-    const [activeTab, setActiveTab] = useState('view'); 
+    const [fridgeView, setFridgeView] = useState(true); 
     const { auth } = useAuth();
+    const [searchTerm, setSearchTerm] = useState('');
+
 
     useEffect(() => {
         fetchFridgeItems();
@@ -41,38 +43,57 @@ function FridgeManager({spiritData}: FridgeManagerProps) {
         }
     }
 
-    const renderFridge = fridgeItems?.map(spirit => (
-        <SpiritItem key={spirit.id}>
-            {spirit.name}
-            <IconButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => addOrRemoveSpirit(spirit.id, spirit.name)}>
-                <IoRemoveCircleOutline size={24} />
-            </IconButton>
-        </SpiritItem>
-    ));
+    const getFilteredItems = () => {
+        if (fridgeView) {
+            return fridgeItems.filter(spirit => spirit.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        } else {
+            return spiritData.filter(spirit => 
+                !fridgeItems.some(item => item.id === spirit.id) &&
+                spirit.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+    };
+    
 
-    const renderSpirits = spiritData.map(spirit => (
-        fridgeItems.find(item => item.id === spirit.id) ? null : (
+    const renderItems = () => {
+        const items = getFilteredItems();
+        return items.map(spirit => (
             <SpiritItem key={spirit.id}>
                 {spirit.name}
-                <IconButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => addOrRemoveSpirit(spirit.id, spirit.name)}>
-                    <IoAddCircleOutline size={24} />
+                <IconButton 
+                    whileHover={{ scale: 1.1 }} 
+                    whileTap={{ scale: 0.9 }} 
+                    onClick={() => addOrRemoveSpirit(spirit.id, spirit.name)}>
+                    {fridgeView ? 
+                        <IoRemoveCircleOutline size={24} /> : 
+                        <IoAddCircleOutline size={24} />
+                    }
                 </IconButton>
             </SpiritItem>
-        )
-    ));
+        ));
+    };
+    
 
+    const toggleFridgeView = () => {
+        setFridgeView(!fridgeView);
+        setSearchTerm('');
+    }
     return (
         <Wrapper>
             <h2>My Fridge</h2>
             <TabContainer>
-                <TabButton className={activeTab === 'view' ? 'active' : ''} onClick={() => setActiveTab('view')}>View My Fridge</TabButton>
-                <TabButton className={activeTab === 'add' ? 'active' : ''} onClick={() => setActiveTab('add')}>Add Spirits</TabButton>
+                <TabButton className={fridgeView ? 'active' : ''} onClick={toggleFridgeView}>View My Fridge</TabButton>
+                <TabButton className={!fridgeView ? 'active' : ''} onClick={toggleFridgeView}>Add Spirits</TabButton>
             </TabContainer>
-            {activeTab === 'view' ? (
-                <div>{renderFridge}</div>
-            ) : (
-                <div>{renderSpirits}</div>
-            )}
+            <SearchInput
+                type="text"
+                placeholder="Search spirits..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <SpiritsContainer>
+                {renderItems()}
+            </SpiritsContainer>
         </Wrapper>
     );
 }
@@ -103,6 +124,16 @@ const TabContainer = styled.div`
     margin-bottom: 10px;
 `;
 
+const SearchInput = styled.input`
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--overlay);
+    border-radius: 5px;
+    width: 80%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+`;
+
+
 const TabButton = styled.button`
     background: none;
     border: none;
@@ -121,7 +152,13 @@ const SpiritItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    width: 95%;
+`;
+
+const SpiritsContainer = styled.div`
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
 `;
 
 const IconButton = styled(motion.button)`
