@@ -3,7 +3,8 @@ import LoadingGif from '../assets/loading.gif'
 import { CocktailData } from '../types/CocktailData'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Pagination from '../components/Pagination'
 
 interface CocktailProps {
     cocktailData: CocktailData[];
@@ -11,15 +12,23 @@ interface CocktailProps {
 }
 
 export default function Cocktails({ cocktailData, loading }: CocktailProps) {
-
     const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 9;
 
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
 
     const filteredCocktails = cocktailData.filter(cocktail =>
         cocktail.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    
-    const renderCocktails = filteredCocktails.map(cocktail => {
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentCocktails = filteredCocktails.slice(indexOfFirstItem, indexOfLastItem);
+
+    const renderCocktails = currentCocktails.map(cocktail => {
         const {id, name, glass, slug, image_url} = cocktail;
         return (
             <CocktailCard key={id}>
@@ -40,15 +49,20 @@ export default function Cocktails({ cocktailData, loading }: CocktailProps) {
                     placeholder="Search cocktails..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{ margin: "20px", padding: "10px", width: "90%" }}
                 />
-
-                {loading ?
-                    <img src={LoadingGif} className="loader" alt="loader" /> :
-
-                    <CocktailListContainer>
-                        {renderCocktails}
-                    </CocktailListContainer>}
+                {loading ? <img src={LoadingGif} className="loader" alt="loader" /> : (
+                    <>
+                        <CocktailListContainer>
+                            {renderCocktails}
+                        </CocktailListContainer>
+                        <Pagination
+                            totalItems={filteredCocktails.length}
+                            itemsPerPage={itemsPerPage}
+                            currentPage={currentPage}
+                            onPageChange={setCurrentPage}
+                        />
+                    </>
+                )}
             </Wrapper>
             <Helmet>
                 <title>Cocktails | Neat on the Rocks</title>
