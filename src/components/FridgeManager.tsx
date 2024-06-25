@@ -5,6 +5,7 @@ import { SpiritData } from '../types/SpiritData';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { IoAddCircleOutline, IoRemoveCircleOutline } from 'react-icons/io5';
+import { toast } from 'react-toastify';
 
 interface FridgeManagerProps {
     spiritData: SpiritData[];
@@ -38,7 +39,9 @@ function FridgeManager({spiritData}: FridgeManagerProps) {
                 headers: { Authorization: `Bearer ${auth.token}` }
             });
             fetchFridgeItems();
+            toast.success(`🥶${spiritName} ${fridgeView ? 'removed from' : 'added to'} fridge!🥶`);
         } catch (error) {
+            toast.error(`Failed to ${fridgeView ? 'remove' : 'add'} ${spiritName} from fridge!`);
             console.error('Failed to add item:', error);
         }
     }
@@ -116,6 +119,11 @@ const Wrapper = styled.div`
     @media (max-width: 768px) {
     width: 95%;
     padding: 10px;
+    }
+
+    h2 {
+        margin-bottom: 10px;
+        color: var(--accent)
     }
 `;
 

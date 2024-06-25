@@ -67,12 +67,12 @@ function Profile({spiritData}: ProfileProps) {
   return (
     <StyledProfile>
       <FindUser />
-      <FridgeManager spiritData={spiritData} />
       <UserInfo profileUser={profileUser} isCurrentUser={isCurrentUser} />
       <Bac userId={profileUser._id} userMetrics={{ sex, weight, height }} isCurrentUser={isCurrentUser} name={profileUser.firstName} />
       {isCurrentUser && (
         <>
           <AddEthanol />
+          <FridgeManager spiritData={spiritData} />
           <FriendsList />
           <FriendRequests />
           <EditProfile userMetrics={{ sex, weight, height }}/>
