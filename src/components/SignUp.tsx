@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { motion } from 'framer-motion';
 
 interface FormData {
     email: string;
@@ -35,6 +36,20 @@ const Signup: React.FC = () => {
     });
     const { login } = useAuth();
     const navigate = useNavigate();
+    const [currentStep, setCurrentStep] = useState(1);
+const totalSteps = 3; 
+
+const nextStep = () => {
+    if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+    }
+};
+
+const prevStep = () => {
+    if (currentStep > 1) {
+        setCurrentStep(currentStep - 1);
+    }
+};
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -79,21 +94,8 @@ const Signup: React.FC = () => {
         }
     };
 
-    return (
-        <Form onSubmit={handleSignup}>
-            <h2>Sign Up</h2>
-            <FormGroup>
-                <Label>Email:</Label>
-                <Input type="email" name="email" value={formData.email} onChange={handleChange} required />
-            </FormGroup>
-            <FormGroup>
-                <Label>Password:</Label>
-                <Input type="password" name="password" value={formData.password} onChange={handleChange} required />
-            </FormGroup>
-            <FormGroup>
-                <Label>Confirm Password:</Label>
-                <Input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
-            </FormGroup>
+    const StepOne = () => (
+        <>
             <FormGroup>
                 <Label>First Name:</Label>
                 <Input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
@@ -106,6 +108,11 @@ const Signup: React.FC = () => {
                 <Label>Username:</Label>
                 <Input type="text" name="username" value={formData.username} onChange={handleChange} required />
             </FormGroup>
+        </>
+    );
+    
+    const StepTwo = () => (
+        <>
             <FormGroup>
                 <Label>Height (Feet):</Label>
                 <Input type="number" name="feet" value={formData.feet} onChange={handleChange} required />
@@ -119,10 +126,6 @@ const Signup: React.FC = () => {
                 <Input type="number" name="weight" value={formData.weight} onChange={handleChange} required />
             </FormGroup>
             <FormGroup>
-                <Label>Date of Birth:</Label>
-                <Input type="date" name="dob" value={formData.dob} onChange={handleChange} required />
-            </FormGroup>
-            <FormGroup>
                 <Label>Sex:</Label>
                 <Select name="sex" value={formData.sex} onChange={handleChange} required>
                     <option value="">Select</option>
@@ -130,12 +133,64 @@ const Signup: React.FC = () => {
                     <option value="female">Female</option>
                 </Select>
             </FormGroup>
-            <Button type="submit">Sign Up</Button>
+        </>
+    );
+    
+    const StepThree = () => (
+        <>
+            <FormGroup>
+                <Label>Email:</Label>
+                <Input type="email" name="email" value={formData.email} onChange={handleChange} required />
+            </FormGroup>
+            <FormGroup>
+                <Label>Password:</Label>
+                <Input type="password" name="password" value={formData.password} onChange={handleChange} required />
+            </FormGroup>
+            <FormGroup>
+                <Label>Confirm Password:</Label>
+                <Input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+            </FormGroup>
+            
+        </>
+    );
+    
+
+    return (
+        <Form onSubmit={handleSignup}>
+        <div className="form-header">
+        <h2>Sign Up</h2>
+        <ProgressBarWrapper>
+            <ProgressBar
+                initial={{ width: '0%' }}
+                animate={{ width: `${(currentStep / totalSteps) * 100}%` }}
+                transition={{ duration: 0.5 }}
+            />
+        </ProgressBarWrapper>
+        </div>
+
+        <div className="form-body">
+            {currentStep === 1 && <StepOne />}
+            {currentStep === 2 && <StepTwo />}
+            {currentStep === 3 && <StepThree />}
+        </div>
+        <ButtonGroup>
+            {currentStep > 1 && <Button onClick={prevStep}>Previous</Button>}
+            {currentStep === totalSteps ? (
+                <Button type="submit">Sign Up</Button>
+            ) : (
+                <Button onClick={nextStep}>Next</Button>
+            )}
+        </ButtonGroup>
         </Form>
     );
 };
 
 export default Signup;
+
+
+interface ProgressBarProps {
+    width: string;
+}
 
 const Form = styled.form`
     background-color: var(--header);
@@ -145,6 +200,14 @@ const Form = styled.form`
     width: 100%;
     height: 100%;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .form-body {
+        margin-top: 20px;
+        margin-bottom: auto;
+    }
 `;
 
 const FormGroup = styled.div`
@@ -163,6 +226,27 @@ const Input = styled.input`
     border-radius: 4px;
     background-color: #2c2f33;
     color: white;
+`;
+
+const ProgressBar = styled(motion.div)<ProgressBarProps>`
+    height: 20px;
+    width: ${props => props.width || '0%'}; 
+    background-color: var(--accent);
+    border-radius: 4px;
+    overflow: hidden;
+`;
+
+const ProgressBarWrapper = styled.div`
+    width: 100%;
+    background-color: var(--overlay);
+    border-radius: 4px;
+    overflow: hidden;
+`;
+
+const ButtonGroup = styled.div`
+    display: flex;
+    gap: 10px;
+    align-self: flex-end;
 `;
 
 const Select = styled.select`
