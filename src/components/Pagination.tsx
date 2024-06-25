@@ -36,7 +36,6 @@ function Pagination({ children, totalItems, searchTerm, cocktailData }) {
     }
 
     const renderMissingSpirits = (spirits) => {
-        console.log(spirits);
         return spirits.map(spirit => {
             return (
                 <MissingSpirit key={spirit.id}>

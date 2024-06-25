@@ -159,7 +159,6 @@ const prevStep = () => {
 
         const totalHeightInInches = (Number(formData.feet) * 12) + Number(formData.inches);
 
-        console.log(formData)
         try {
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users`, {
                 ...formData,
