@@ -7,6 +7,7 @@ import Pagination from '../components/Pagination'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext'
 import { toast } from 'react-toastify'
+import { FaChevronDown } from "react-icons/fa";
 
 interface CocktailProps {
     cocktailData: CocktailData[];
@@ -67,22 +68,27 @@ export default function Cocktails({ cocktailData, loading }: CocktailProps) {
     return (
         <>
             <Wrapper>
+                <h2>Cocktails</h2>
                 <Header>
-                    <h2>Cocktails</h2>
+                    
                     <Input
                         type="text"
                         placeholder="Search cocktails..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
+                    {auth.token &&
                     <DropdownContainer>
-                        <DropdownButton onClick={() => setDropdownOpen(!dropdownOpen)}>{viewOption}</DropdownButton>
+                        <DropdownButton onClick={() => setDropdownOpen(!dropdownOpen)}>
+                            {viewOption}
+                        </DropdownButton>
                         <DropdownContent className={dropdownOpen ? 'show' : ''}>
-                            <DropdownItem as="button" onClick={toggleDefault}>All Cocktails</DropdownItem>
-                            <DropdownItem as="button" onClick={toggleFridgeView}>Fridge Cocktails</DropdownItem>
-                            <DropdownItem as="button" onClick={toggleRecommendations}>Recommendations</DropdownItem>
+                            <DropdownItem onClick={toggleDefault}>All Cocktails</DropdownItem>
+                            <DropdownItem onClick={toggleFridgeView}>Fridge Cocktails</DropdownItem>
+                            <DropdownItem onClick={toggleRecommendations}>Recommendations</DropdownItem>
                         </DropdownContent>
-                    </DropdownContainer>
+                        <FaChevronDown />
+                    </DropdownContainer>}
 
                 </Header>
                 {loading ? <img src={LoadingGif} className="loader" alt="loader" /> : (
@@ -116,12 +122,12 @@ const Wrapper = styled.div`
 `
 
 const Input = styled.input`
-  margin: 20px;
   width: 100%;
   font-size: 16px; 
   border: 1px solid #ccc; 
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  height: 40px;
 
   &:focus {
     outline: none;
@@ -134,55 +140,62 @@ const Header = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    width: 100%;
+    gap: 5px;
     margin: 20px;
     `
-    
-
-const DropdownContainer = styled.div`
-  position: relative;
-  display: inline-block;
+    const DropdownContainer = styled.div`
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: 0 10px;
+    background-color: var(--header); 
 `;
 
 const DropdownButton = styled.button`
-  background-color: var(--header); // Dark grey
-  color: white;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-  width: 200px;
-  text-align: left;
-  border-radius: 5px;
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0,123,255,0.5);
-  }
+    background-color: var(--header);   
+    border-radius: 5px;     
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
 `;
 
 const DropdownContent = styled.div`
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9; // Light grey background
-  min-width: 200px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  border-radius: 5px;
-  &.show {
-    display: block;
-  }
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9; /* Light grey background */
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+
+    &.show {
+        display: block;
+    }
 `;
 
 const DropdownItem = styled.button`
-  background: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  width: 100%;
-  text-align: left;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    background-color: #f1f1f1;
-  }
+    background: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #f1f1f1;
+    }
 `;
