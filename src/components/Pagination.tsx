@@ -14,13 +14,22 @@ function Pagination({ children, totalItems, searchTerm }) {
     const currentCocktails = children.slice(indexOfFirstItem, indexOfLastItem);
 
 
+    const renderMissingSpirits = (spirits) => {
+        return spirits.map(spirit => {
+            return (
+                <p>{spirit.name}</p>
+            )
+        })
+    }
+
     const renderCocktails = currentCocktails.map(cocktail => {
-        const {id, name, glass, slug, image_url} = cocktail;
+        const {id, name, glass, slug, image_url, spirits_missing = []} = cocktail;
         return (
             <CocktailCard key={id}>
                 <Link to={`/cocktail/${slug}`} state={{ from: "cocktail", data: cocktail}}>
                     <h3>{name}</h3>
                     <img src={image_url} alt={`${name} inside a ${glass} glass`} />
+                    {(spirits_missing.length > 0) && renderMissingSpirits(spirits_missing) }
                 </Link>
             </CocktailCard>
         );
