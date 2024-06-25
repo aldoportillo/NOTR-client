@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
@@ -10,8 +10,15 @@ import FriendRequests from '../components/FriendRequests';
 import FindUser from '../components/FindUser';
 import EditProfile from '../components/EditProfile';
 import AddEthanol from '../components/AddEthanol';
+import FridgeManager from '../components/FridgeManager';
+import { SpiritData } from '../types/SpiritData';
 
-const Profile: React.FC = () => {
+interface ProfileProps {
+  spiritData: SpiritData[];
+}
+
+function Profile({spiritData}: ProfileProps) {
+
   const { username } = useParams<{ username?: string }>();
   const navigate = useNavigate();
   const { auth } = useAuth();
@@ -65,6 +72,7 @@ const Profile: React.FC = () => {
       {isCurrentUser && (
         <>
           <AddEthanol />
+          <FridgeManager spiritData={spiritData} />
           <FriendsList />
           <FriendRequests />
           <EditProfile userMetrics={{ sex, weight, height }}/>

@@ -68,8 +68,8 @@ function App() {
             <Route path="/cocktails" element={<PageContainer children={<Cocktails cocktailData={cocktailData} loading={loadingCocktails}/>} />} />
             <Route path="/cocktail/:slug" element={<PageContainer children={<Cocktail spiritData={spiritData} />} />} />
             <Route path="/auth" element={<PageContainer children={<AuthForm />} />} />
-            <Route path="/profile/" element={<PageContainer children={<Profile />} />} />
-            <Route path="/profile/:username" element={<PageContainer children={<Profile />} />} />
+          <Route path="/profile/" element={<PageContainer children={<Profile spiritData={spiritData} />} />} />
+            <Route path="/profile/:username" element={<PageContainer children={<Profile spiritData={spiritData} />} />} />
             <Route path="/drinks" element={<PageContainer children={<Drinks />} />} />
             <Route path="/admin" element={<PageContainer children={<AdminRoute><AdminPanel /></AdminRoute>} />} />
             <Route path="/disclaimer" element={<PageContainer children={<DisclaimerPage />} />} />
