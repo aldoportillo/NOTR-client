@@ -195,11 +195,12 @@ const prevStep = () => {
         <div className="form-header">
         <h2>Sign Up</h2>
         <ProgressBarWrapper>
-            <ProgressBar
-                initial={{ width: '0%' }}
-                animate={{ width: `${(currentStep / totalSteps) * 100}%` }}
-                transition={{ duration: 0.5 }}
-            />
+        <ProgressBar
+            initial={{ width: '0%' }}
+            animate={{ width: `${(currentStep / totalSteps) * 100}%` }} 
+            transition={{ duration: 0.5 }} 
+            width={`${(currentStep / totalSteps) * 100}%`}
+        />
         </ProgressBarWrapper>
         </div>
 
@@ -223,10 +224,9 @@ const prevStep = () => {
 
 export default Signup;
 
-
-interface ProgressBarProps {
-    width: string;
-}
+type ProgressBarProps = React.HTMLAttributes<HTMLDivElement> & {
+    width: string; 
+};
 
 const Form = styled.form`
     background-color: var(--header);
@@ -266,10 +266,9 @@ const Input = styled.input`
 
 const ProgressBar = styled(motion.div)<ProgressBarProps>`
     height: 20px;
-    width: ${props => props.width || '0%'}; 
     background-color: var(--accent);
     border-radius: 4px;
-    overflow: hidden;
+    width: ${(props) => props.width};  
 `;
 
 const ProgressBarWrapper = styled.div`
