@@ -80,7 +80,7 @@ function AddEthanol() {
           <StyledInput
             type="text"
             id="name"
-            placeholder="Wine/Beer (Optional)"
+            placeholder="Wine/Beer"
             value={formData.name}
             onChange={onChange}
           />
