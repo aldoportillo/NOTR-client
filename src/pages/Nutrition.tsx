@@ -26,6 +26,7 @@ export default function Nutrition({ spiritData, loading }: NutritionProps) {
   const { cocktail, setCocktail } = useDrinks(); 
   const { clearCocktail } = useManageDrinks(spiritData);
   const [technique, setTechnique] = useState<Technique>("shaken");
+  const [useAI, setUseAI] = useState(false);
 
   const [cocktailAttributes, setCocktailAttributes] = useState<CocktailAttributes>({
     dilution: 0,
@@ -50,9 +51,20 @@ export default function Nutrition({ spiritData, loading }: NutritionProps) {
             ) : (
                 <Wrapper>
                     <h2>Nutrition Calculator</h2>
-                    <LiquidForm technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />
-
-                    <ArthurBartender technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail}/>
+                    
+                      <ToggleWrapper>
+                        <ToggleHead>
+                          <Toggle onClick={() => setUseAI(false)}>Use Manual Entry</Toggle>
+                          <Toggle onClick={() => setUseAI(true)} active>Use AI Bartender</Toggle>
+                        </ToggleHead>
+                        {useAI ? 
+                        <ArthurBartender technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail}/>:
+                        <LiquidForm technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />
+                      }
+                      </ToggleWrapper>
+                      
+                    
+                    
 
                     <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearCocktail} spiritData={spiritData} technique={technique}/>
 
@@ -117,3 +129,40 @@ const Wrapper = styled.div`
     }
   }
 `;
+
+const ToggleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+
+  background-color: var(--header);
+  border-radius: 1vh;
+  border: 3px solid rgb(244, 154, 115);
+  width: 100%;
+`;
+
+const ToggleHead = styled.div`
+  display: flex;
+`;
+
+const Toggle = styled.button<{ active?: boolean }>`
+  padding: 10px 20px;
+  color: white;
+  background-color: var(--accent);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+
+  ${({ active }) =>
+    active &&
+    `
+    background-color: var(--accent);
+  `}
+
+  &:hover {
+    background-color: var(--accent);
+  }
+`;
+

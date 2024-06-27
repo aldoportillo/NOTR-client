@@ -3,9 +3,10 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { useAuth } from '../context/AuthContext';
 import LoadingGif from '../assets/loading.gif';
+import { Link } from 'react-router-dom';
 
 
-export default function ArthurBartender({ technique, setTechnique, setCocktail, cocktail}) {
+export default function ArthurBartender({ setCocktail, cocktail}) {
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { auth } = useAuth();
@@ -31,6 +32,8 @@ export default function ArthurBartender({ technique, setTechnique, setCocktail, 
         if (data.error) {
             throw new Error(data.error); 
         }
+
+        toast.success('Arthur has made your cocktail! 🍹 Arthur can be wrong sometimes. Verify specs before adding drink');
         
         setCocktail(data); 
     } catch (error) {
@@ -59,6 +62,8 @@ export default function ArthurBartender({ technique, setTechnique, setCocktail, 
   return (
     <Wrapper>
       <Title>Arthur's Cocktail Maker</Title>
+      {auth.token ? 
+      <>
       <form onSubmit={handleSubmit}>
         <Input
           type="text"
@@ -81,7 +86,7 @@ export default function ArthurBartender({ technique, setTechnique, setCocktail, 
           {cocktail.map((ingredient, index) => (
             <IngredientForm key={ingredient.id}>
               {ingredient.spirit}
-              <input 
+              <IngredientInput 
                 type="number" 
                 value={ingredient.ounces} 
                 onChange={(e) => handleIngredientChange(index, e.target.value)} 
@@ -94,24 +99,25 @@ export default function ArthurBartender({ technique, setTechnique, setCocktail, 
       ) : (
         <Subheader>Enter a cocktail name and submit.</Subheader>
       )}
+      </>: 
+      <p>
+        Arthur AI is only available to Users. <StyledLink to="/auth">Sign Up Here</StyledLink>.
+      </p>}
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  padding: 20px;
-  background-color: var(--header);
-  border-radius: 8px;
-  color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: auto;
+  padding: 0vh 50px 2vh 50px;
+  
 `;
 
 const Title = styled.h3`
   color: var(--accent);
   margin-bottom: 20px;
+  align-self: center;
 `;
 
 const Subheader = styled.h4`
@@ -137,6 +143,9 @@ const Input = styled.input`
   margin-bottom: 10px;
   border: none;
   border-radius: 4px;
+  &:focus {
+    outline: var(--accent) auto 5px;
+  }
 `;
 
 const Button = styled.button`
@@ -156,5 +165,25 @@ const Loader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px; // Adjust size as needed
+  img {
+    width: 150px;
+  }
 `;
+
+const IngredientInput = styled.input`
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  &:focus {
+    outline: var(--accent) auto 3px;
+  }
+`;
+
+const StyledLink = styled(Link)`
+
+text-decoration: none;
+color: var(--accent);
+  &:hover, &:focus {
+    text-decoration: underline;
+  }
+`
