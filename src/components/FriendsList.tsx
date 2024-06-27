@@ -33,6 +33,10 @@ function FriendsList() {
     fetchFriends();
   }, []);
 
+  const filteredFriends = friends.filter(friend =>
+    `${friend.firstName} ${friend.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Wrapper>
       <h2>Friends</h2>
@@ -43,7 +47,7 @@ function FriendsList() {
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
       <div className="list">
-      {friends.map((friend, index) => (
+      {filteredFriends.map((friend, index) => (
         
         <StyledLink to={`/profile/${friend.username}`} key={index}>
           <FriendItem>
@@ -131,9 +135,18 @@ const FriendInfo = styled.div`
 
 const SearchInput = styled.input`
     padding: 10px;
+    color: white;
     margin: 10px 0;
     border: 1px solid var(--overlay);
     border-radius: 5px;
     width: 80%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    &:focus {
+      outline: none;
+      border: 1px solid var(--accent);
+    }
+    background: var(--overlay);
+    &::placeholder {
+      color: white;
+    }
 `;
