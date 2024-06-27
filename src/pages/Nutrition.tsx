@@ -15,15 +15,16 @@ import { CocktailAttributes } from '../types/CocktailAttributes'
 import DilutionResults from '../components/DilutionResults'
 import { Technique } from '../types/Technique'
 import ArthurBartender from '../components/Arthur'
+import { motion } from 'framer-motion';
 
 interface NutritionProps {
-    spiritData: SpiritData[];
-    loading: boolean;
+  spiritData: SpiritData[];
+  loading: boolean;
 }
 
 export default function Nutrition({ spiritData, loading }: NutritionProps) {
 
-  const { cocktail, setCocktail } = useDrinks(); 
+  const { cocktail, setCocktail } = useDrinks();
   const { clearCocktail } = useManageDrinks(spiritData);
   const [technique, setTechnique] = useState<Technique>("shaken");
   const [useAI, setUseAI] = useState(false);
@@ -37,6 +38,8 @@ export default function Nutrition({ spiritData, loading }: NutritionProps) {
     sugar_acid: 0,
   });
 
+  const accentInitial = useAI ? 1 : 0;
+
   useEffect(() => {
     if (!loading) {
       setCocktailAttributes(dilutionCalculus(getDilutionIngredients(cocktail, spiritData), technique));
@@ -44,45 +47,53 @@ export default function Nutrition({ spiritData, loading }: NutritionProps) {
   }, [cocktail, technique, spiritData, loading]);
 
 
-    return (
-        <>
-            {loading ? (
-                <img src={LoadingGif} alt="loader" className="loader" />
-            ) : (
-                <Wrapper>
-                    <h2>Nutrition Calculator</h2>
-                    
-                      <ToggleWrapper>
-                        <ToggleHead>
-                          <Toggle onClick={() => setUseAI(false)}>Use Manual Entry</Toggle>
-                          <Toggle onClick={() => setUseAI(true)} active>Use AI Bartender</Toggle>
-                        </ToggleHead>
-                        {useAI ? 
-                        <ArthurBartender technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail}/>:
-                        <LiquidForm technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />
-                      }
-                      </ToggleWrapper>
-                      
-                    
-                    
+  return (
+    <>
+      {loading ? (
+        <img src={LoadingGif} alt="loader" className="loader" />
+      ) : (
+        <Wrapper>
+          <h2>Nutrition Calculator</h2>
 
-                    <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearCocktail} spiritData={spiritData} technique={technique}/>
+          <ToggleWrapper>
+            <ToggleHead>
+              <Toggle onClick={() => setUseAI(false)}>
+                Use Manual Entry
+              </Toggle>
+              <Toggle onClick={() => setUseAI(true)}>
+                Use AI Bartender
+              </Toggle>
+              <AccentBar
+                initial={{ x: `${accentInitial * 100}%` }}
+                animate={{ x: `${useAI ? 100 : 0}%` }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              />
+            </ToggleHead>
+            {useAI ? <ArthurBartender setCocktail={setCocktail} cocktail={cocktail} /> :
+              <LiquidForm technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />}
+          </ToggleWrapper>
 
-                    <NutritionLabel macros={getMacros(cocktail, spiritData)} />
 
-                    <DilutionResults cocktailAttributes={cocktailAttributes} />
-                </Wrapper>
-            )}
-            <Helmet>
-              <title>Nutrition Calculator | Neat on the Rocks</title>
-              <meta name="description" content="Nutrition in Every Sip: Maintain your nutritional balance while enjoying your favorite libations. Our Macronutrient Calculator empowers you to make informed choices." />
-              <meta name="keywords" content="perfect, cocktail, alcohol, calories, ethanol, abv, nutrition, glassware, bar, bartender, vodka, gin, tequila, best tequila, instructions, bac" />
-              <meta property="og:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
-              <meta name="twitter:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
-          </Helmet>
-        </>
-    );
+
+
+          <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearCocktail} spiritData={spiritData} technique={technique} />
+
+          <NutritionLabel macros={getMacros(cocktail, spiritData)} />
+
+          <DilutionResults cocktailAttributes={cocktailAttributes} />
+        </Wrapper>
+      )}
+      <Helmet>
+        <title>Nutrition Calculator | Neat on the Rocks</title>
+        <meta name="description" content="Nutrition in Every Sip: Maintain your nutritional balance while enjoying your favorite libations. Our Macronutrient Calculator empowers you to make informed choices." />
+        <meta name="keywords" content="perfect, cocktail, alcohol, calories, ethanol, abv, nutrition, glassware, bar, bartender, vodka, gin, tequila, best tequila, instructions, bac" />
+        <meta property="og:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
+        <meta name="twitter:image" content="https://res.cloudinary.com/dkhtrg1ts/image/upload/v1702322801/NeatontheRocks/Cocktails/photo-1470337458703-46ad1756a187_xcfnzd.avif" />
+      </Helmet>
+    </>
+  );
 }
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -134,8 +145,6 @@ const ToggleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 100%;
-
   background-color: var(--header);
   border-radius: 1vh;
   border: 3px solid rgb(244, 154, 115);
@@ -144,25 +153,27 @@ const ToggleWrapper = styled.div`
 
 const ToggleHead = styled.div`
   display: flex;
+  position: relative; // Needed for absolute positioning of the accent bar
 `;
 
 const Toggle = styled.button<{ active?: boolean }>`
+  flex: 1;
   padding: 10px 20px;
   color: white;
-  background-color: var(--accent);
+  background-color: transparent;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  width: 100%;
-
-  ${({ active }) =>
-    active &&
-    `
-    background-color: var(--accent);
-  `}
 
   &:hover {
-    background-color: var(--accent);
+    background-color: rgba(255, 255, 255, 0.2); 
   }
 `;
 
+const AccentBar = styled(motion.div)`
+  height: 3px;
+  background-color: var(--accent);
+  width: 50%;
+  position: absolute;
+  bottom: 0;
+`;
