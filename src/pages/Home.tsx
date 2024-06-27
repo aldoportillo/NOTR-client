@@ -88,7 +88,7 @@ export default function Home () {
                 <motion.ul initial="hidden" animate="visible" variants={list}>
                 {features.map((feature, index) => (
                 <motion.li key={index} custom={index} variants={listItem} initial="hidden" animate="visible">
-                    <Link to={feature.link} className="orange-font">{feature.name}</Link>: {feature.description}
+                    <StyledLink to={feature.link} className="orange-font">{feature.name}</StyledLink>: {feature.description}
                 </motion.li>
             ))}
                 </motion.ul>
@@ -142,10 +142,6 @@ const Wrapper = styled(motion.div)`
         text-decoration: none; /* Remove default underline */
         font-weight: bold; 
       
-        &:hover, &:focus {
-          text-decoration: underline;
-          color: '#D87C30'; 
-        }
       }
   
    .paragraph > .text-content > h2{
@@ -211,4 +207,11 @@ const SecondaryButton = styled(motion(Link))`
     &:hover {
       background-color: #D87C30;
     }
+  `
+
+  const StyledLink = styled(Link)`
+  &:hover, &:focus {
+    text-decoration: underline;
+    color: '#D87C30'; 
+  }
   `
