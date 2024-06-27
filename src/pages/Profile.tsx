@@ -74,7 +74,7 @@ function Profile({spiritData}: ProfileProps) {
           <AddEthanol />
           <FridgeManager spiritData={spiritData} />
           <FriendsList />
-          <FriendRequests />
+          { auth.user.friendRequests.length !== 0 && <FriendRequests />}
           <EditProfile userMetrics={{ sex, weight, height }}/>
         </>
       )}

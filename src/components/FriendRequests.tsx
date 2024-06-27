@@ -44,6 +44,7 @@ function FriendRequests() {
   return (
     <Wrapper>
       <h2>Friend Requests</h2>
+      <div className="list">
       {requests.map((request, index) => (
         <RequestItem key={index}>
           <img src={DefaultImage} alt="Friend Request" />
@@ -56,6 +57,7 @@ function FriendRequests() {
           </Actions>
         </RequestItem>
       ))}
+      </div>
     </Wrapper>
   );
 }
@@ -75,6 +77,13 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
+  img {
+    width: 100%;
+    max-height: 260px;
+    overflow-y: auto;
+    border-radius: 5px;
+  }
+
   @media (max-width: 768px) {
     width: 95%;
     padding: 10px;
@@ -92,11 +101,11 @@ const RequestItem = styled.div`
   border-radius: 5px;
   background: var(--overlay);
 
-  img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
+  .list{
+    width: 100%;
+    max-height: 500px;
+    overflow-y: auto;
+    border-radius: 5px;
   }
 `;
 
