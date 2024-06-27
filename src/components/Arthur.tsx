@@ -64,25 +64,13 @@ export default function ArthurBartender({ setCocktail, cocktail}) {
       <Title>Arthur's Cocktail Maker</Title>
       {auth.token ? 
       <>
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Enter a cocktail name"
-          required
-        />
-        <Button type="submit" disabled={isLoading}>
-          Make Cocktail
-        </Button>
-      </form>
       {isLoading ? (
         <Loader>
           <img src={LoadingGif} alt="Loading..." />
         </Loader>
-      ) : cocktail ? (
+      ) : cocktail?.length !== 0 ? (
         <>
-          <Subheader>Ingredients for {prompt}:</Subheader>
+        <Subheader>{prompt.toUpperCase()}</Subheader>
           {cocktail.map((ingredient, index) => (
             <IngredientForm key={ingredient.id}>
               {ingredient.spirit}
@@ -97,7 +85,21 @@ export default function ArthurBartender({ setCocktail, cocktail}) {
           ))}
         </>
       ) : (
-        <Subheader>Enter a cocktail name and submit.</Subheader>
+        <>
+        <form onSubmit={handleSubmit}>
+        <Input
+          type="text"
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          placeholder="Enter a cocktail name"
+          required
+        />
+        <Button type="submit" disabled={isLoading}>
+          Make Cocktail
+        </Button>
+      </form>
+        <Subheader>Enter a cocktail name and let Arthur work.</Subheader>
+        </>
       )}
       </>: 
       <p>
