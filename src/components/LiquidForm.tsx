@@ -39,7 +39,7 @@ export default function LiquidForm({ cocktail, setCocktail, spiritData, techniqu
 
   return (
     <Wrapper>
-      <h4>Enter Liquids:</h4>
+      <h3>Enter Liquids</h3>
       {setTechnique && <TechniqueList technique={technique} setTechnique={setTechnique} />}
       <form onSubmit={handleSubmit}>
         <label htmlFor="liquid-input">Spirit: (Use autofill results)</label>
@@ -62,11 +62,12 @@ const Wrapper = styled.div`
 display: flex;
 flex-direction: column;
 padding: 0vh 50px 2vh 50px;
-background-color: #838383;
-border-radius: 1vh;
-border: 3px solid rgb(244, 154, 115);
-width: 100%;
 
+h3{
+  color: var(--accent);
+  margin-bottom: 20px;
+  align-self: center;
+}
 form {
   display: flex;
   flex-direction: column;

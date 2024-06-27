@@ -9,6 +9,8 @@ function FriendsList() {
   const [friends, setFriends] = useState<Friend[]>([]);
   const { auth } = useAuth();
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   const fetchFriends = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/friends`, {
@@ -31,10 +33,22 @@ function FriendsList() {
     fetchFriends();
   }, []);
 
+  const filteredFriends = friends.filter(friend =>
+    `${friend.firstName} ${friend.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Wrapper>
       <h2>Friends</h2>
-      {friends.map((friend, index) => (
+      <SearchInput
+                type="text"
+                placeholder="Search friends..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+      <div className="list">
+      {filteredFriends.map((friend, index) => (
+        
         <StyledLink to={`/profile/${friend.username}`} key={index}>
           <FriendItem>
             <img src={DefaultImage} alt={`${friend.firstName}'s profile`} />
@@ -44,6 +58,7 @@ function FriendsList() {
           </FriendItem>
         </StyledLink>
       ))}
+      </div>
     </Wrapper>
   );
 }
@@ -65,6 +80,13 @@ const Wrapper = styled.div`
   @media (max-width: 768px) {
     width: 95%;
     padding: 10px;
+  }
+
+  .list{
+    width: 100%;
+    max-height: 260px;
+    overflow-y: auto;
+    border-radius: 5px;
   }
 `;
 
@@ -109,4 +131,22 @@ const FriendInfo = styled.div`
     margin: 0;
     color: white;
   }
+`;
+
+const SearchInput = styled.input`
+    padding: 10px;
+    color: white;
+    margin: 10px 0;
+    border: 1px solid var(--overlay);
+    border-radius: 5px;
+    width: 80%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    &:focus {
+      outline: none;
+      border: 1px solid var(--accent);
+    }
+    background: var(--overlay);
+    &::placeholder {
+      color: white;
+    }
 `;

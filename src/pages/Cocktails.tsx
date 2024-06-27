@@ -124,16 +124,20 @@ const Wrapper = styled.div`
 const Input = styled.input`
   width: 100%;
   font-size: 16px; 
-  border: 1px solid #ccc; 
   border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   height: 40px;
+  color: white;
 
   &:focus {
     outline: none;
     border-color: var(--accent); 
     box-shadow: 0 0 5px rgba(0,123,255,0.5);
   }
+
+  background: var(--overlay);
+    &::placeholder {
+      color: white;
+    }
 `;
 
 const Header = styled.div`

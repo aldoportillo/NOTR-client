@@ -2,54 +2,124 @@ import BartenderSvg from "../assets/bartender.svg"
 import BartenderSvg2 from "../assets/bartender2.svg"
 import Cheers from "../assets/cheers.svg"
 import { Link } from 'react-router-dom'
-import Button from "../components/Button"
 import styled from "styled-components"
 import { colors } from "../styles/colors"
 import { Helmet } from "react-helmet"
+import { useAuth } from "../context/AuthContext"
+import { motion } from "framer-motion"
+
+const features = [
+  {
+      name: "Arthur AI",
+      link: "/nutrition",
+      description: "Interact with Arthur, an AI mixologist that crafts cocktails not available in our database"
+  },
+  {
+      name: "Barcode Scanner",
+      link: "/profile",
+      description: "Quickly add drinks to your list by scanning their barcode. Perfect for beer and wine lovers!"
+  },
+  {
+      name: "MyFridge",
+      link: "/profile",
+      description: "Add spirits to your fridge and get cocktail recommendations based on the spirits you own."
+  },
+  {
+      name: "BAC Insights",
+      link: "/profile",
+      description: "Stay informed about your alcohol consumption using our advanced Blood Alcohol Content (BAC) tracker"
+  },
+  {
+      name: "Library of Distinctive Cocktails",
+      link: "/cocktails",
+      description: "From timeless classics to contemporary creations, explore a diverse collection of cocktails designed to inspire and delight."
+  },
+  {
+      name: "Nutrition in Every Sip",
+      link: "/nutrition",
+      description: "Maintain your nutritional balance while enjoying your favorite libations with our Macronutrient Calculator"
+  }
+];
+
 
 export default function Home () {
+
+    const { auth } = useAuth();
+
+    const fadeInUp = {
+      hidden: { opacity: 0, y: 50 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+  };
+
+  const list = {
+      visible: { opacity: 1 },
+      hidden: { opacity: 0 }
+  };
+
+  const listItem = {
+      visible: i => ({
+          opacity: 1,
+          transition: {
+              delay: i * 0.3
+          }
+      }),
+      hidden: { opacity: 0 }
+  };
+
     return (
         <>
           <Wrapper>
-              <div className='hero'>
-                  <div className='hero-text'>
-                      <h2 className='orange-font'>Where Science Meets Mixology</h2>
-                      <p>Welcome to Neat on the Rocks, your passport to a new realm of cocktail enjoyment that blends health-conscious choices with irresistible flavors. For bartenders and cocktail aficionados who value both taste and well-being, we present an innovative platform that transforms the way you drink.</p>
-                  </div>
-                  <img src={BartenderSvg} alt=""/>
-              </div>
-              
-              <h3 className='orange-font'>Crafting Cocktails, Redefining Enjoyment</h3>
-              <p>At Neat on the Rocks, we're not just raising the bar – we're crafting it. Explore a host of features tailored to enhance your mixology journey:</p>
-              <ul>
-                  <li><b>BAC Insights: </b>Stay informed about your alcohol consumption using our advanced <Link to="/profile" className='orange-font'>Blood Alcohol Content (BAC) tracker</Link>. Available in your profile. Immerse yourself in the art of responsible drinking.</li>
-                  <li><b>Nutrition in Every Sip: </b>Maintain your nutritional balance while enjoying your favorite libations. Our <Link to="/nutrition" className='orange-font'>Macronutrient Calculator</Link> empowers you to make informed choices.</li>
-                  <li><b>Perfect Mix, Every Time: </b>Unleash your inner mixologist with confidence. Our <Link to="/nutrition" className='orange-font'>Perfect Cocktail Calculator</Link> ensures harmonious blends that tantalize your taste buds.</li>
-                  <li><b>Library of Distinctive Cocktails: </b>From timeless classics to contemporary creations, explore a diverse <Link to="/cocktails" className='orange-font'>collection of cocktails</Link> designed to inspire and delight.</li>
-                  <li><b>Sourced for Excellence: </b>Elevate your creations with premium bar tools sourced for their exceptional quality. Your cocktails deserve nothing but the best.</li>
-              </ul>
+                <motion.div className='hero' initial="hidden" animate="visible" variants={fadeInUp}>
+                    <div className='hero-text'>
+                        <motion.h2 className='orange-font' variants={fadeInUp}>Where Science Meets Mixology</motion.h2>
+                        <motion.p variants={fadeInUp}>
+                            Welcome to Neat on the Rocks, your passport to a new realm of cocktail enjoyment that blends health-conscious choices with irresistible flavors. For bartenders and cocktail aficionados who value both taste and well-being, we present an innovative platform that transforms the way you drink.
+                        </motion.p>
+                        {!auth.token && <Button to="/auth" whileHover={{ scale: 1.05 }}>Sign Up Now</Button>}
+                    </div>
+                    <motion.img src={BartenderSvg} alt="Bartender Mixing Drinks" variants={fadeInUp}/>
+                </motion.div>
+                
+                <motion.h3 className='orange-font' variants={fadeInUp}>Crafting Cocktails, Redefining Enjoyment</motion.h3>
+                <motion.p variants={fadeInUp}>
+                    At Neat on the Rocks, we're not just raising the bar – we're crafting it. Explore a host of features tailored to enhance your mixology journey:
+                </motion.p>
 
-              <div className='hero'>
-                  <img src={BartenderSvg2} alt=""/>
-                  <div className='hero-text'>
-                      <h3 className='orange-font'>Prohibition and the FDA</h3>
-                      <p>In 1935, the Alcohol Administration Act (now the TTB) emerged, shaping the landscape of alcohol regulation post-Prohibition (1920-1935). Its primary goal was revenue generation, yet it also took charge of meticulous alcohol label oversight. A pivotal moment occurred in 1990, when the FDA mandated Nutrition Facts labels. However, alcohol's regulation by the TTB resulted in an exemption from this requirement. Solely displaying alcohol percentage became the norm. Efforts to introduce Nutrition Facts labels were made, such as by The Center for Science in the Public Interest. Yet, the TTB expressed concern that such labeling could misrepresent alcohol as nutritious. This narrative reflects the intricate interplay of regulations, health, and perception in alcohol labeling.</p>
-                  </div>
-              </div>
+                <motion.ul initial="hidden" animate="visible" variants={list}>
+                {features.map((feature, index) => (
+                <motion.li key={index} custom={index} variants={listItem} initial="hidden" animate="visible">
+                    <StyledLink to={feature.link} className="orange-font">{feature.name}</StyledLink>: {feature.description}
+                </motion.li>
+            ))}
+                </motion.ul>
 
-              <div className='hero'>
-                  <div className='hero-text'>
-                      <h3 className='orange-font'>Toast to a New Beginning</h3>
-                      <p>Embrace the art of mixology that harmonizes flavor, science, and well-being. Join Neat on the Rocks in celebrating the finer things in life.</p>
+                <motion.div className='hero' variants={fadeInUp}>
+                    <motion.img src={BartenderSvg2} alt="" variants={fadeInUp}/>
+                    <div className='hero-text'>
+                        <motion.h3 className='orange-font' variants={fadeInUp}>Prohibition and the FDA</motion.h3>
+                        <motion.p variants={fadeInUp}>
+                            In 1935, the Alcohol Administration Act (now the TTB) emerged, shaping the landscape of alcohol regulation post-Prohibition (1920-1935). Its primary goal was revenue generation, yet it also took charge of meticulous alcohol label oversight. A pivotal moment occurred in 1990, when the FDA mandated Nutrition Facts labels. However, alcohol's regulation by the TTB resulted in an exemption from this requirement. Solely displaying alcohol percentage became the norm. Efforts to introduce Nutrition Facts labels were made, such as by The Center for Science in the Public Interest. Yet, the TTB expressed concern that such labeling could misrepresent alcohol as nutritious. This narrative reflects the intricate interplay of regulations, health, and perception in alcohol labeling.
+                        </motion.p>
+                    </div>
+                </motion.div>
 
-                      <h3 className='orange-font'>Make a Difference Today</h3>
-                      <p>At Neat on the Rocks, we're dedicated to promoting responsible enjoyment and elevating the standards of mixology. If you share our vision, we invite you to be part of the journey. Your support will enable us to keep providing valuable resources and insights to cocktail enthusiasts around the world. Together, let's cultivate a culture of informed and mindful drinking that embraces both pleasure and well-being. Your contribution, no matter the size, fuels our mission. Join us in shaping the future of mixology. Click below to make a meaningful donation:</p>
+                <motion.div className='hero' variants={fadeInUp}>
+                    <div className='hero-text'>
+                        <motion.h3 className='orange-font' variants={fadeInUp}>Toast to a New Beginning</motion.h3>
+                        <motion.p variants={fadeInUp}>
+                            Embrace the art of mixology that harmonizes flavor, science, and well-being. Join Neat on the Rocks in celebrating the finer things in life.
+                        </motion.p>
 
-                      <Button to="https://pay.neatonthe.rocks" variant="primary" size="medium">Donate</Button>
-                  </div>
-                  <img src={Cheers} alt=""/>
-              </div>
-          </Wrapper>
+                        <motion.h3 className='orange-font' variants={fadeInUp}>Make a Difference Today</motion.h3>
+                        <motion.p variants={fadeInUp}>
+                            At Neat on the Rocks, we're dedicated to promoting responsible enjoyment and elevating the standards of mixology. If you share our vision, we invite you to be part of the journey. Your support will enable us to keep providing valuable resources and insights to cocktail enthusiasts around the world. Together, let's cultivate a culture of informed and mindful drinking that embraces both pleasure and well-being. Your contribution, no matter the size, fuels our mission. Join us in shaping the future of mixology. Click below to make a meaningful donation:
+                        </motion.p>
+
+                        <SecondaryButton to="https://pay.neatonthe.rocks">Donate</SecondaryButton>
+                    </div>
+                    <motion.img src={Cheers} alt="Celebration Cheers" variants={fadeInUp}/>
+                </motion.div>
+            </Wrapper>
           <Helmet>
             <title>Neat on the Rocks | Where Science Meets Mixology</title>
             <meta name="description" content="Welcome to Neat on the Rocks, your passport to a new realm of cocktail enjoyment that blends health-conscious choices with irresistible flavors. For bartenders and cocktail aficionados who value both taste and well-being, we present an innovative platform that transforms the way you drink." />
@@ -61,7 +131,7 @@ export default function Home () {
     )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
 
     color: white;
     align-self: center;
@@ -72,10 +142,6 @@ const Wrapper = styled.div`
         text-decoration: none; /* Remove default underline */
         font-weight: bold; 
       
-        &:hover, &:focus {
-          text-decoration: underline;
-          color: '#D87C30'; 
-        }
       }
   
    .paragraph > .text-content > h2{
@@ -111,3 +177,41 @@ const Wrapper = styled.div`
   
   }
 `
+
+const Button = styled(motion(Link))`
+    background-color: ${colors.accent};
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+  
+    &:hover {
+      background-color: #D87C30;
+    }
+  `
+
+const SecondaryButton = styled(motion(Link))`
+
+    background-color: ${colors.overlay};
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+  
+    &:hover {
+      background-color: #D87C30;
+    }
+  `
+
+  const StyledLink = styled(Link)`
+  &:hover, &:focus {
+    text-decoration: underline;
+    color: '#D87C30'; 
+  }
+  `
