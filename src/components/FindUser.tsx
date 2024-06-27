@@ -61,8 +61,16 @@ const Wrapper = styled.div`
 
     input {
       padding: 8px;
-      border: 1px solid #ccc;
       border-radius: 4px;
+      &:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      &:placeholder {
+        color: #ccc;
+      }
+      background-color: var(--overlay);
+      color: white;
     }
 
     button {

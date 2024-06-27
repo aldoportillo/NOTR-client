@@ -139,6 +139,16 @@ const SearchInput = styled.input`
     border-radius: 5px;
     width: 80%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: var(--overlay);
+    color: white;
+    &::placeholder {
+      color: white;
+    }
+    &:focus {
+        outline: none;
+        border-color: var(--accent); 
+        box-shadow: 0 0 5px rgba(0,123,255,0.5);
+    }
 `;
 
 
