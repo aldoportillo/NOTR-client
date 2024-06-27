@@ -12,7 +12,6 @@ import EditProfile from '../components/EditProfile';
 import AddEthanol from '../components/AddEthanol';
 import FridgeManager from '../components/FridgeManager';
 import { SpiritData } from '../types/SpiritData';
-import ArthurBartender from '../components/Arthur';
 
 interface ProfileProps {
   spiritData: SpiritData[];
@@ -72,7 +71,6 @@ function Profile({spiritData}: ProfileProps) {
       <Bac userId={profileUser._id} userMetrics={{ sex, weight, height }} isCurrentUser={isCurrentUser} name={profileUser.firstName} />
       {isCurrentUser && (
         <>
-          <ArthurBartender />
           <AddEthanol />
           <FridgeManager spiritData={spiritData} />
           <FriendsList />

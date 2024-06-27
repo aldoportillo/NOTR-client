@@ -14,6 +14,7 @@ import { getDilutionIngredients } from '../functions/getDilutionIngredients'
 import { CocktailAttributes } from '../types/CocktailAttributes'
 import DilutionResults from '../components/DilutionResults'
 import { Technique } from '../types/Technique'
+import ArthurBartender from '../components/Arthur'
 
 interface NutritionProps {
     spiritData: SpiritData[];
@@ -50,6 +51,8 @@ export default function Nutrition({ spiritData, loading }: NutritionProps) {
                 <Wrapper>
                     <h2>Nutrition Calculator</h2>
                     <LiquidForm technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail} spiritData={spiritData} />
+
+                    <ArthurBartender technique={technique} setTechnique={setTechnique} setCocktail={setCocktail} cocktail={cocktail}/>
 
                     <IngredientLists ingredients={cocktail} setIngredients={setCocktail} clearDrink={clearCocktail} spiritData={spiritData} technique={technique}/>
 

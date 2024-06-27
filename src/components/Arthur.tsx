@@ -1,39 +1,55 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { useAuth } from '../context/AuthContext'; 
+import { useAuth } from '../context/AuthContext';
 import LoadingGif from '../assets/loading.gif';
 
-export default function ArthurBartender() {
+
+export default function ArthurBartender({ technique, setTechnique, setCocktail, cocktail}) {
   const [prompt, setPrompt] = useState('');
-  const [cocktail, setCocktail] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { auth } = useAuth();
 
   const fetchCocktail = useCallback(async () => {
-    if (!prompt) return; // Prevent fetching with empty prompt
+    if (!prompt) return; 
     setIsLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/cocktails/arthur`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${auth.token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ prompt })
-      });
-      if (!response.ok) {
-        throw new Error('Failed to get cocktail details');
-      }
-      const data = await response.json();
-      setCocktail(data);
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/cocktails/arthur`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${auth.token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt })
+        });
+        
+        const data = await response.json(); 
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to get cocktail details'); 
+        }
+        
+        if (data.error) {
+            throw new Error(data.error); 
+        }
+        
+        setCocktail(data); 
     } catch (error) {
-      console.error('Error fetching cocktail data:', error);
-      toast(`Error: ${error.message}`);
+        console.error('Error fetching cocktail data:', error);
+        toast.error(`Error: ${error.message}`); 
     } finally {
-      setIsLoading(false);
+        setIsLoading(false); 
     }
-  }, [auth.token, prompt]);
+}, [auth.token, prompt]); 
+
+
+  const handleIngredientChange = (index, newValue) => {
+    const updatedIngredients = [...cocktail];
+    console.log(cocktail);
+    
+    updatedIngredients[index].ounces = newValue;
+    setCocktail(updatedIngredients);
+  };
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -61,13 +77,18 @@ export default function ArthurBartender() {
         </Loader>
       ) : cocktail ? (
         <>
-          <Subheader>Ingredients for {cocktail.name}:</Subheader>
-          {console.log(cocktail)}
-          {cocktail.map((ingredient) => (
-            
-            <Ingredient key={ingredient.spirit_id}>
-              {ingredient.spirit_name}: {ingredient.ounces} 
-            </Ingredient>
+          <Subheader>Ingredients for {prompt}:</Subheader>
+          {cocktail.map((ingredient, index) => (
+            <IngredientForm key={ingredient.id}>
+              {ingredient.spirit}
+              <input 
+                type="number" 
+                value={ingredient.ounces} 
+                onChange={(e) => handleIngredientChange(index, e.target.value)} 
+                min="0" 
+                step="0.01" 
+              />
+            </IngredientForm>
           ))}
         </>
       ) : (
@@ -98,8 +119,17 @@ const Subheader = styled.h4`
   margin-bottom: 10px;
 `;
 
-const Ingredient = styled.p`
+const IngredientForm = styled.div`
   color: white;
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  input {
+    margin-left: 10px;
+    width: 60px;
+  }
 `;
 
 const Input = styled.input`
