@@ -86,7 +86,7 @@ export default function ArthurBartender({ setCocktail, cocktail}) {
         </>
       ) : (
         <>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{alignSelf: "center"}}>
         <Input
           type="text"
           value={prompt}
@@ -114,6 +114,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding: 0vh 50px 2vh 50px;
   
+  
 `;
 
 const Title = styled.h3`
@@ -125,6 +126,7 @@ const Title = styled.h3`
 const Subheader = styled.h4`
   color: white;
   margin-bottom: 10px;
+  align-self: center;
 `;
 
 const IngredientForm = styled.div`
