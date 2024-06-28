@@ -31,12 +31,12 @@ const AuthPage: React.FC = () => {
                         <div className="overlay-panel overlay-left">
                             <h1>Hello, Friend!</h1>
                             <p>Join the movement to revolutionize the way people drink</p>
-                            <button className="ghost" onClick={() => setIsLogin(true)}>Login</button>
+                            <Button className="ghost" onClick={() => setIsLogin(true)}>Login</Button>
                         </div>
                         <div className="overlay-panel overlay-right">
                             <h1>Welcome Back!</h1>
                             <p>Continue your journey with us. Cheers!</p>
-                            <button className="ghost" onClick={() => setIsLogin(false)}>Sign Up</button>
+                            <Button className="ghost" onClick={() => setIsLogin(false)}>Sign Up</Button>
                         </div>
                     </div>
                 </div>
@@ -184,33 +184,35 @@ const Container = styled.div`
   .container.right-panel-active .overlay-right {
     transform: translateX(20%);
   }
-
-  button {
-    border-radius: 20px;
-    border: 1px solid var(--background);
-    background-color: var(--accent);
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 12px 45px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: transform 80ms ease-in;
-  }
-
-  button:active {
-    transform: scale(0.95);
-  }
-
-  button:focus {
-    outline: none;
-  }
-
-  button.ghost {
-    background-color: transparent;
-    border-color: #ffffff;
-  }
 `;
+
+const Button = styled.button`
+
+  border-radius: 20px;
+  border: 1px solid var(--background);
+  background-color: var(--accent);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+
+
+&:active {
+  transform: scale(0.95);
+}
+
+&:focus {
+  outline: none;
+}
+
+&.ghost {
+  background-color: transparent;
+  border-color: #ffffff;
+}
+`
 
   // media screen and (max-width: 900px) {
   //   .form-container{

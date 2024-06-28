@@ -36,8 +36,8 @@ export default TechniqueList;
 
 
 const TechniqueButton = styled.button<{ isActive: boolean }>`
-  background-color: ${({ isActive }) => (isActive ? 'var(--accent)' : '#fff')};
-  color: ${({ isActive }) => (isActive ? '#fff' : '#000')};
+  background-color: ${({ isActive }) => (isActive ? 'var(--accent)' : 'var(--overlay)')};
+  color: ${({ isActive }) => (isActive ? '#fff' : 'white')};
   border: 1px solid var(--accent);
   padding: 10px;
   border-radius: 5px;
