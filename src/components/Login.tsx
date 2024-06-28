@@ -70,18 +70,29 @@ const Input = styled.input`
     padding: 8px;
     border: 1px solid var(--overlay);
     border-radius: 4px;
-    background-color: #2c2f33;
-    color: white;
+    &:focus {
+        outline: var(--accent) auto 5px;
+      }
+      background-color: var(--overlay);
+      color: white;
+    
+      &::placeholder {
+        color: white;
+      }
 `;
 
 const Button = styled.button`
+    border-radius: 20px;
+    border: 1px solid var(--background);
+    background-color: var(--accent);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
     width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
     &:hover {
         background-color: darken(var(--accent), 10%);
     }

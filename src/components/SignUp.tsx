@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
+import { GrFormPreviousLink } from 'react-icons/gr';
 
 interface FormData {
     email: string;
@@ -193,7 +194,10 @@ const prevStep = () => {
     return (
         <Form onSubmit={handleSignup}>
         <div className="form-header">
-        <h2>Sign Up</h2>
+        <FormHead>
+            <h2>Sign Up</h2>{currentStep > 1 && <PrevButton onClick={prevStep}><GrFormPreviousLink /></PrevButton>}
+        </FormHead>
+        
         <ProgressBarWrapper>
         <ProgressBar
             initial={{ width: '0%' }}
@@ -209,15 +213,12 @@ const prevStep = () => {
             {currentStep === 2 && <StepTwo formData={formData} handleChange={handleChange}/>}
             {currentStep === 3 && <StepThree formData={formData} handleChange={handleChange}/>}
         </div>
-        <ButtonGroup>
-            {currentStep > 1 && <Button onClick={prevStep}>Previous</Button>}
             {currentStep < totalSteps && (
                 <Button onClick={nextStep} disabled={isNextDisabled}>Next</Button>
             )}
             {currentStep === totalSteps && (
                 <Button type="submit" disabled={isNextDisabled}>Sign Up</Button>
             )}
-        </ButtonGroup>
         </Form>
     );
 };
@@ -227,6 +228,15 @@ export default Signup;
 type ProgressBarProps = React.HTMLAttributes<HTMLDivElement> & {
     width: string; 
 };
+
+const PrevButton = styled.div`
+    svg{
+        border-radius: 50%;
+        color: var(--background);
+        font-size: 30px;
+        background-color: var(--accent);
+    }
+`;
 
 const Form = styled.form`
     background-color: var(--header);
@@ -260,8 +270,16 @@ const Input = styled.input`
     padding: 8px;
     border: 1px solid var(--overlay);
     border-radius: 4px;
-    background-color: #2c2f33;
-    color: white;
+    &:focus {
+        outline: var(--accent) auto 5px;
+      }
+      background-color: var(--overlay);
+      color: white;
+    
+      &::placeholder {
+        color: white;
+      }
+
 `;
 
 const ProgressBar = styled(motion.div)<ProgressBarProps>`
@@ -278,10 +296,12 @@ const ProgressBarWrapper = styled.div`
     overflow: hidden;
 `;
 
-const ButtonGroup = styled.div`
+const FormHead = styled.div`
     display: flex;
     gap: 10px;
-    align-self: flex-end;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 `;
 
 const Select = styled.select`
@@ -289,19 +309,29 @@ const Select = styled.select`
     padding: 8px;
     border: 1px solid var(--overlay);
     border-radius: 4px;
-    background-color: #2c2f33;
-    color: white;
+    &:focus {
+        outline: var(--accent) auto 5px;
+      }
+      background-color: var(--overlay);
+      color: white;
+    
+      &::placeholder {
+        color: white;
+      }
+
 `;
 
 const Button = styled.button`
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: var(--accent);
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+border-radius: 20px;
+border: 1px solid var(--background);
+background-color: var(--accent);
+color: #ffffff;
+font-size: 12px;
+font-weight: bold;
+padding: 12px 45px;
+letter-spacing: 1px;
+text-transform: uppercase;
+transition: transform 80ms ease-in;
     &:hover {
         background-color: darken(var(--accent), 10%);
     }
@@ -312,3 +342,4 @@ const Button = styled.button`
         cursor: not-allowed;
     }
 `;
+
