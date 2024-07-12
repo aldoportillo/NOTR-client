@@ -76,8 +76,13 @@ form {
 input{
   height: 3em;
   border-radius: 1vh;
+  background-color: var(--overlay);
+  color: white;
 }
 
+input::placeholder{
+  color: white;
+}
 input:focus{
   outline-offset: 0px ! important;
   outline: none ! important;
@@ -85,7 +90,7 @@ input:focus{
   box-shadow : 0 0 3px var(--accent) ! important;
   -moz-box-shadow : 0 0 3px var(--accent) ! important;
   -webkit-box-shadow : 0 0 3px var(--accent) ! important;
-
+  
 }
 
 

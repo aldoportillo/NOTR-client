@@ -16,7 +16,7 @@ const Login: React.FC<ForgotPasswordProps> = ({setForgotPassword}) => {
     const handleResetSubmission = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/password-reset-initiate`, { email });
+            await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/password-reset-initiate`, { email }, { headers: { 'Content-Type': 'application/json', 'x-access-token': import.meta.env.VITE_SERVER_KEY } });
             setEmail('');
             setForgotPassword(false);
             navigate('/');

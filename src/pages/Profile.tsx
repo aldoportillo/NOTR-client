@@ -42,7 +42,8 @@ function Profile({spiritData}: ProfileProps) {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/profile/${username}`, {
         headers: {
           'Authorization': `Bearer ${auth.token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-access-token': import.meta.env.VITE_SERVER_KEY
         },
       });
       if (!response.ok) {

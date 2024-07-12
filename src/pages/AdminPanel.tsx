@@ -11,6 +11,7 @@ const AdminPanel = () => {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${auth.token}`,
+        'x-access-token': import.meta.env.VITE_SERVER_KEY
       },
     });
     const data = await response;

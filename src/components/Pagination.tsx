@@ -26,7 +26,7 @@ function Pagination({ children, totalItems, searchTerm, cocktailData }) {
     const addSpirit = async (spiritId, spiritName) => {
         try {
             await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/my-fridge`, { spiritId, spiritName }, {
-                headers: { Authorization: `Bearer ${auth.token}` }
+                headers: { Authorization: `Bearer ${auth.token}`, 'x-access-token': import.meta.env.VITE_SERVER_KEY }
             });
             toast.success(`🥶${spiritName} added to fridge!🥶`);
         } catch (error) {

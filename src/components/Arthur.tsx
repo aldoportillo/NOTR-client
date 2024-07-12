@@ -19,7 +19,8 @@ export default function ArthurBartender({ setCocktail, cocktail}) {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${auth.token}`,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'x-access-token': import.meta.env.VITE_SERVER_KEY
             },
             body: JSON.stringify({ prompt })
         });
@@ -47,7 +48,6 @@ export default function ArthurBartender({ setCocktail, cocktail}) {
 
   const handleIngredientChange = (index, newValue) => {
     const updatedIngredients = [...cocktail];
-    console.log(cocktail);
     
     updatedIngredients[index].ounces = newValue;
     setCocktail(updatedIngredients);
@@ -150,6 +150,12 @@ const Input = styled.input`
   &:focus {
     outline: var(--accent) auto 5px;
   }
+  background-color: var(--overlay);
+  color: white;
+
+  &::placeholder {
+    color: white;
+  }
 `;
 
 const Button = styled.button`
@@ -179,7 +185,13 @@ const IngredientInput = styled.input`
   border: none;
   border-radius: 4px;
   &:focus {
-    outline: var(--accent) auto 3px;
+    outline: var(--accent) auto 5px;
+  }
+  background-color: var(--overlay);
+  color: white;
+
+  &::placeholder {
+    color: white;
   }
 `;
 
