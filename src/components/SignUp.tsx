@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 import { GrFormPreviousLink } from 'react-icons/gr';
@@ -213,6 +213,7 @@ const prevStep = () => {
             {currentStep === 2 && <StepTwo formData={formData} handleChange={handleChange}/>}
             {currentStep === 3 && <StepThree formData={formData} handleChange={handleChange}/>}
         </div>
+        <p>By Signing Up You are Agreeing to our <StyledLink to="/disclaimer">Terms of Service</StyledLink></p>
             {currentStep < totalSteps && (
                 <Button onClick={nextStep} disabled={isNextDisabled}>Next</Button>
             )}
@@ -319,6 +320,14 @@ const Select = styled.select`
         color: white;
       }
 
+`;
+
+const StyledLink = styled(Link)`
+    color: var(--accent);
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
 `;
 
 const Button = styled.button`
