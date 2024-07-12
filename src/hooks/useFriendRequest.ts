@@ -12,6 +12,7 @@ const useFriendRequest = () => {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${auth.token}`,
+          'x-access-token': import.meta.env.VITE_SERVER_KEY
         },
         body: JSON.stringify({ friendId }),
       });
@@ -35,6 +36,7 @@ const useFriendRequest = () => {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${auth.token}`,
+          'x-access-token': import.meta.env.VITE_SERVER_KEY
         },
         body: JSON.stringify({ friendId }),
       });
@@ -58,6 +60,7 @@ const useFriendRequest = () => {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${auth.token}`,
+          'x-access-token': import.meta.env.VITE_SERVER_KEY
         },
         body: JSON.stringify({ friendId }),
       });

@@ -26,7 +26,8 @@ export default function Cocktails({ cocktailData, loading }: CocktailProps) {
         try {
             const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}${endpoint}`, {
                 headers: {
-                    Authorization: `Bearer ${auth.token}`
+                    Authorization: `Bearer ${auth.token}`,
+                    'x-access-token': import.meta.env.VITE_SERVER_KEY
                 }
             });
 

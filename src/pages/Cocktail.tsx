@@ -36,7 +36,7 @@ export default function Cocktail({ spiritData }: CocktailProps) {
   const fetchCocktailData = async (slug: string | undefined) => {
     setLoading(true);
     try {
-        const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/cocktails/${slug}`);
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/cocktails/${slug}`, { headers: { 'x-access-token': import.meta.env.VITE_SERVER_KEY } });
         const fetchedData = response.data;
 
         setCocktailData(fetchedData); 

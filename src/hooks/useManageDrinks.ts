@@ -30,6 +30,7 @@ export const useManageDrinks = (spiritData?: SpiritData[]) => {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${auth.token}`,
+                    'x-access-token': import.meta.env.VITE_SERVER_KEY
                 },
                 body: JSON.stringify(drink),
             });

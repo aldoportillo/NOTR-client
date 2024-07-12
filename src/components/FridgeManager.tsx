@@ -25,7 +25,7 @@ function FridgeManager({spiritData}: FridgeManagerProps) {
     const fetchFridgeItems = async () => {
         try {
             const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/users/my-fridge`, {
-                headers: { Authorization: `Bearer ${auth.token}` }
+                headers: { Authorization: `Bearer ${auth.token}`, 'x-access-token': import.meta.env.VITE_SERVER_KEY }
             });
             setFridgeItems(response.data);
         } catch (error) {
@@ -36,7 +36,7 @@ function FridgeManager({spiritData}: FridgeManagerProps) {
     const addOrRemoveSpirit = async (spiritId, spiritName) => {
         try {
             await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/my-fridge`, { spiritId, spiritName }, {
-                headers: { Authorization: `Bearer ${auth.token}` }
+                headers: { Authorization: `Bearer ${auth.token}`, 'x-access-token': import.meta.env.VITE_SERVER_KEY }
             });
             fetchFridgeItems();
             toast.success(`🥶${spiritName} ${fridgeView ? 'removed from' : 'added to'} fridge!🥶`);

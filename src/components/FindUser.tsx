@@ -17,7 +17,8 @@ const handleSearch = async (event: React.FormEvent) => {
             method: 'GET',
             headers: {
                     'Authorization': `Bearer ${auth.token}`,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'x-access-token': import.meta.env.VITE_SERVER_KEY
                 },
         });
 

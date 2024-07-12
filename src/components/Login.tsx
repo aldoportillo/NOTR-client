@@ -18,7 +18,7 @@ const Login: React.FC<LoginProps> = ({setForgotPassword}) => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/login`, { email, password });
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/login`, { email, password }, { headers: { 'Content-Type': 'application/json', 'x-access-token': import.meta.env.VITE_SERVER_KEY } });
             login(response.data.token, response.data.user);
             navigate(`/profile/${response.data.user.username}`);
             toast.success('🥃 Login successful! Welcome to NOTR! 🧊');

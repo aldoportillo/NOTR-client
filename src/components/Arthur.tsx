@@ -19,7 +19,8 @@ export default function ArthurBartender({ setCocktail, cocktail}) {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${auth.token}`,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'x-access-token': import.meta.env.VITE_SERVER_KEY
             },
             body: JSON.stringify({ prompt })
         });

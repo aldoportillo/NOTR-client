@@ -16,7 +16,8 @@ function FriendsList() {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URI}/users/friends`, {
         headers: {
           'Authorization': `Bearer ${auth.token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-access-token': import.meta.env.VITE_SERVER_KEY
         },
       });
       if (!response.ok) {

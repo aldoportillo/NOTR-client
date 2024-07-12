@@ -164,7 +164,7 @@ const prevStep = () => {
             const response = await axios.post(`${import.meta.env.VITE_SERVER_URI}/users`, {
                 ...formData,
                 height: totalHeightInInches,
-            });
+            }, { headers: { 'Content-Type': 'application/json', 'x-access-token': import.meta.env.VITE_SERVER_KEY } });
             login(response.data.token, response.data.user);
             navigate(`/profile/${response.data.user.username}`);
             toast.success('🥃 Signup successful! Welcome to NOTR! 🧊');

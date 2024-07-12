@@ -35,7 +35,7 @@ const ResetPassword: React.FC = () => {
             await axios.post(`${import.meta.env.VITE_SERVER_URI}/users/password-reset-complete`, {
                 newPassword: formData.password,
                 token
-            });
+            }, { headers: { 'Content-Type': 'application/json', 'x-access-token': import.meta.env.VITE_SERVER_KEY } });
             
             toast.success('🥃 ResetPassword successful! Welcome back to NOTR! 🧊');
             navigate('/auth');
